@@ -33,6 +33,7 @@ export default function GameOver({ score, isWinner, onRestart }: GameOverProps) 
   const [error, setError] = useState<string | null>(null);
   const [estimatedReward, setEstimatedReward] = useState<string>("0");
   const [showGasInfo, setShowGasInfo] = useState(false);
+  const [acknowledgedWarnings, setAcknowledgedWarnings] = useState(false);
 
   useEffect(() => {
     // Fetch estimated reward from API
@@ -121,11 +122,23 @@ export default function GameOver({ score, isWinner, onRestart }: GameOverProps) 
         {address ? (
           <div className="space-y-4">
             {/* Validation Warnings */}
-            {validation.warnings.length > 0 && (
-              <div className="p-3 bg-yellow-900/30 border border-yellow-500 rounded-lg space-y-1">
+            {validation.warnings.length > 0 && !acknowledgedWarnings && (
+              <div className="p-3 bg-yellow-900/30 border border-yellow-500 rounded-lg space-y-2">
                 {validation.warnings.map((warning, i) => (
                   <p key={i} className="text-yellow-400 text-sm">{warning}</p>
                 ))}
+                <button
+                  onClick={() => setAcknowledgedWarnings(true)}
+                  className="w-full mt-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-sm rounded transition-colors"
+                >
+                  I Understand, Try Anyway
+                </button>
+              </div>
+            )}
+            
+            {acknowledgedWarnings && validation.warnings.length > 0 && (
+              <div className="p-2 bg-yellow-900/20 border border-yellow-500/50 rounded text-center">
+                <p className="text-xs text-yellow-300">⚠️ Warning acknowledged - claiming may fail</p>
               </div>
             )}
 
@@ -157,10 +170,10 @@ export default function GameOver({ score, isWinner, onRestart }: GameOverProps) 
               )}
             </button>
 
-            {canClaim && validation.canClaim ? (
+            {canClaim && (validation.canClaim || (acknowledgedWarnings && validation.errors.length === 0)) ? (
               <button
                 onClick={handleClaimReward}
-                disabled={isClaiming || isPending || isConfirming || !validation.canClaim}
+                disabled={isClaiming || isPending || isConfirming}
                 className="w-full px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white font-semibold rounded-lg transition-colors"
               >
                 {isClaiming || isPending
@@ -169,12 +182,21 @@ export default function GameOver({ score, isWinner, onRestart }: GameOverProps) 
                   ? "Confirming..."
                   : isConfirmed
                   ? "Claimed! ✓"
+                  : acknowledgedWarnings && validation.warnings.length > 0
+                  ? "Try Claim Anyway"
                   : "Claim Reward"}
               </button>
-            ) : !validation.canClaim && canClaim ? (
+            ) : !validation.canClaim && canClaim && !acknowledgedWarnings ? (
               <div className="text-center p-4 bg-gray-800 rounded-lg">
-                <p className="text-gray-400 mb-2">⚠️ Cannot Claim</p>
+                <p className="text-gray-400 mb-2">⚠️ Cannot Claim Yet</p>
                 <p className="text-sm text-gray-500">
+                  {validation.errors.length > 0 ? "Fix the errors above first" : "Acknowledge the warnings above"}
+                </p>
+              </div>
+            ) : validation.errors.length > 0 ? (
+              <div className="text-center p-4 bg-red-900/30 rounded-lg border border-red-500">
+                <p className="text-red-400 mb-2">❌ Cannot Claim</p>
+                <p className="text-sm text-gray-400">
                   Fix the errors above first
                 </p>
               </div>
