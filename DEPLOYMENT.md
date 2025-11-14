@@ -23,9 +23,9 @@ Create a `.env.local` file in the root directory with the following:
 # Get from: https://cloud.reown.com
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id_here
 
-# Deployed Contract Addresses
+# Deployed Contract Addresses on Base
 NEXT_PUBLIC_GAME_TOKEN_ADDRESS=0xa294FfD0E35ba61BCD8bd0a4D7Eda5bCb83BC24F
-NEXT_PUBLIC_GAME_REWARDS_ADDRESS=your_game_rewards_address_here
+NEXT_PUBLIC_GAME_REWARDS_ADDRESS=0x070D2758aFD45504490A7aFD76c6cF1a5B2C5828
 
 # Socket.io Configuration
 NEXT_PUBLIC_SOCKET_URL=http://localhost:3000
@@ -39,57 +39,66 @@ VERIFIER_PRIVATE_KEY=0x...your_private_key_here
 
 ## Next Steps
 
-### 1. Deploy GameRewards Contract
+### 1. Contracts Are Already Deployed! ✅
 
-If you haven't deployed the GameRewards contract yet:
+Both contracts are live on Base:
+- **GameToken**: `0xa294FfD0E35ba61BCD8bd0a4D7Eda5bCb83BC24F`
+- **GameRewards**: `0x070D2758aFD45504490A7aFD76c6cF1a5B2C5828`
 
-```bash
-cd contracts
-npm install
-npm run deploy:base-sepolia  # or deploy:base for mainnet
-```
+**What you need to do:**
+1. Add these addresses to your `.env.local` file (they're already configured as defaults)
+2. Fund the GameRewards contract with JUMP tokens for distribution
+3. Set up your verifier private key
 
-After deployment:
-1. Copy the GameRewards address
-2. Update `NEXT_PUBLIC_GAME_REWARDS_ADDRESS` in `.env.local`
-3. Transfer JUMP tokens to the GameRewards contract for distribution
+### 2. Fund GameRewards Contract
 
-### 2. Configure GameToken
+Transfer JUMP tokens to the GameRewards contract for player rewards:
 
-The GameToken contract needs to know about the GameRewards contract:
+**GameRewards Address**: `0x070D2758aFD45504490A7aFD76c6cF1a5B2C5828`
 
-```bash
-# Using a contract interaction tool or Etherscan
-# Call: setGameRewardsContract(gameRewardsAddress)
-```
+Recommended amount: 5,000,000 JUMP tokens (allows for ~500,000 game sessions)
 
-### 3. Fund GameRewards Contract
+You can transfer tokens using:
+- MetaMask or your wallet
+- Etherscan contract interaction
+- The GameToken's `transfer` function
 
-Transfer tokens to GameRewards for player rewards:
+### 3. Set Up Verifier Private Key
 
-```bash
-# Recommended: 5,000,000 JUMP tokens
-# This allows for approximately 500,000 game sessions
-```
+The `VERIFIER_PRIVATE_KEY` is used by your backend to sign reward claims:
 
-### 4. Set Up Verifier Private Key
+1. **Generate a new private key** (don't use your deployment key!)
+   ```bash
+   openssl rand -hex 32
+   # Or use: node -e "console.log('0x' + require('crypto').randomBytes(32).toString('hex'))"
+   ```
 
-The `VERIFIER_PRIVATE_KEY` should be a wallet that the GameRewards contract trusts:
+2. **Get the address** from this private key and note it down
 
-1. Generate a new private key (don't use your deployment key!)
-2. Add the address as the verifier in GameRewards contract
-3. Keep this key secure - it's used to sign reward claims
+3. **Verify the verifier** is set correctly in GameRewards contract (should match your private key's address)
 
-### 5. Get WalletConnect Project ID
+4. **Add to `.env.local`**:
+   ```env
+   VERIFIER_PRIVATE_KEY=0x...your_generated_key
+   ```
+
+5. **Keep this key secure** - it's critical for reward distribution!
+
+### 4. Get WalletConnect Project ID
 
 1. Visit https://cloud.reown.com
 2. Create a new project
 3. Copy the Project ID
-4. Update `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`
+4. Update `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` in `.env.local`
 
 ## Contract Verification
 
-Verify your contracts on Basescan for transparency:
+The contracts should be verified on Basescan:
+
+- **GameToken**: https://basescan.org/address/0xa294FfD0E35ba61BCD8bd0a4D7Eda5bCb83BC24F
+- **GameRewards**: https://basescan.org/address/0x070D2758aFD45504490A7aFD76c6cF1a5B2C5828
+
+If not verified, you can verify them:
 
 ```bash
 cd contracts
