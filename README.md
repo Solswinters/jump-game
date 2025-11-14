@@ -17,7 +17,7 @@ A multiplayer jump obstacle game built on Base blockchain where players earn ERC
 - **Increasing Difficulty**: Game speed and obstacle frequency increase every 10 seconds
 - **Onchain Rewards**: Earn JUMP tokens directly to your wallet based on your score
 - **Winner Bonuses**: Multiplayer winners receive a 1.5x reward multiplier
-- **Anti-Cheat System**: Server-side signature verification prevents reward manipulation
+- **Direct Wallet Claims**: Sign reward claims with your own wallet - no backend private key needed!
 - **Cooldown Protection**: 1-hour cooldown between reward claims
 - **Real-time Synchronization**: WebSocket-based multiplayer with smooth player movement
 
@@ -100,6 +100,17 @@ PRIVATE_KEY=your_deployment_private_key
 BASESCAN_API_KEY=your_basescan_api_key
 VERIFIER_PRIVATE_KEY=your_backend_verifier_private_key
 ```
+
+### ⚡ Setting Up Reward Claims (IMPORTANT!)
+
+The game now supports **Direct Wallet Claims** - players sign with their own wallet, no backend private key needed!
+
+**Quick Setup:**
+1. Set your wallet as the verifier in the `GameRewards` contract
+2. Fund the `GameRewards` contract with JUMP tokens
+3. Play and claim rewards!
+
+📖 **See [VERIFIER_SETUP.md](./VERIFIER_SETUP.md) for detailed instructions**
 
 ### Deploy Smart Contracts
 
