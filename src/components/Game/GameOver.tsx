@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useGameContract } from "@/hooks/useGameContract";
-import { useDirectClaim } from "@/hooks/useDirectClaim";
-import { useClaimValidation } from "@/hooks/useClaimValidation";
+import { useSimpleClaim } from "@/hooks/useSimpleClaim";
+import { GAME_REWARDS_ADDRESS } from "@/lib/contracts";
 import { formatEther } from "viem";
 
 interface GameOverProps {
@@ -14,26 +13,19 @@ interface GameOverProps {
 
 export default function GameOver({ score, isWinner, onRestart }: GameOverProps) {
   const {
-    address,
+    claimReward,
     canClaim,
     timeUntilNextClaim,
-  } = useGameContract();
-
-  const {
-    claimRewardDirect,
     isPending,
     isConfirming,
     isConfirmed,
     hash,
-  } = useDirectClaim();
-
-  const validation = useClaimValidation(score);
+    address,
+  } = useSimpleClaim(GAME_REWARDS_ADDRESS);
 
   const [isClaiming, setIsClaiming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [estimatedReward, setEstimatedReward] = useState<string>("0");
-  const [showGasInfo, setShowGasInfo] = useState(false);
-  const [acknowledgedWarnings, setAcknowledgedWarnings] = useState(false);
 
   useEffect(() => {
     // Fetch estimated reward from API
@@ -61,8 +53,8 @@ export default function GameOver({ score, isWinner, onRestart }: GameOverProps) 
     setError(null);
 
     try {
-      // Sign and claim directly with user's wallet (no backend needed!)
-      await claimRewardDirect(score, isWinner);
+      // Simple claim - just the score, no signature needed!
+      await claimReward(score);
     } catch (err: any) {
       console.error("Claim error:", err);
       setError(err.message || "Failed to claim reward");
@@ -121,56 +113,7 @@ export default function GameOver({ score, isWinner, onRestart }: GameOverProps) 
 
         {address ? (
           <div className="space-y-4">
-            {/* Validation Warnings */}
-            {validation.warnings.length > 0 && !acknowledgedWarnings && (
-              <div className="p-3 bg-yellow-900/30 border border-yellow-500 rounded-lg space-y-2">
-                {validation.warnings.map((warning, i) => (
-                  <p key={i} className="text-yellow-400 text-sm">{warning}</p>
-                ))}
-                <button
-                  onClick={() => setAcknowledgedWarnings(true)}
-                  className="w-full mt-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-sm rounded transition-colors"
-                >
-                  I Understand, Try Anyway
-                </button>
-              </div>
-            )}
-            
-            {acknowledgedWarnings && validation.warnings.length > 0 && (
-              <div className="p-2 bg-yellow-900/20 border border-yellow-500/50 rounded text-center">
-                <p className="text-xs text-yellow-300">⚠️ Warning acknowledged - claiming may fail</p>
-              </div>
-            )}
-
-            {/* Validation Errors */}
-            {validation.errors.length > 0 && (
-              <div className="p-3 bg-red-900/30 border border-red-500 rounded-lg space-y-1">
-                {validation.errors.map((error, i) => (
-                  <p key={i} className="text-red-400 text-sm">{error}</p>
-                ))}
-              </div>
-            )}
-
-            {/* Gas Cost Info */}
-            <button
-              onClick={() => setShowGasInfo(!showGasInfo)}
-              className="w-full text-left p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg hover:bg-blue-900/30 transition-colors"
-            >
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-blue-300">⛽ Gas Cost Info</span>
-                <span className="text-xs text-gray-400">{showGasInfo ? "▼" : "▶"}</span>
-              </div>
-              {showGasInfo && (
-                <div className="mt-2 pt-2 border-t border-blue-500/20 space-y-1 text-xs text-gray-300">
-                  <p>• Estimated: {validation.estimatedGas}</p>
-                  <p>• Why? 5 storage writes + signature verification + token transfer</p>
-                  <p>• Contract Balance: {validation.contractBalance || "..."} JUMP</p>
-                  <p>• Verifier: {validation.verifierAddress ? `${validation.verifierAddress.slice(0, 6)}...${validation.verifierAddress.slice(-4)}` : "Not set"}</p>
-                </div>
-              )}
-            </button>
-
-            {canClaim && (validation.canClaim || (acknowledgedWarnings && validation.errors.length === 0)) ? (
+            {canClaim ? (
               <button
                 onClick={handleClaimReward}
                 disabled={isClaiming || isPending || isConfirming}
@@ -182,24 +125,8 @@ export default function GameOver({ score, isWinner, onRestart }: GameOverProps) 
                   ? "Confirming..."
                   : isConfirmed
                   ? "Claimed! ✓"
-                  : acknowledgedWarnings && validation.warnings.length > 0
-                  ? "Try Claim Anyway"
                   : "Claim Reward"}
               </button>
-            ) : !validation.canClaim && canClaim && !acknowledgedWarnings ? (
-              <div className="text-center p-4 bg-gray-800 rounded-lg">
-                <p className="text-gray-400 mb-2">⚠️ Cannot Claim Yet</p>
-                <p className="text-sm text-gray-500">
-                  {validation.errors.length > 0 ? "Fix the errors above first" : "Acknowledge the warnings above"}
-                </p>
-              </div>
-            ) : validation.errors.length > 0 ? (
-              <div className="text-center p-4 bg-red-900/30 rounded-lg border border-red-500">
-                <p className="text-red-400 mb-2">❌ Cannot Claim</p>
-                <p className="text-sm text-gray-400">
-                  Fix the errors above first
-                </p>
-              </div>
             ) : (
               <div className="text-center p-4 bg-gray-800 rounded-lg">
                 <p className="text-gray-400 mb-2">Cooldown Active</p>
