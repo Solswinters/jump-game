@@ -85,10 +85,14 @@ NEXT_PUBLIC_GAME_REWARDS_ADDRESS=0x070D2758aFD45504490A7aFD76c6cF1a5B2C5828
 
 # Socket.io server URL (optional, defaults to localhost:3000)
 NEXT_PUBLIC_SOCKET_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-# Backend verifier private key (for signing rewards - KEEP SECRET!)
-VERIFIER_PRIVATE_KEY=0x...your_private_key
+# Backend verifier private key (OPTIONAL - only needed for backend signature verification)
+# If you deployed from Remix or want to handle claims differently, leave this empty
+VERIFIER_PRIVATE_KEY=
 ```
+
+> **Note**: The `VERIFIER_PRIVATE_KEY` is only required if you want to use backend-verified reward claims. If you deployed your contracts from Remix or prefer direct contract interaction, you can leave this empty.
 
 Create `.env` in the `contracts/` directory:
 ```env
