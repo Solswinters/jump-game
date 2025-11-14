@@ -118,9 +118,9 @@ export default function GameEngine({ isMultiplayer, onGameOver, playerId }: Game
 
   const endGame = useCallback((isWinner: boolean) => {
     setGameState("ended");
-    const finalScore = calculateScore(gameTime, obstaclesCleared);
+    const finalScore = calculateScore(gameTimeRef.current, obstaclesClearedRef.current);
     onGameOver(finalScore, isWinner);
-  }, [gameTime, obstaclesCleared, onGameOver]);
+  }, [onGameOver]);
 
   const handleJump = useCallback(() => {
     if (gameState !== "playing" || !localPlayer.isAlive) return;
@@ -184,7 +184,8 @@ export default function GameEngine({ isMultiplayer, onGameOver, playerId }: Game
             if (isMultiplayer) {
               multiplayer.notifyDeath();
             } else {
-              setGameState("ended");
+              // Trigger game over callback
+              setTimeout(() => endGame(false), 100);
             }
             
             return deadPlayer;
@@ -268,7 +269,7 @@ export default function GameEngine({ isMultiplayer, onGameOver, playerId }: Game
         cancelAnimationFrame(gameLoopRef.current);
       }
     };
-  }, [gameState, isMultiplayer, multiplayer]); // Removed gameTime - it's updated inside the effect
+  }, [gameState, isMultiplayer, multiplayer, endGame]);
 
   // Collision detection and score updates are now handled in the game loop above
 
