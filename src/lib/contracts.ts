@@ -1,4 +1,4 @@
-import { GAME_TOKEN_ABI, GAME_REWARDS_ABI } from "./abi";
+import { GAME_TOKEN_ABI, GAME_REWARDS_ABI, SIMPLE_GAME_REWARDS_ABI } from "./abi";
 
 // Contract addresses - deployed on Base
 // These should be set in your .env.local file
@@ -14,4 +14,4 @@ if (!GAME_REWARDS_ADDRESS) {
 }
 
 // Export ABIs
-export { GAME_TOKEN_ABI, GAME_REWARDS_ABI };
+export { GAME_TOKEN_ABI, GAME_REWARDS_ABI, SIMPLE_GAME_REWARDS_ABI };
