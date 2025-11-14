@@ -37,6 +37,27 @@ export default function GameEngine({ isMultiplayer, onGameOver, playerId }: Game
   const gameLoopRef = useRef<number>();
   const lastObstacleX = useRef(GAME_CONFIG.CANVAS_WIDTH);
   const lastUpdateTime = useRef(Date.now());
+  const localPlayerRef = useRef<Player>(localPlayer);
+  const obstaclesRef = useRef<Obstacle[]>(obstacles);
+  const gameTimeRef = useRef<number>(gameTime);
+  const obstaclesClearedRef = useRef<number>(obstaclesCleared);
+
+  // Keep refs in sync with state
+  useEffect(() => {
+    localPlayerRef.current = localPlayer;
+  }, [localPlayer]);
+
+  useEffect(() => {
+    obstaclesRef.current = obstacles;
+  }, [obstacles]);
+
+  useEffect(() => {
+    gameTimeRef.current = gameTime;
+  }, [gameTime]);
+
+  useEffect(() => {
+    obstaclesClearedRef.current = obstaclesCleared;
+  }, [obstaclesCleared]);
 
   const multiplayer = useMultiplayer({
     onPlayerJoined: (id, player) => {
@@ -149,19 +170,41 @@ export default function GameEngine({ isMultiplayer, onGameOver, playerId }: Game
 
       setGameTime(prev => prev + deltaTime);
 
-      // Update player physics
+      // Update player physics and check collisions
       setLocalPlayer(prev => {
+        if (!prev.isAlive) return prev;
+        
         const updated = updatePlayerPhysics(prev);
+        
+        // Check collisions
+        for (const obstacle of obstaclesRef.current) {
+          if (checkCollision(updated, obstacle)) {
+            const deadPlayer = { ...updated, isAlive: false };
+            
+            if (isMultiplayer) {
+              multiplayer.notifyDeath();
+            } else {
+              setGameState("ended");
+            }
+            
+            return deadPlayer;
+          }
+        }
+        
+        // Update score
+        const newScore = calculateScore(gameTimeRef.current, obstaclesClearedRef.current);
+        const playerWithScore = { ...updated, score: newScore };
         
         if (isMultiplayer) {
           multiplayer.updatePosition({
-            y: updated.y,
-            velocityY: updated.velocityY,
-            isGrounded: updated.isGrounded,
+            y: playerWithScore.y,
+            velocityY: playerWithScore.velocityY,
+            isGrounded: playerWithScore.isGrounded,
           });
+          multiplayer.updateScore(newScore);
         }
         
-        return updated;
+        return playerWithScore;
       });
 
       // Update remote players
@@ -178,13 +221,24 @@ export default function GameEngine({ isMultiplayer, onGameOver, playerId }: Game
       // Update obstacles (host only in multiplayer, or single player)
       if (!isMultiplayer || multiplayer.isHost) {
         setObstacles(prev => {
-          const difficulty = calculateDifficulty(gameTime);
+          const difficulty = calculateDifficulty(gameTimeRef.current);
           const speed = getGameSpeed(GAME_CONFIG.INITIAL_GAME_SPEED, difficulty - 1);
 
-          // Move obstacles
-          let newObstacles = prev
-            .map(obs => ({ ...obs, x: obs.x - speed }))
-            .filter(obs => obs.x + obs.width > 0);
+          // Move obstacles and track cleared ones
+          let newObstacles = prev.map(obs => ({ ...obs, x: obs.x - speed }));
+          
+          // Count cleared obstacles (passed the player)
+          const clearedCount = prev.filter(obs => 
+            obs.x + obs.width > localPlayerRef.current.x && 
+            obs.x + obs.width - speed <= localPlayerRef.current.x
+          ).length;
+          
+          if (clearedCount > 0) {
+            setObstaclesCleared(prevCleared => prevCleared + clearedCount);
+          }
+          
+          // Remove off-screen obstacles
+          newObstacles = newObstacles.filter(obs => obs.x + obs.width > 0);
 
           // Spawn new obstacles
           const lastObstacle = newObstacles[newObstacles.length - 1];
@@ -214,45 +268,9 @@ export default function GameEngine({ isMultiplayer, onGameOver, playerId }: Game
         cancelAnimationFrame(gameLoopRef.current);
       }
     };
-  }, [gameState, gameTime, isMultiplayer, multiplayer]);
+  }, [gameState, isMultiplayer, multiplayer]); // Removed gameTime - it's updated inside the effect
 
-  // Collision detection
-  useEffect(() => {
-    if (gameState !== "playing" || !localPlayer.isAlive) return;
-
-    for (const obstacle of obstacles) {
-      if (checkCollision(localPlayer, obstacle)) {
-        setLocalPlayer(prev => ({ ...prev, isAlive: false }));
-        
-        if (isMultiplayer) {
-          multiplayer.notifyDeath();
-        } else {
-          endGame(false);
-        }
-        
-        break;
-      }
-    }
-
-    // Check if obstacles passed
-    obstacles.forEach(obs => {
-      if (obs.x + obs.width < localPlayer.x && obs.x + obs.width > localPlayer.x - 10) {
-        setObstaclesCleared(prev => prev + 1);
-      }
-    });
-  }, [obstacles, localPlayer, gameState, isMultiplayer, multiplayer, endGame]);
-
-  // Update score
-  useEffect(() => {
-    if (gameState === "playing" && localPlayer.isAlive) {
-      const score = calculateScore(gameTime, obstaclesCleared);
-      setLocalPlayer(prev => ({ ...prev, score }));
-      
-      if (isMultiplayer) {
-        multiplayer.updateScore(score);
-      }
-    }
-  }, [gameTime, obstaclesCleared, gameState, localPlayer.isAlive, isMultiplayer, multiplayer]);
+  // Collision detection and score updates are now handled in the game loop above
 
   // Render
   useEffect(() => {
