@@ -1,6 +1,5 @@
-// Backward compatibility - re-export from feature components
-export * from '@/features/game/components'
-export * from '@/features/wallet/components'
-export * from '@/features/multiplayer/components'
-export * from '@/shared/components'
-
+// Backward compatibility - re-export from module components
+export * from "@/modules/game/components";
+export * from "@/modules/wallet/components";
+export * from "@/modules/multiplayer/components";
+export * from "@/common/components";

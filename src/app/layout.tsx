@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import "@/styles/globals.css";
 import { cookieToInitialState } from "wagmi";
 import { config } from "@/lib/web3";
-import Web3Provider from "@/components/Web3Provider";
+import Web3Provider from "@/modules/wallet/components/Web3Provider";
 
 export const metadata: Metadata = {
   title: "Jump Game - Onchain Rewards",
