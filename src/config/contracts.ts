@@ -1,17 +1,49 @@
-import { GAME_TOKEN_ABI, GAME_REWARDS_ABI, SIMPLE_GAME_REWARDS_ABI } from "./abi";
+/**
+ * Smart contract addresses and ABIs configuration
+ */
 
-// Contract addresses - deployed on Base
-// These should be set in your .env.local file
-export const GAME_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_GAME_TOKEN_ADDRESS as `0x${string}`;
-export const GAME_REWARDS_ADDRESS = process.env.NEXT_PUBLIC_GAME_REWARDS_ADDRESS as `0x${string}`;
+import { base, baseSepolia } from 'wagmi/chains'
+import GameTokenABI from '@/abis/GameToken.json'
+import GameRewardsABI from '@/abis/GameRewards.json'
 
-// Validate that contract addresses are set
-if (!GAME_TOKEN_ADDRESS) {
-  console.error('NEXT_PUBLIC_GAME_TOKEN_ADDRESS is not set in environment variables');
+export const CONTRACT_ADDRESSES = {
+  [base.id]: {
+    gameToken: (process.env.NEXT_PUBLIC_GAME_TOKEN_ADDRESS ?? '') as `0x${string}`,
+    gameRewards: (process.env.NEXT_PUBLIC_GAME_REWARDS_ADDRESS ?? '') as `0x${string}`,
+  },
+  [baseSepolia.id]: {
+    gameToken: (process.env.NEXT_PUBLIC_GAME_TOKEN_ADDRESS ?? '') as `0x${string}`,
+    gameRewards: (process.env.NEXT_PUBLIC_GAME_REWARDS_ADDRESS ?? '') as `0x${string}`,
+  },
+} as const
+
+export const CONTRACT_ABIS = {
+  gameToken: GameTokenABI as unknown as readonly unknown[],
+  gameRewards: GameRewardsABI as unknown as readonly unknown[],
+} as const
+
+export function getContractAddress(
+  chainId: number,
+  contractName: 'gameToken' | 'gameRewards'
+): `0x${string}` {
+  const addresses = CONTRACT_ADDRESSES[chainId as keyof typeof CONTRACT_ADDRESSES]
+  if (!addresses) {
+    throw new Error(`Chain ${chainId} not supported`)
+  }
+  return addresses[contractName]
 }
-if (!GAME_REWARDS_ADDRESS) {
-  console.error('NEXT_PUBLIC_GAME_REWARDS_ADDRESS is not set in environment variables');
+
+export function getGameTokenAddress(chainId: number): `0x${string}` {
+  return getContractAddress(chainId, 'gameToken')
 }
 
-// Export ABIs
-export { GAME_TOKEN_ABI, GAME_REWARDS_ABI, SIMPLE_GAME_REWARDS_ABI };
+export function getGameRewardsAddress(chainId: number): `0x${string}` {
+  return getContractAddress(chainId, 'gameRewards')
+}
+
+export function getContractABI(contractName: 'gameToken' | 'gameRewards'): readonly unknown[] {
+  return CONTRACT_ABIS[contractName]
+}
+
+export type ContractName = 'gameToken' | 'gameRewards'
+export type ContractAddresses = typeof CONTRACT_ADDRESSES
