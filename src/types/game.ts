@@ -1,5 +1,5 @@
-// Re-export game types from core
-export type { Player, Obstacle, GameState } from '@/core/game/types'
+// Re-export game types from modules
+export type { Player, Obstacle, GameState } from '@/modules/game/domain/engine'
 
 export type GameMode = 'menu' | 'single' | 'multi'
 export type GameStatus = 'waiting' | 'playing' | 'ended'
@@ -10,4 +10,3 @@ export interface GameOverData {
   finalTime: number
   obstaclesCleared: number
 }
-
