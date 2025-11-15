@@ -23,6 +23,9 @@ export interface GameOverEvent {
   }>
 }
 
+// Socket event type definitions
+export type SocketEventName = keyof SocketEvents
+
 export interface SocketEvents {
   // Client to Server
   'join-room': (roomId?: string) => void
@@ -46,5 +49,40 @@ export interface SocketEvents {
   'score-updated': (data: { playerId: string; score: number }) => void
   'obstacles-synced': (obstacles: Obstacle[]) => void
   'game-over': (data: GameOverEvent) => void
+  'error': (error: { code: string; message: string }) => void
+  'disconnect': (reason: string) => void
+  'reconnect': (attemptNumber: number) => void
+  'reconnect_failed': () => void
 }
+
+export type ClientToServerEvents = Pick<
+  SocketEvents,
+  | 'join-room'
+  | 'leave-room'
+  | 'start-game'
+  | 'player-jump'
+  | 'player-died'
+  | 'update-position'
+  | 'update-score'
+  | 'sync-obstacles'
+>
+
+export type ServerToClientEvents = Pick<
+  SocketEvents,
+  | 'room-joined'
+  | 'room-full'
+  | 'player-joined'
+  | 'player-left'
+  | 'room-state'
+  | 'game-started'
+  | 'player-jumped'
+  | 'position-updated'
+  | 'score-updated'
+  | 'obstacles-synced'
+  | 'game-over'
+  | 'error'
+  | 'disconnect'
+  | 'reconnect'
+  | 'reconnect_failed'
+>
 
