@@ -1,5 +1,4 @@
-// Backward compatibility - re-export from feature-based hooks
-export * from '@/features/wallet/hooks'
-export * from '@/features/multiplayer/hooks'
-export * from '@/features/game/hooks'
-
+// Barrel exports for hooks from modules
+export * from '@/modules/wallet/hooks'
+export * from '@/modules/multiplayer/hooks'
+export * from '@/modules/game/hooks'
