@@ -4,7 +4,7 @@ import { base, baseSepolia } from '@reown/appkit/networks';
 import { QueryClient } from '@tanstack/react-query';
 
 // Get projectId from https://cloud.reown.com
-export const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '';
+export const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? '';
 
 if (!projectId) {
   console.warn('NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not set');
@@ -14,7 +14,7 @@ if (!projectId) {
 const metadata = {
   name: 'Jump Game',
   description: 'Onchain Jump Obstacle Game with Token Rewards',
-  url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+  url: process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
   icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount, useReadContract } from "wagmi";
-import { GAME_REWARDS_ADDRESS, GAME_REWARDS_ABI, GAME_TOKEN_ADDRESS, GAME_TOKEN_ABI } from "@/lib/contracts";
+import { GAME_REWARDS_ADDRESS, GAME_REWARDS_ABI, GAME_TOKEN_ADDRESS, GAME_TOKEN_ABI } from "@/config/contracts";
 import { formatEther } from "viem";
 
 interface ClaimValidation {

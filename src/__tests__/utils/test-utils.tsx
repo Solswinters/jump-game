@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
 import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { config } from '@/lib/web3'
+import { config } from '@/modules/wallet/config/web3'
 
 // Create a new QueryClient instance for each test
 const createTestQueryClient = () =>

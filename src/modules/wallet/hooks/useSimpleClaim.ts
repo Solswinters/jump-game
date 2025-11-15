@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
-import { SIMPLE_GAME_REWARDS_ABI } from "@/lib/contracts";
+import { SIMPLE_GAME_REWARDS_ABI } from "@/config/contracts";
 
 /**
  * Hook for the simplified claim system

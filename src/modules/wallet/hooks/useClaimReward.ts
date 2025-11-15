@@ -8,7 +8,7 @@ import {
   useReadContract,
 } from 'wagmi'
 import { keccak256, encodePacked } from 'viem'
-import { SIMPLE_GAME_REWARDS_ABI } from '@/lib/contracts'
+import { SIMPLE_GAME_REWARDS_ABI } from '@/config/contracts'
 
 /**
  * Unified hook for claiming rewards

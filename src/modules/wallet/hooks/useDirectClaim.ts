@@ -2,7 +2,7 @@
 
 import { useAccount, useSignMessage, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { keccak256, encodePacked } from "viem";
-import { GAME_REWARDS_ADDRESS, GAME_REWARDS_ABI } from "@/lib/contracts";
+import { GAME_REWARDS_ADDRESS, GAME_REWARDS_ABI } from "@/config/contracts";
 
 /**
  * Hook for claiming rewards directly from the wallet without backend verification

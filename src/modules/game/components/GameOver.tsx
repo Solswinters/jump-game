@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useSimpleClaim } from "@/hooks/useSimpleClaim";
-import { GAME_REWARDS_ADDRESS } from "@/lib/contracts";
+import { GAME_REWARDS_ADDRESS } from "@/config/contracts";
 import { formatEther } from "viem";
 
 interface GameOverProps {
