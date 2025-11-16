@@ -3,108 +3,165 @@
  */
 
 import { io, type Socket } from 'socket.io-client'
-import { WS_CONFIG } from '@/config/api'
+import { getEnvironment } from '@/config/environment/validation'
+import { SOCKET_EVENTS } from '@/constants/socket-events'
+import { logger } from '@/utils/logger'
 
 type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'error'
 
+interface ConnectionState {
+  status: ConnectionStatus
+  socket: Socket | null
+  reconnectAttempts: number
+  lastError: Error | null
+}
+
 class ConnectionManager {
-  private socket: Socket | null = null
-  private status: ConnectionStatus = 'disconnected'
-  private reconnectAttempts = 0
-  private maxReconnectAttempts = WS_CONFIG.reconnectionAttempts
-  private reconnectDelay = WS_CONFIG.reconnectionDelay
-
-  connect(): void {
-    if (this.socket?.connected) {
-      return
-    }
-
-    this.status = 'connecting'
-    this.socket = io(WS_CONFIG.url, {
-      transports: WS_CONFIG.transports as ('websocket' | 'polling')[],
-      reconnection: WS_CONFIG.reconnection,
-      reconnectionAttempts: this.maxReconnectAttempts,
-      reconnectionDelay: this.reconnectDelay,
-      timeout: WS_CONFIG.timeout,
-    })
-
-    this.setupEventListeners()
+  private state: ConnectionState = {
+    status: 'disconnected',
+    socket: null,
+    reconnectAttempts: 0,
+    lastError: null,
   }
 
-  private setupEventListeners(): void {
-    if (!this.socket) {
-      return
-    }
+  private maxReconnectAttempts = 5
+  private listeners: Map<string, Set<(...args: unknown[]) => void>> = new Map()
 
-    this.socket.on('connect', () => {
-      this.status = 'connected'
-      this.reconnectAttempts = 0
-      console.log('Connected to multiplayer server')
-    })
-
-    this.socket.on('disconnect', reason => {
-      this.status = 'disconnected'
-      console.log('Disconnected from server:', reason)
-    })
-
-    this.socket.on('connect_error', error => {
-      this.status = 'error'
-      this.reconnectAttempts++
-      console.error('Connection error:', error)
-
-      if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-        this.disconnect()
+  connect(): Promise<Socket> {
+    return new Promise((resolve, reject) => {
+      if (this.state.status === 'connected' && this.state.socket) {
+        resolve(this.state.socket)
+        return
       }
-    })
 
-    this.socket.on('reconnect', attempt => {
-      console.log('Reconnected after', attempt, 'attempts')
+      if (this.state.status === 'connecting') {
+        reject(new Error('Connection already in progress'))
+        return
+      }
+
+      this.state.status = 'connecting'
+      const env = getEnvironment()
+      const socketUrl = env.NEXT_PUBLIC_SOCKET_URL ?? 'http://localhost:3001'
+
+      logger.info(`Connecting to multiplayer server: ${socketUrl}`)
+
+      const socket = io(socketUrl, {
+        transports: ['websocket'],
+        reconnection: true,
+        reconnectionAttempts: this.maxReconnectAttempts,
+        reconnectionDelay: 1000,
+      })
+
+      socket.on(SOCKET_EVENTS.CONNECT, () => {
+        this.state.status = 'connected'
+        this.state.socket = socket
+        this.state.reconnectAttempts = 0
+        this.state.lastError = null
+        logger.info('Connected to multiplayer server')
+        resolve(socket)
+      })
+
+      socket.on(SOCKET_EVENTS.CONNECT_ERROR, (error: Error) => {
+        this.state.status = 'error'
+        this.state.lastError = error
+        this.state.reconnectAttempts++
+        logger.error('Connection error', error)
+        reject(error)
+      })
+
+      socket.on(SOCKET_EVENTS.DISCONNECT, (reason: string) => {
+        this.state.status = 'disconnected'
+        logger.warn(`Disconnected from server: ${reason}`)
+      })
+
+      socket.on(SOCKET_EVENTS.RECONNECT, (attemptNumber: number) => {
+        logger.info(`Reconnected after ${attemptNumber} attempts`)
+        this.state.reconnectAttempts = 0
+      })
+
+      this.state.socket = socket
     })
   }
 
   disconnect(): void {
-    if (this.socket) {
-      this.socket.disconnect()
-      this.socket = null
+    if (this.state.socket) {
+      this.state.socket.disconnect()
+      this.state.socket = null
+      this.state.status = 'disconnected'
+      this.clearAllListeners()
+      logger.info('Disconnected from multiplayer server')
     }
-    this.status = 'disconnected'
-    this.reconnectAttempts = 0
   }
 
   getSocket(): Socket | null {
-    return this.socket
+    return this.state.socket
   }
 
   getStatus(): ConnectionStatus {
-    return this.status
+    return this.state.status
   }
 
   isConnected(): boolean {
-    return this.status === 'connected' && this.socket?.connected === true
-  }
-
-  emit(event: string, ...args: unknown[]): void {
-    if (this.isConnected() && this.socket) {
-      this.socket.emit(event, ...args)
-    }
+    return this.state.status === 'connected' && this.state.socket !== null
   }
 
   on(event: string, callback: (...args: unknown[]) => void): void {
-    if (this.socket) {
-      this.socket.on(event, callback)
+    if (!this.state.socket) {
+      logger.warn('Cannot add listener: Socket not initialized')
+      return
     }
+
+    // Store the listener for cleanup
+    if (!this.listeners.has(event)) {
+      this.listeners.set(event, new Set())
+    }
+    const eventListeners = this.listeners.get(event)
+    if (eventListeners) {
+      eventListeners.add(callback)
+    }
+
+    this.state.socket.on(event, callback)
   }
 
   off(event: string, callback?: (...args: unknown[]) => void): void {
-    if (this.socket) {
-      this.socket.off(event, callback)
+    if (!this.state.socket) {
+      return
+    }
+
+    if (callback) {
+      this.state.socket.off(event, callback)
+      const eventListeners = this.listeners.get(event)
+      if (eventListeners) {
+        eventListeners.delete(callback)
+      }
+    } else {
+      this.state.socket.off(event)
+      this.listeners.delete(event)
     }
   }
 
-  once(event: string, callback: (...args: unknown[]) => void): void {
-    if (this.socket) {
-      this.socket.once(event, callback)
+  emit(event: string, ...args: unknown[]): void {
+    if (!this.state.socket || !this.isConnected()) {
+      logger.warn(`Cannot emit event "${event}": Not connected`)
+      return
     }
+
+    this.state.socket.emit(event, ...args)
+  }
+
+  clearAllListeners(): void {
+    if (this.state.socket) {
+      this.state.socket.removeAllListeners()
+    }
+    this.listeners.clear()
+  }
+
+  getReconnectAttempts(): number {
+    return this.state.reconnectAttempts
+  }
+
+  getLastError(): Error | null {
+    return this.state.lastError
   }
 }
 
