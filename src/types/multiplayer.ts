@@ -1,73 +1,127 @@
 /**
- * Multiplayer type definitions
+ * Multiplayer-related type definitions
  */
 
-import type { Player, Obstacle } from '@/modules/game/domain/engine'
+import type { Player, Obstacle, GameState } from './game'
+import type { Address } from 'viem'
 
-export interface Room {
+export interface MultiplayerRoom {
   id: string
-  name: string
   hostId: string
-  playerIds: string[]
-  maxPlayers: number
-  gameStarted: boolean
-  createdAt: number
-}
-
-export interface RoomState {
-  room: Room
   players: Map<string, Player>
+  maxPlayers: number
+  status: GameState
+  createdAt: number
+  gameStartTime: number | null
   obstacles: Obstacle[]
-  gameTime: number
 }
 
-export interface MultiplayerMessage {
-  type: 'join' | 'leave' | 'start' | 'update' | 'chat'
-  playerId: string
-  data?: unknown
+export interface PlayerSyncData {
+  id: string
+  x: number
+  y: number
+  velocityY: number
+  isJumping: boolean
+  isAlive: boolean
+  score: number
+}
+
+export interface RoomSyncData {
+  roomId: string
+  hostId: string
+  players: PlayerSyncData[]
+  status: GameState
+  gameStartTime: number | null
+  obstacles: Obstacle[]
+}
+
+export interface SocketEvent<T = unknown> {
+  type: string
+  payload: T
+  senderId?: string
   timestamp: number
 }
 
-export interface ChatMessage {
-  id: string
+export interface JoinRoomPayload {
   playerId: string
   playerName: string
+  roomId?: string
+}
+
+export interface LeaveRoomPayload {
+  playerId: string
+  roomId: string
+}
+
+export interface PlayerJumpPayload {
+  playerId: string
+  roomId: string
+}
+
+export interface PlayerPositionPayload {
+  playerId: string
+  roomId: string
+  x: number
+  y: number
+  velocityY: number
+  isJumping: boolean
+}
+
+export interface ObstacleSyncPayload {
+  roomId: string
+  obstacles: Obstacle[]
+}
+
+export interface GameStartPayload {
+  roomId: string
+  gameStartTime: number
+}
+
+export interface GameOverPayload {
+  roomId: string
+  winnerId: string | null
+  scores: { playerId: string; score: number }[]
+}
+
+export interface ChatMessagePayload {
+  roomId: string
+  senderId: string
   message: string
   timestamp: number
 }
 
-export interface PlayerUpdate {
-  playerId: string
-  position: {
-    x: number
-    y: number
-    velocityY: number
-    isGrounded: boolean
-  }
-  score: number
-  isAlive: boolean
+export interface PlayerInfo {
+  id: string
+  name: string
+  address?: Address
+  color: string
+  isHost: boolean
+  isReady: boolean
 }
 
-export interface GameOverData {
-  winnerId: string
-  scores: Array<{
-    playerId: string
-    score: number
-  }>
-  timestamp: number
+export interface RoomInfo {
+  id: string
+  name: string
+  host: string
+  playerCount: number
+  maxPlayers: number
+  status: GameState
+  isPrivate: boolean
+  createdAt: number
 }
-
-export interface LobbyInfo {
-  availableRooms: Room[]
-  totalPlayers: number
-  activePlayers: number
-}
-
-export type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'error'
 
 export interface MultiplayerConfig {
-  socketUrl: string
-  reconnectionAttempts: number
-  reconnectionDelay: number
-  timeout: number
+  maxRooms: number
+  maxPlayersPerRoom: number
+  roomTimeout: number
+  syncInterval: number
+  enableVoiceChat: boolean
+  enableTextChat: boolean
+}
+
+export interface MultiplayerStats {
+  totalRooms: number
+  activePlayers: number
+  averagePlayersPerRoom: number
+  uptime: number
 }
