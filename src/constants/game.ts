@@ -1,78 +1,125 @@
-// Game constants - extracted from magic numbers
+/**
+ * Game-related constants
+ */
 
 export const GAME_CONSTANTS = {
   // Canvas dimensions
   CANVAS_WIDTH: 800,
-  CANVAS_HEIGHT: 400,
+  CANVAS_HEIGHT: 600,
 
-  // Player dimensions
-  PLAYER_WIDTH: 40,
-  PLAYER_HEIGHT: 60,
-  PLAYER_START_X: 100,
-
-  // Physics
-  GRAVITY: 0.8,
+  // Player configuration
+  PLAYER_WIDTH: 50,
+  PLAYER_HEIGHT: 50,
+  PLAYER_SPEED: 5,
   JUMP_FORCE: -15,
-  GROUND_Y: 320,
+  GRAVITY: 0.8,
 
-  // Game speed
-  INITIAL_GAME_SPEED: 5,
-  MAX_GAME_SPEED: 15,
-  SPEED_INCREMENT: 0.5,
-
-  // Obstacles
+  // Obstacle configuration
+  OBSTACLE_MIN_HEIGHT: 30,
+  OBSTACLE_MAX_HEIGHT: 150,
   OBSTACLE_WIDTH: 30,
-  OBSTACLE_MIN_HEIGHT: 40,
-  OBSTACLE_MAX_HEIGHT: 80,
-  OBSTACLE_SPAWN_DISTANCE: 400,
+  OBSTACLE_SPAWN_DISTANCE: 300,
+  OBSTACLE_SPEED: 5,
+
+  // Game mechanics
+  GROUND_Y: 500,
+  BASE_SCORE_PER_SECOND: 10,
+  SCORE_PER_OBSTACLE: 50,
+  WINNER_BONUS: 1000,
 
   // Difficulty
-  DIFFICULTY_INCREASE_INTERVAL: 10000, // 10 seconds in ms
-  DIFFICULTY_MULTIPLIER: 0.3,
+  INITIAL_SPEED: 5,
+  MAX_SPEED: 15,
+  SPEED_INCREMENT: 0.5,
+  DIFFICULTY_INTERVAL: 10000, // ms
   MAX_DIFFICULTY: 5,
 
-  // Scoring
-  SCORE_PER_SECOND: 10,
-  SCORE_PER_OBSTACLE: 5,
-  TIME_TO_SCORE_DIVISOR: 100,
-
   // Rewards
-  BASE_REWARD: 10,
+  BASE_REWARD: 10, // tokens
   SCORE_BONUS_DIVISOR: 100,
   WINNER_MULTIPLIER: 1.5,
-  COOLDOWN_PERIOD: 3600, // 1 hour in seconds
+  COOLDOWN_PERIOD: 3600, // seconds (1 hour)
 
   // Multiplayer
   MAX_PLAYERS_PER_ROOM: 4,
-  ROOM_TIMEOUT: 300000, // 5 minutes in ms
-  SYNC_INTERVAL: 16, // ~60fps in ms
+  ROOM_TIMEOUT: 300000, // ms (5 minutes)
+  SYNC_INTERVAL: 100, // ms
+
+  // Animation
+  ANIMATION_FPS: 60,
+  FRAME_TIME: 1000 / 60,
+
+  // UI
+  HUD_PADDING: 20,
+  LEADERBOARD_WIDTH: 200,
+  FONT_SIZE_LARGE: 32,
+  FONT_SIZE_MEDIUM: 24,
+  FONT_SIZE_SMALL: 16,
 } as const
 
-export const PLAYER_COLORS = [
-  '#3B82F6', // blue
-  '#EF4444', // red
-  '#10B981', // green
-  '#F59E0B', // yellow
-  '#8B5CF6', // purple
-  '#EC4899', // pink
-  '#14B8A6', // teal
-  '#F97316', // orange
-] as const
+export const PLAYER_COLORS = {
+  BLUE: '#3B82F6',
+  RED: '#EF4444',
+  GREEN: '#10B981',
+  YELLOW: '#F59E0B',
+  PURPLE: '#8B5CF6',
+  PINK: '#EC4899',
+  ORANGE: '#F97316',
+  CYAN: '#06B6D4',
+} as const
+
+export type PlayerColor = (typeof PLAYER_COLORS)[keyof typeof PLAYER_COLORS]
 
 export const GAME_STATES = {
-  MENU: 'menu',
   WAITING: 'waiting',
   PLAYING: 'playing',
   PAUSED: 'paused',
   ENDED: 'ended',
 } as const
 
-export const GAME_MODES = {
-  SINGLE: 'single',
-  MULTI: 'multi',
+export const POWER_UP_TYPES = {
+  SHIELD: 'shield',
+  SPEED_BOOST: 'speed',
+  DOUBLE_JUMP: 'double-jump',
+  MAGNET: 'magnet',
 } as const
 
-export type GameState = (typeof GAME_STATES)[keyof typeof GAME_STATES]
-export type GameMode = (typeof GAME_MODES)[keyof typeof GAME_MODES]
-export type PlayerColor = (typeof PLAYER_COLORS)[number]
+export const ACHIEVEMENT_IDS = {
+  FIRST_GAME: 'first-game',
+  SCORE_1000: 'score-1000',
+  SCORE_5000: 'score-5000',
+  SCORE_10000: 'score-10000',
+  WIN_10_GAMES: 'win-10-games',
+  WIN_50_GAMES: 'win-50-games',
+  PLAY_100_GAMES: 'play-100-games',
+  PERFECT_RUN: 'perfect-run',
+  SPEEDRUNNER: 'speedrunner',
+  COLLECTOR: 'collector',
+} as const
 
+export const ACHIEVEMENT_NAMES: Record<string, string> = {
+  [ACHIEVEMENT_IDS.FIRST_GAME]: 'First Steps',
+  [ACHIEVEMENT_IDS.SCORE_1000]: 'Novice',
+  [ACHIEVEMENT_IDS.SCORE_5000]: 'Skilled Player',
+  [ACHIEVEMENT_IDS.SCORE_10000]: 'Master',
+  [ACHIEVEMENT_IDS.WIN_10_GAMES]: 'Champion',
+  [ACHIEVEMENT_IDS.WIN_50_GAMES]: 'Legend',
+  [ACHIEVEMENT_IDS.PLAY_100_GAMES]: 'Dedicated',
+  [ACHIEVEMENT_IDS.PERFECT_RUN]: 'Perfectionist',
+  [ACHIEVEMENT_IDS.SPEEDRUNNER]: 'Speed Demon',
+  [ACHIEVEMENT_IDS.COLLECTOR]: 'Token Collector',
+}
+
+export const KEYBINDINGS = {
+  JUMP: [' ', 'w', 'ArrowUp'],
+  PAUSE: ['p', 'Escape'],
+  RESTART: ['r'],
+  MUTE: ['m'],
+} as const
+
+export const STORAGE_KEYS = {
+  HIGH_SCORES: 'high-scores',
+  SETTINGS: 'game-settings',
+  ACHIEVEMENTS: 'achievements',
+  PLAYER_STATS: 'player-stats',
+} as const
