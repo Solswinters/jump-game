@@ -1,5 +1,7 @@
-// Server-side exports
+/**
+ * Server exports
+ */
+
+export * from './multiplayer'
 export * from './socket'
-export * from './services/gameService'
-export * from './services/contractService'
-export * from './database/schema'
+export * from './services'
