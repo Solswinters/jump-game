@@ -1,4 +1,7 @@
-// Wallet components
-export { default as WalletConnect } from './WalletConnect'
-export { default as Web3Provider } from './Web3Provider'
+/**
+ * Wallet components exports
+ */
 
+export * from './WalletConnect'
+export * from './WalletButton'
+export * from './AddressDisplay'
