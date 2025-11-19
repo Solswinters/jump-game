@@ -1,0 +1,37 @@
+/**
+ * PWA Manifest generation
+ */
+
+import { MetadataRoute } from 'next'
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'Samodoge Jump Game',
+    short_name: 'Samodoge',
+    description: 'Play & Earn Crypto Rewards',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#000000',
+    theme_color: '#a855f7',
+    icons: [
+      {
+        src: '/icon-192.png',
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        src: '/icon-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+      {
+        src: '/icon-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+    ],
+    categories: ['games', 'entertainment'],
+    orientation: 'portrait-primary',
+  }
+}
