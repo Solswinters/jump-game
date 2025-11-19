@@ -44,7 +44,11 @@
       "@/middleware/*": ["./src/middleware/*"],
       "@/validators/*": ["./src/validators/*"],
       "@/common/*": ["./src/common/*"],
-      "@/server/*": ["./src/server/*"]
+      "@/server/*": ["./src/server/*"],
+      "@/stores/*": ["./src/stores/*"],
+      "@/shared/*": ["./src/shared/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
