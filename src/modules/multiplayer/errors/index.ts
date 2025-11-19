@@ -2,46 +2,48 @@
  * Multiplayer-specific error classes
  */
 
-import { AppError } from '@/shared/error-handler'
-
-export class ConnectionError extends AppError {
+export class MultiplayerError extends Error {
   constructor(message: string) {
-    super(message, 'CONNECTION_ERROR', 503)
+    super(message)
+    this.name = 'MultiplayerError'
+  }
+}
+
+export class ConnectionError extends MultiplayerError {
+  constructor(message: string) {
+    super(message)
     this.name = 'ConnectionError'
   }
 }
 
-export class RoomFullError extends AppError {
-  constructor() {
-    super('Room is full', 'ROOM_FULL', 400)
-    this.name = 'RoomFullError'
-  }
-}
-
-export class RoomNotFoundError extends AppError {
-  constructor(roomId: string) {
-    super(`Room ${roomId} not found`, 'ROOM_NOT_FOUND', 404)
-    this.name = 'RoomNotFoundError'
-  }
-}
-
-export class PlayerNotFoundError extends AppError {
-  constructor(playerId: string) {
-    super(`Player ${playerId} not found`, 'PLAYER_NOT_FOUND', 404)
-    this.name = 'PlayerNotFoundError'
-  }
-}
-
-export class SyncError extends AppError {
+export class RoomError extends MultiplayerError {
   constructor(message: string) {
-    super(message, 'SYNC_ERROR', 500)
+    super(message)
+    this.name = 'RoomError'
+  }
+}
+
+export class MatchmakingError extends MultiplayerError {
+  constructor(message: string) {
+    super(message)
+    this.name = 'MatchmakingError'
+  }
+}
+
+export class SyncError extends MultiplayerError {
+  constructor(message: string) {
+    super(message)
     this.name = 'SyncError'
   }
 }
 
-export class MatchmakingError extends AppError {
-  constructor(message: string) {
-    super(message, 'MATCHMAKING_ERROR', 500)
-    this.name = 'MatchmakingError'
+export function isMultiplayerError(error: unknown): error is MultiplayerError {
+  return error instanceof MultiplayerError
+}
+
+export function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message
   }
+  return String(error)
 }
