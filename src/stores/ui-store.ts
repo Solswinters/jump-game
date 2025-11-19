@@ -16,7 +16,7 @@ interface Toast {
 
 interface Modal {
   type: ModalType
-  props?: Record<string, any>
+  props?: Record<string, unknown>
   isOpen: boolean
 }
 
@@ -82,7 +82,7 @@ interface UIStoreState {
   toggleMenu: () => void
 
   // Actions - Modals
-  openModal: (type: ModalType, props?: Record<string, any>) => void
+  openModal: (type: ModalType, props?: Record<string, unknown>) => void
   closeModal: () => void
 
   // Actions - Toasts
@@ -137,8 +137,11 @@ export const useUIStore = create<UIStoreState>()(
         setTheme: theme =>
           set(state => {
             state.theme = theme
-            if (theme === 'dark') {state.isDarkMode = true}
-            else if (theme === 'light') {state.isDarkMode = false}
+            if (theme === 'dark') {
+              state.isDarkMode = true
+            } else if (theme === 'light') {
+              state.isDarkMode = false
+            }
           }),
 
         setDarkMode: isDark =>
