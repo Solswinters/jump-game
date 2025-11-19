@@ -1,140 +1,147 @@
 /**
- * Chat system with moderation
+ * Real-time chat service
  */
 
-import { IService } from "@/common/interfaces";
-
 export interface ChatMessage {
-  id: string;
-  roomId: string;
-  playerId: string;
-  playerName: string;
-  content: string;
-  timestamp: number;
-  type: "user" | "system" | "announcement";
+  id: string
+  playerId: string
+  username: string
+  message: string
+  timestamp: number
+  type: ChatMessageType
 }
 
-export interface ChatFilter {
-  bannedWords: string[];
-  maxLength: number;
-  rateLimitMs: number;
+export type ChatMessageType = 'text' | 'system' | 'emote'
+
+export interface ChatChannel {
+  id: string
+  name: string
+  type: 'room' | 'global' | 'team' | 'private'
+  participants: string[]
 }
 
-const DEFAULT_FILTER: ChatFilter = {
-  bannedWords: ["spam", "bad", "offensive"],
-  maxLength: 200,
-  rateLimitMs: 1000,
-};
-
-export class ChatService implements IService {
-  public readonly serviceName = "ChatService";
-  private messages: Map<string, ChatMessage[]> = new Map();
-  private filter: ChatFilter = DEFAULT_FILTER;
-  private lastMessageTime: Map<string, number> = new Map();
-  private nextId = 0;
+export class ChatService {
+  private messages = new Map<string, ChatMessage[]>()
+  private channels = new Map<string, ChatChannel>()
+  private maxMessagesPerChannel = 100
 
   /**
-   * Send message
+   * Add message to channel
    */
-  sendMessage(
-    roomId: string,
-    playerId: string,
-    playerName: string,
-    content: string
-  ): ChatMessage | null {
-    // Rate limiting
-    const lastTime = this.lastMessageTime.get(playerId) ?? 0;
-    const now = Date.now();
-    if (now - lastTime < this.filter.rateLimitMs) {
-      return null; // Rate limited
+  addMessage(channelId: string, message: Omit<ChatMessage, 'id'>): ChatMessage {
+    const fullMessage: ChatMessage = {
+      ...message,
+      id: this.generateMessageId(),
     }
 
-    // Validate and filter message
-    const filtered = this.filterMessage(content);
-    if (!filtered) return null;
-
-    const message: ChatMessage = {
-      id: `msg-${this.nextId++}`,
-      roomId,
-      playerId,
-      playerName,
-      content: filtered,
-      timestamp: now,
-      type: "user",
-    };
-
-    // Store message
-    if (!this.messages.has(roomId)) {
-      this.messages.set(roomId, []);
+    if (!this.messages.has(channelId)) {
+      this.messages.set(channelId, [])
     }
-    this.messages.get(roomId)!.push(message);
 
-    // Update rate limit
-    this.lastMessageTime.set(playerId, now);
+    const channelMessages = this.messages.get(channelId)!
+    channelMessages.push(fullMessage)
 
-    return message;
+    // Keep only last N messages
+    if (channelMessages.length > this.maxMessagesPerChannel) {
+      channelMessages.shift()
+    }
+
+    return fullMessage
   }
 
   /**
-   * Send system message
+   * Get messages for channel
    */
-  sendSystemMessage(roomId: string, content: string): ChatMessage {
-    const message: ChatMessage = {
-      id: `msg-${this.nextId++}`,
-      roomId,
-      playerId: "system",
-      playerName: "System",
-      content,
-      timestamp: Date.now(),
-      type: "system",
-    };
-
-    if (!this.messages.has(roomId)) {
-      this.messages.set(roomId, []);
-    }
-    this.messages.get(roomId)!.push(message);
-
-    return message;
+  getMessages(channelId: string, limit = 50): ChatMessage[] {
+    const messages = this.messages.get(channelId) ?? []
+    return messages.slice(-limit)
   }
 
   /**
-   * Get room messages
+   * Clear messages in channel
    */
-  getMessages(roomId: string, limit?: number): ChatMessage[] {
-    const messages = this.messages.get(roomId) ?? [];
-    return limit ? messages.slice(-limit) : messages;
+  clearMessages(channelId: string): void {
+    this.messages.set(channelId, [])
   }
 
   /**
-   * Filter message content
+   * Create channel
    */
-  private filterMessage(content: string): string | null {
-    // Check length
-    if (content.length > this.filter.maxLength) {
-      return null;
-    }
-
-    // Check banned words
-    const lowerContent = content.toLowerCase();
-    for (const word of this.filter.bannedWords) {
-      if (lowerContent.includes(word.toLowerCase())) {
-        return null;
-      }
-    }
-
-    return content.trim();
+  createChannel(channel: ChatChannel): void {
+    this.channels.set(channel.id, channel)
+    this.messages.set(channel.id, [])
   }
 
   /**
-   * Clear room messages
+   * Get channel
    */
-  clearRoom(roomId: string): void {
-    this.messages.delete(roomId);
+  getChannel(channelId: string): ChatChannel | undefined {
+    return this.channels.get(channelId)
   }
 
-  destroy(): void {
-    this.messages.clear();
-    this.lastMessageTime.clear();
+  /**
+   * Get all channels for player
+   */
+  getPlayerChannels(playerId: string): ChatChannel[] {
+    return Array.from(this.channels.values()).filter(channel =>
+      channel.participants.includes(playerId)
+    )
+  }
+
+  /**
+   * Join channel
+   */
+  joinChannel(channelId: string, playerId: string): void {
+    const channel = this.channels.get(channelId)
+    if (channel && !channel.participants.includes(playerId)) {
+      channel.participants.push(playerId)
+    }
+  }
+
+  /**
+   * Leave channel
+   */
+  leaveChannel(channelId: string, playerId: string): void {
+    const channel = this.channels.get(channelId)
+    if (channel) {
+      channel.participants = channel.participants.filter(id => id !== playerId)
+    }
+  }
+
+  /**
+   * Filter profanity (basic implementation)
+   */
+  filterProfanity(text: string): string {
+    const profanityList = ['badword1', 'badword2'] // Add actual words
+    let filtered = text
+
+    profanityList.forEach(word => {
+      const regex = new RegExp(word, 'gi')
+      filtered = filtered.replace(regex, '*'.repeat(word.length))
+    })
+
+    return filtered
+  }
+
+  /**
+   * Validate message
+   */
+  validateMessage(message: string): { valid: boolean; error?: string } {
+    if (!message || message.trim().length === 0) {
+      return { valid: false, error: 'Message cannot be empty' }
+    }
+
+    if (message.length > 500) {
+      return { valid: false, error: 'Message too long' }
+    }
+
+    return { valid: true }
+  }
+
+  /**
+   * Generate unique message ID
+   */
+  private generateMessageId(): string {
+    return `msg-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
   }
 }
-
