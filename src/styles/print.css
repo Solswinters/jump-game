@@ -1,0 +1,50 @@
+/**
+ * Print styles
+ */
+
+@media print {
+  /* Hide non-essential elements */
+  nav,
+  footer,
+  .no-print,
+  button,
+  [role='button'] {
+    display: none !important;
+  }
+
+  /* Optimize for print */
+  body {
+    background: white;
+    color: black;
+  }
+
+  /* Prevent page breaks inside elements */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li {
+    page-break-inside: avoid;
+  }
+
+  /* Ensure links are visible */
+  a[href]::after {
+    content: ' (' attr(href) ')';
+  }
+
+  /* Expand collapsed sections */
+  details {
+    display: block;
+  }
+
+  details summary {
+    display: none;
+  }
+
+  details[open] > * {
+    display: block;
+  }
+}
