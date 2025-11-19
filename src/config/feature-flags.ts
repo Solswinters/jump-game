@@ -1,198 +1,196 @@
-// Feature flags system for controlling feature availability
+/**
+ * Feature flag configuration
+ */
 
 export interface FeatureFlags {
   // Game features
-  multiplayer: boolean
-  singlePlayer: boolean
-  leaderboard: boolean
-  rewards: boolean
-  achievements: boolean
+  enableMultiplayer: boolean
+  enablePowerUps: boolean
+  enableLeaderboard: boolean
+  enableAchievements: boolean
+  enableDailyRewards: boolean
+
+  // Web3 features
+  enableWalletConnect: boolean
+  enableTokenRewards: boolean
+  enableNFTs: boolean
+  enableStaking: boolean
 
   // UI features
-  darkMode: boolean
-  animations: boolean
-  soundEffects: boolean
-  music: boolean
-  particleEffects: boolean
+  enableDarkMode: boolean
+  enableAnimations: boolean
+  enableSoundEffects: boolean
+  enableNotifications: boolean
 
-  // Advanced features
-  replayRecording: boolean
-  spectatorMode: boolean
-  customSkins: boolean
-  powerUps: boolean
-  tournament: boolean
+  // Performance features
+  enableServiceWorker: boolean
+  enableLazyLoading: boolean
+  enableCodeSplitting: boolean
 
-  // Development features
-  devTools: boolean
-  debugMode: boolean
-  performanceMonitor: boolean
-  errorBoundary: boolean
+  // Analytics features
+  enableAnalytics: boolean
+  enableErrorTracking: boolean
+  enablePerformanceMonitoring: boolean
+
+  // Developer features
+  enableDebugMode: boolean
+  enableDevTools: boolean
+  enableHotReload: boolean
 }
 
-// Default feature flags
-const defaultFlags: FeatureFlags = {
+/**
+ * Default feature flags
+ */
+export const defaultFeatureFlags: FeatureFlags = {
   // Game features
-  multiplayer: true,
-  singlePlayer: true,
-  leaderboard: true,
-  rewards: true,
-  achievements: false,
+  enableMultiplayer: true,
+  enablePowerUps: true,
+  enableLeaderboard: true,
+  enableAchievements: true,
+  enableDailyRewards: false,
+
+  // Web3 features
+  enableWalletConnect: true,
+  enableTokenRewards: true,
+  enableNFTs: false,
+  enableStaking: false,
 
   // UI features
-  darkMode: true,
-  animations: true,
-  soundEffects: false,
-  music: false,
-  particleEffects: true,
+  enableDarkMode: true,
+  enableAnimations: true,
+  enableSoundEffects: true,
+  enableNotifications: true,
 
-  // Advanced features
-  replayRecording: false,
-  spectatorMode: false,
-  customSkins: false,
-  powerUps: false,
-  tournament: false,
+  // Performance features
+  enableServiceWorker: true,
+  enableLazyLoading: true,
+  enableCodeSplitting: true,
 
-  // Development features
-  devTools: process.env.NODE_ENV === 'development',
-  debugMode: process.env.NODE_ENV === 'development',
-  performanceMonitor: process.env.NODE_ENV === 'development',
-  errorBoundary: true,
+  // Analytics features
+  enableAnalytics: true,
+  enableErrorTracking: true,
+  enablePerformanceMonitoring: true,
+
+  // Developer features
+  enableDebugMode: process.env.NODE_ENV === 'development',
+  enableDevTools: process.env.NODE_ENV === 'development',
+  enableHotReload: process.env.NODE_ENV === 'development',
 }
 
-// Feature flag manager
+/**
+ * Feature flag manager
+ */
 class FeatureFlagManager {
-  private flags: FeatureFlags
+  private flags: FeatureFlags = { ...defaultFeatureFlags }
+  private overrides: Partial<FeatureFlags> = {}
 
-  constructor(initialFlags: FeatureFlags = defaultFlags) {
-    this.flags = { ...initialFlags }
-    this.loadFromEnvironment()
-  }
-
-  // Load flags from environment variables
-  private loadFromEnvironment(): void {
-    if (typeof window === 'undefined') {
-      return // Server-side, skip
-    }
-
-    // Load from localStorage if available
-    try {
+  /**
+   * Initialize feature flags from environment or remote config
+   */
+  async initialize(): Promise<void> {
+    // Load from localStorage
+    if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('feature-flags')
       if (stored) {
-        const parsed = JSON.parse(stored) as Partial<FeatureFlags>
-        this.flags = { ...this.flags, ...parsed }
+        try {
+          this.overrides = JSON.parse(stored)
+        } catch (error) {
+          console.error('Failed to parse feature flags:', error)
+        }
       }
-    } catch (error) {
-      console.error('Failed to load feature flags from storage:', error)
+    }
+
+    // Load from environment variables
+    Object.keys(this.flags).forEach(key => {
+      const envKey = `NEXT_PUBLIC_FEATURE_${key.toUpperCase()}`
+      const envValue = process.env[envKey]
+
+      if (envValue !== undefined) {
+        this.overrides[key as keyof FeatureFlags] = envValue === 'true'
+      }
+    })
+
+    this.applyOverrides()
+  }
+
+  /**
+   * Apply overrides to flags
+   */
+  private applyOverrides(): void {
+    this.flags = { ...defaultFeatureFlags, ...this.overrides }
+  }
+
+  /**
+   * Check if a feature is enabled
+   */
+  isEnabled(flag: keyof FeatureFlags): boolean {
+    return this.flags[flag]
+  }
+
+  /**
+   * Enable a feature
+   */
+  enable(flag: keyof FeatureFlags): void {
+    this.overrides[flag] = true
+    this.applyOverrides()
+    this.persist()
+  }
+
+  /**
+   * Disable a feature
+   */
+  disable(flag: keyof FeatureFlags): void {
+    this.overrides[flag] = false
+    this.applyOverrides()
+    this.persist()
+  }
+
+  /**
+   * Toggle a feature
+   */
+  toggle(flag: keyof FeatureFlags): void {
+    const current = this.flags[flag]
+    if (current) {
+      this.disable(flag)
+    } else {
+      this.enable(flag)
     }
   }
 
-  // Save flags to localStorage
-  private saveToStorage(): void {
-    if (typeof window === 'undefined') {
-      return // Server-side, skip
-    }
-
-    try {
-      localStorage.setItem('feature-flags', JSON.stringify(this.flags))
-    } catch (error) {
-      console.error('Failed to save feature flags to storage:', error)
-    }
-  }
-
-  // Check if a feature is enabled
-  isEnabled(feature: keyof FeatureFlags): boolean {
-    return this.flags[feature] ?? false
-  }
-
-  // Enable a feature
-  enable(feature: keyof FeatureFlags): void {
-    this.flags[feature] = true
-    this.saveToStorage()
-  }
-
-  // Disable a feature
-  disable(feature: keyof FeatureFlags): void {
-    this.flags[feature] = false
-    this.saveToStorage()
-  }
-
-  // Toggle a feature
-  toggle(feature: keyof FeatureFlags): void {
-    this.flags[feature] = !this.flags[feature]
-    this.saveToStorage()
-  }
-
-  // Get all flags
+  /**
+   * Get all flags
+   */
   getAll(): FeatureFlags {
     return { ...this.flags }
   }
 
-  // Set multiple flags at once
-  setFlags(flags: Partial<FeatureFlags>): void {
-    this.flags = { ...this.flags, ...flags }
-    this.saveToStorage()
-  }
-
-  // Reset to default flags
+  /**
+   * Reset to defaults
+   */
   reset(): void {
-    this.flags = { ...defaultFlags }
-    this.saveToStorage()
+    this.overrides = {}
+    this.applyOverrides()
+    this.persist()
   }
 
-  // Check if any development feature is enabled
-  isDevelopment(): boolean {
-    return this.flags.devTools || this.flags.debugMode || this.flags.performanceMonitor
+  /**
+   * Persist to localStorage
+   */
+  private persist(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('feature-flags', JSON.stringify(this.overrides))
+    }
   }
 }
 
-// Export singleton instance
-export const featureFlags = new FeatureFlagManager()
+/**
+ * Global feature flag manager instance
+ */
+export const featureFlagManager = new FeatureFlagManager()
 
-// Export default flags
-export { defaultFlags as defaultFeatureFlags }
-
-// Helper hook-style function for React components
-export function useFeatureFlag(feature: keyof FeatureFlags): boolean {
-  return featureFlags.isEnabled(feature)
+/**
+ * Hook to check feature flags
+ */
+export function useFeatureFlag(flag: keyof FeatureFlags): boolean {
+  return featureFlagManager.isEnabled(flag)
 }
-
-// Environment-based feature availability
-export const FEATURE_AVAILABILITY = {
-  development: {
-    multiplayer: true,
-    singlePlayer: true,
-    leaderboard: true,
-    rewards: true,
-    achievements: true,
-    replayRecording: true,
-    spectatorMode: true,
-    customSkins: true,
-    powerUps: true,
-    tournament: true,
-  },
-  production: {
-    multiplayer: true,
-    singlePlayer: true,
-    leaderboard: true,
-    rewards: true,
-    achievements: false,
-    replayRecording: false,
-    spectatorMode: false,
-    customSkins: false,
-    powerUps: false,
-    tournament: false,
-  },
-  test: {
-    multiplayer: true,
-    singlePlayer: true,
-    leaderboard: false,
-    rewards: false,
-    achievements: false,
-    replayRecording: false,
-    spectatorMode: false,
-    customSkins: false,
-    powerUps: false,
-    tournament: false,
-  },
-} as const
-

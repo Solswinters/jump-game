@@ -1,85 +1,82 @@
-import { z } from 'zod'
+/**
+ * Environment configuration
+ */
 
-// Environment variable schema
-const envSchema = z.object({
+export const env = {
   // App
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  NEXT_PUBLIC_APP_URL: z.string().url().optional(),
-  PORT: z.string().default('3000'),
+  NODE_ENV: process.env.NODE_ENV || 'development',
+  APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
 
   // Blockchain
-  NEXT_PUBLIC_GAME_TOKEN_ADDRESS: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional(),
-  NEXT_PUBLIC_GAME_REWARDS_ADDRESS: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional(),
-  NEXT_PUBLIC_CHAIN_ID: z.string().default('8453'), // Base mainnet
+  CHAIN_ID: Number(process.env.NEXT_PUBLIC_CHAIN_ID) || 8453,
+  RPC_URL: process.env.NEXT_PUBLIC_RPC_URL || '',
+  GAME_TOKEN_ADDRESS:
+    process.env.NEXT_PUBLIC_GAME_TOKEN_ADDRESS || '0x0000000000000000000000000000000000000000',
+  GAME_REWARDS_ADDRESS:
+    process.env.NEXT_PUBLIC_GAME_REWARDS_ADDRESS || '0x0000000000000000000000000000000000000000',
+
+  // WalletConnect
+  WALLETCONNECT_PROJECT_ID: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '',
 
   // API Keys
-  VERIFIER_PRIVATE_KEY: z.string().optional(),
-  BASESCAN_API_KEY: z.string().optional(),
-  PRIVATE_KEY: z.string().optional(),
+  ALCHEMY_API_KEY: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || '',
+  INFURA_API_KEY: process.env.NEXT_PUBLIC_INFURA_API_KEY || '',
 
-  // Features
-  NEXT_PUBLIC_ENABLE_MULTIPLAYER: z.string().default('true'),
-  NEXT_PUBLIC_ENABLE_REWARDS: z.string().default('true'),
-  NEXT_PUBLIC_MAX_PLAYERS_PER_ROOM: z.string().default('4'),
+  // Analytics
+  GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '',
+  SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN || '',
 
-  // Rate Limiting
-  RATE_LIMIT_WINDOW_MS: z.string().default('900000'), // 15 minutes
-  RATE_LIMIT_MAX_REQUESTS: z.string().default('100'),
+  // Game
+  MAX_SCORE: Number(process.env.NEXT_PUBLIC_MAX_SCORE) || 1000000,
+  REWARD_THRESHOLD: Number(process.env.NEXT_PUBLIC_REWARD_THRESHOLD) || 1000,
 
-  // Socket.io
-  SOCKET_CORS_ORIGIN: z.string().optional(),
-})
+  // Multiplayer
+  WS_URL: process.env.NEXT_PUBLIC_WS_URL || 'wss://localhost:3001',
+  MAX_PLAYERS: Number(process.env.NEXT_PUBLIC_MAX_PLAYERS) || 4,
 
-// Parse and validate environment variables
-function validateEnv() {
-  try {
-    return envSchema.parse(process.env)
-  } catch (error) {
-    console.error('❌ Invalid environment variables:')
-    if (error instanceof z.ZodError) {
-      error.errors.forEach((err) => {
-        console.error(`  ${err.path.join('.')}: ${err.message}`)
-      })
-    }
-    throw new Error('Invalid environment variables')
+  // Feature Flags (from process.env)
+  ENABLE_MULTIPLAYER: process.env.NEXT_PUBLIC_ENABLE_MULTIPLAYER === 'true',
+  ENABLE_WEB3: process.env.NEXT_PUBLIC_ENABLE_WEB3 === 'true',
+  ENABLE_ANALYTICS: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true',
+} as const
+
+/**
+ * Validate environment variables
+ */
+export function validateEnv(): void {
+  const required = ['WALLETCONNECT_PROJECT_ID', 'RPC_URL']
+
+  const missing = required.filter(key => {
+    const value = env[key as keyof typeof env]
+    return !value || value === ''
+  })
+
+  if (missing.length > 0 && env.NODE_ENV === 'production') {
+    throw new Error(`Missing required environment variables: ${missing.join(', ')}`)
   }
 }
 
-// Export validated environment variables
-export const env = validateEnv()
+/**
+ * Check if running in development
+ */
+export const isDevelopment = env.NODE_ENV === 'development'
 
-// Type-safe environment variable access
-export const config = {
-  app: {
-    env: env.NODE_ENV,
-    url: env.NEXT_PUBLIC_APP_URL || `http://localhost:${env.PORT}`,
-    port: parseInt(env.PORT, 10),
-  },
-  blockchain: {
-    gameTokenAddress: env.NEXT_PUBLIC_GAME_TOKEN_ADDRESS as `0x${string}` | undefined,
-    gameRewardsAddress: env.NEXT_PUBLIC_GAME_REWARDS_ADDRESS as `0x${string}` | undefined,
-    chainId: parseInt(env.NEXT_PUBLIC_CHAIN_ID, 10),
-  },
-  features: {
-    enableMultiplayer: env.NEXT_PUBLIC_ENABLE_MULTIPLAYER === 'true',
-    enableRewards: env.NEXT_PUBLIC_ENABLE_REWARDS === 'true',
-    maxPlayersPerRoom: parseInt(env.NEXT_PUBLIC_MAX_PLAYERS_PER_ROOM, 10),
-  },
-  rateLimit: {
-    windowMs: parseInt(env.RATE_LIMIT_WINDOW_MS, 10),
-    maxRequests: parseInt(env.RATE_LIMIT_MAX_REQUESTS, 10),
-  },
-  keys: {
-    verifierPrivateKey: env.VERIFIER_PRIVATE_KEY,
-    basescanApiKey: env.BASESCAN_API_KEY,
-    privateKey: env.PRIVATE_KEY,
-  },
-  socket: {
-    corsOrigin: env.SOCKET_CORS_ORIGIN || env.NEXT_PUBLIC_APP_URL || `http://localhost:${env.PORT}`,
-  },
-} as const
+/**
+ * Check if running in production
+ */
+export const isProduction = env.NODE_ENV === 'production'
 
-// Type exports
-export type AppConfig = typeof config
-export type Environment = z.infer<typeof envSchema>
+/**
+ * Check if running in test
+ */
+export const isTest = env.NODE_ENV === 'test'
 
+/**
+ * Check if running on client
+ */
+export const isClient = typeof window !== 'undefined'
+
+/**
+ * Check if running on server
+ */
+export const isServer = !isClient

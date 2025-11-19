@@ -2,107 +2,144 @@
  * Blockchain chain configurations
  */
 
-export interface ChainConfig {
+import { base, baseSepolia, mainnet, sepolia } from 'wagmi/chains'
+import type { Chain } from 'wagmi/chains'
+
+/**
+ * Supported chains
+ */
+export const supportedChains = [base, baseSepolia, mainnet, sepolia] as const
+
+/**
+ * Default chain
+ */
+export const defaultChain = base
+
+/**
+ * Get chain by ID
+ */
+export function getChainById(chainId: number): Chain | undefined {
+  return supportedChains.find(chain => chain.id === chainId)
+}
+
+/**
+ * Get chain by name
+ */
+export function getChainByName(name: string): Chain | undefined {
+  return supportedChains.find(chain => chain.name.toLowerCase() === name.toLowerCase())
+}
+
+/**
+ * Check if chain is supported
+ */
+export function isChainSupported(chainId: number): boolean {
+  return supportedChains.some(chain => chain.id === chainId)
+}
+
+/**
+ * Get block explorer URL for address
+ */
+export function getExplorerAddressUrl(chainId: number, address: string): string | null {
+  const chain = getChainById(chainId)
+  if (!chain?.blockExplorers?.default) return null
+
+  return `${chain.blockExplorers.default.url}/address/${address}`
+}
+
+/**
+ * Get block explorer URL for transaction
+ */
+export function getExplorerTxUrl(chainId: number, txHash: string): string | null {
+  const chain = getChainById(chainId)
+  if (!chain?.blockExplorers?.default) return null
+
+  return `${chain.blockExplorers.default.url}/tx/${txHash}`
+}
+
+/**
+ * Get block explorer URL for block
+ */
+export function getExplorerBlockUrl(chainId: number, blockNumber: number | string): string | null {
+  const chain = getChainById(chainId)
+  if (!chain?.blockExplorers?.default) return null
+
+  return `${chain.blockExplorers.default.url}/block/${blockNumber}`
+}
+
+/**
+ * Get chain native currency symbol
+ */
+export function getChainCurrencySymbol(chainId: number): string {
+  const chain = getChainById(chainId)
+  return chain?.nativeCurrency?.symbol || 'ETH'
+}
+
+/**
+ * Get chain name
+ */
+export function getChainName(chainId: number): string {
+  const chain = getChainById(chainId)
+  return chain?.name || 'Unknown Chain'
+}
+
+/**
+ * Chain metadata
+ */
+export interface ChainMetadata {
   id: number
   name: string
-  nativeCurrency: {
-    name: string
-    symbol: string
-    decimals: number
-  }
-  rpcUrls: string[]
-  blockExplorerUrls: string[]
+  shortName: string
+  symbol: string
+  color: string
+  logo: string
   testnet: boolean
 }
 
-export const supportedChains: Record<number, ChainConfig> = {
-  // Base Mainnet
-  8453: {
-    id: 8453,
-    name: 'Base',
-    nativeCurrency: {
-      name: 'Ether',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    rpcUrls: ['https://mainnet.base.org'],
-    blockExplorerUrls: ['https://basescan.org'],
+/**
+ * Extended chain metadata
+ */
+export const chainMetadata: Record<number, ChainMetadata> = {
+  [mainnet.id]: {
+    id: mainnet.id,
+    name: 'Ethereum',
+    shortName: 'ETH',
+    symbol: 'ETH',
+    color: '#627EEA',
+    logo: '/chains/ethereum.svg',
     testnet: false,
   },
-
-  // Base Sepolia (Testnet)
-  84532: {
-    id: 84532,
-    name: 'Base Sepolia',
-    nativeCurrency: {
-      name: 'Ether',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    rpcUrls: ['https://sepolia.base.org'],
-    blockExplorerUrls: ['https://sepolia.basescan.org'],
+  [base.id]: {
+    id: base.id,
+    name: 'Base',
+    shortName: 'Base',
+    symbol: 'ETH',
+    color: '#0052FF',
+    logo: '/chains/base.svg',
+    testnet: false,
+  },
+  [sepolia.id]: {
+    id: sepolia.id,
+    name: 'Sepolia',
+    shortName: 'SEP',
+    symbol: 'ETH',
+    color: '#CFB5F0',
+    logo: '/chains/ethereum.svg',
     testnet: true,
   },
-
-  // Optimism
-  10: {
-    id: 10,
-    name: 'Optimism',
-    nativeCurrency: {
-      name: 'Ether',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    rpcUrls: ['https://mainnet.optimism.io'],
-    blockExplorerUrls: ['https://optimistic.etherscan.io'],
-    testnet: false,
-  },
-
-  // Arbitrum
-  42161: {
-    id: 42161,
-    name: 'Arbitrum One',
-    nativeCurrency: {
-      name: 'Ether',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    rpcUrls: ['https://arb1.arbitrum.io/rpc'],
-    blockExplorerUrls: ['https://arbiscan.io'],
-    testnet: false,
-  },
-
-  // Polygon
-  137: {
-    id: 137,
-    name: 'Polygon',
-    nativeCurrency: {
-      name: 'MATIC',
-      symbol: 'MATIC',
-      decimals: 18,
-    },
-    rpcUrls: ['https://polygon-rpc.com'],
-    blockExplorerUrls: ['https://polygonscan.com'],
-    testnet: false,
+  [baseSepolia.id]: {
+    id: baseSepolia.id,
+    name: 'Base Sepolia',
+    shortName: 'BaseSep',
+    symbol: 'ETH',
+    color: '#0052FF',
+    logo: '/chains/base.svg',
+    testnet: true,
   },
 }
 
-export function getChainById(chainId: number): ChainConfig | undefined {
-  return supportedChains[chainId]
-}
-
-export function isTestnet(chainId: number): boolean {
-  return supportedChains[chainId]?.testnet || false
-}
-
-export function getBlockExplorerUrl(
-  chainId: number,
-  hash: string,
-  type: 'tx' | 'address' = 'tx'
-): string {
-  const chain = supportedChains[chainId]
-  if (!chain) return ''
-
-  const base = chain.blockExplorerUrls[0]
-  return `${base}/${type}/${hash}`
+/**
+ * Get chain metadata
+ */
+export function getChainMetadata(chainId: number): ChainMetadata | null {
+  return chainMetadata[chainId] || null
 }
