@@ -1,16 +1,12 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
     "bradlc.vscode-tailwindcss",
-    "ms-playwright.playwright",
-    "orta.vscode-jest",
-    "prisma.prisma",
-    "wallabyjs.quokka-vscode",
+    "ms-vscode.vscode-typescript-next",
     "usernamehw.errorlens",
-    "christian-kohler.path-intellisense",
-    "formulahendry.auto-rename-tag",
-    "dsznajder.es7-react-js-snippets"
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens",
+    "github.copilot"
   ]
 }
-
