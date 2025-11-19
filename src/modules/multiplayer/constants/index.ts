@@ -2,41 +2,88 @@
  * Multiplayer module constants
  */
 
-export const ROOM_STATUS = {
-  IDLE: 'idle',
-  SEARCHING: 'searching',
-  IN_LOBBY: 'in-lobby',
-  IN_GAME: 'in-game',
-  FINISHED: 'finished',
+export const MULTIPLAYER_CONFIG = {
+  DEFAULT_SERVER_URL: process.env.NEXT_PUBLIC_WS_URL ?? 'ws://localhost:3001',
+  DEFAULT_RECONNECT_ATTEMPTS: 5,
+  DEFAULT_RECONNECT_DELAY: 1000,
+  DEFAULT_HEARTBEAT_INTERVAL: 30000,
+  DEFAULT_PING_INTERVAL: 2000,
+  DEFAULT_TIMEOUT: 5000,
 } as const
 
-export const CONNECTION_QUALITY = {
-  EXCELLENT: 'excellent',
-  GOOD: 'good',
-  FAIR: 'fair',
-  POOR: 'poor',
+export const ROOM_CONFIG = {
+  MIN_PLAYERS: 2,
+  MAX_PLAYERS: 8,
+  DEFAULT_MAX_PLAYERS: 4,
+  PASSWORD_MIN_LENGTH: 4,
+  NAME_MIN_LENGTH: 3,
+  NAME_MAX_LENGTH: 50,
 } as const
 
-export const MATCHMAKING_MODES = {
-  CASUAL: 'casual',
-  RANKED: 'ranked',
-  CUSTOM: 'custom',
+export const CHAT_CONFIG = {
+  MAX_MESSAGE_LENGTH: 500,
+  MAX_MESSAGES_PER_CHANNEL: 100,
+  MAX_USERNAME_LENGTH: 20,
 } as const
 
-export const MAX_PLAYERS_PER_ROOM = 4
+export const MATCHMAKING_CONFIG = {
+  MAX_RATING_DIFFERENCE: 200,
+  RATING_EXPAND_PER_10S: 50,
+  MAX_QUEUE_TIME: 300000, // 5 minutes
+  MIN_PLAYERS: 2,
+  PREFERRED_PLAYERS: 4,
+} as const
 
-export const MIN_PLAYERS_TO_START = 2
+export const GAME_MODES = {
+  CLASSIC: 'classic',
+  TIME_ATTACK: 'time_attack',
+  SURVIVAL: 'survival',
+  TEAM_BATTLE: 'team_battle',
+  RACE: 'race',
+} as const
 
-export const LOBBY_TIMEOUT = 60000 // 60 seconds
+export const DIFFICULTY_LEVELS = {
+  EASY: 'easy',
+  NORMAL: 'normal',
+  HARD: 'hard',
+  EXPERT: 'expert',
+} as const
 
-export const SYNC_INTERVAL = 50 // 20 updates per second
+export const REGIONS = {
+  NA_EAST: 'na-east',
+  NA_WEST: 'na-west',
+  EU_WEST: 'eu-west',
+  EU_EAST: 'eu-east',
+  ASIA: 'asia',
+  OCEANIA: 'oceania',
+  SA: 'south-america',
+} as const
 
-export const MAX_PING = 500 // Max acceptable ping in ms
+export const WEBSOCKET_EVENTS = {
+  CONNECT: 'connect',
+  DISCONNECT: 'disconnect',
+  ERROR: 'error',
+  RECONNECT: 'reconnect',
+  MESSAGE: 'message',
+  PLAYER_JOINED: 'player_joined',
+  PLAYER_LEFT: 'player_left',
+  GAME_STATE_UPDATE: 'game_state_update',
+  CHAT_MESSAGE: 'chat_message',
+  ROOM_UPDATE: 'room_update',
+  MATCH_FOUND: 'match_found',
+  PRESENCE_UPDATE: 'presence_update',
+} as const
 
-export const RECONNECT_ATTEMPTS = 3
+export const LATENCY_THRESHOLDS = {
+  EXCELLENT: 50,
+  GOOD: 100,
+  FAIR: 200,
+  POOR: 200,
+} as const
 
-export const RECONNECT_DELAY = 1000
-
-export type RoomStatus = (typeof ROOM_STATUS)[keyof typeof ROOM_STATUS]
-export type ConnectionQuality = (typeof CONNECTION_QUALITY)[keyof typeof CONNECTION_QUALITY]
-export type MatchmakingMode = (typeof MATCHMAKING_MODES)[keyof typeof MATCHMAKING_MODES]
+export const SYNC_CONFIG = {
+  TICK_RATE: 60,
+  SNAPSHOT_RATE: 20,
+  INTERPOLATION_DELAY: 100,
+  MAX_SNAPSHOTS: 100,
+} as const
