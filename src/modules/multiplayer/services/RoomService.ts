@@ -1,216 +1,241 @@
-import { IService } from "@/common/interfaces";
-
 /**
- * Service for managing multiplayer rooms
+ * Room/Lobby service for multiplayer games
  */
 
 export interface Room {
-  id: string;
-  name: string;
-  hostId: string;
-  players: Player[];
-  maxPlayers: number;
-  status: "waiting" | "playing" | "ended";
-  createdAt: number;
-  gameStartedAt?: number;
+  id: string
+  name: string
+  hostId: string
+  players: Player[]
+  maxPlayers: number
+  isPrivate: boolean
+  password?: string
+  status: RoomStatus
+  gameMode: string
+  createdAt: number
+  settings: RoomSettings
 }
 
 export interface Player {
-  id: string;
-  address?: string;
-  isHost: boolean;
-  isReady: boolean;
-  score: number;
-  isAlive: boolean;
+  id: string
+  username: string
+  isReady: boolean
+  isHost: boolean
+  joinedAt: number
+  avatar?: string
 }
 
-export class RoomService implements IService {
-  public readonly serviceName = "RoomService";
+export type RoomStatus = 'waiting' | 'starting' | 'in_progress' | 'finished'
 
-  private rooms: Map<string, Room> = new Map();
-  private listeners: Set<(rooms: Room[]) => void> = new Set();
+export interface RoomSettings {
+  difficulty: string
+  timeLimit?: number
+  scoreLimit?: number
+  allowSpectators: boolean
+  [key: string]: unknown
+}
+
+export interface CreateRoomOptions {
+  name: string
+  maxPlayers: number
+  isPrivate: boolean
+  password?: string
+  gameMode: string
+  settings?: Partial<RoomSettings>
+}
+
+export interface JoinRoomOptions {
+  roomId: string
+  password?: string
+}
+
+export class RoomService {
+  private rooms = new Map<string, Room>()
+  private currentRoomId: string | null = null
 
   /**
    * Create a new room
    */
-  createRoom(hostId: string, name: string, maxPlayers: number = 4): Room {
+  createRoom(hostId: string, hostUsername: string, options: CreateRoomOptions): Room {
     const room: Room = {
       id: this.generateRoomId(),
-      name,
+      name: options.name,
       hostId,
       players: [
         {
           id: hostId,
-          isHost: true,
+          username: hostUsername,
           isReady: false,
-          score: 0,
-          isAlive: true,
+          isHost: true,
+          joinedAt: Date.now(),
         },
       ],
-      maxPlayers,
-      status: "waiting",
+      maxPlayers: options.maxPlayers,
+      isPrivate: options.isPrivate,
+      password: options.password,
+      status: 'waiting',
+      gameMode: options.gameMode,
       createdAt: Date.now(),
-    };
+      settings: {
+        difficulty: 'normal',
+        allowSpectators: true,
+        ...options.settings,
+      },
+    }
 
-    this.rooms.set(room.id, room);
-    this.notifyListeners();
-    return room;
+    this.rooms.set(room.id, room)
+    this.currentRoomId = room.id
+    return room
   }
 
   /**
-   * Join existing room
+   * Join an existing room
    */
-  joinRoom(roomId: string, playerId: string, address?: string): Player | null {
-    const room = this.rooms.get(roomId);
-    if (!room) return null;
+  joinRoom(roomId: string, playerId: string, username: string, password?: string): Room | null {
+    const room = this.rooms.get(roomId)
 
-    if (room.players.length >= room.maxPlayers) {
-      return null; // Room full
+    if (!room) {
+      throw new Error('Room not found')
     }
 
-    if (room.status !== "waiting") {
-      return null; // Game already started
+    if (room.status !== 'waiting') {
+      throw new Error('Room is not accepting players')
+    }
+
+    if (room.players.length >= room.maxPlayers) {
+      throw new Error('Room is full')
+    }
+
+    if (room.isPrivate && room.password !== password) {
+      throw new Error('Invalid password')
     }
 
     const player: Player = {
       id: playerId,
-      address,
-      isHost: false,
+      username,
       isReady: false,
-      score: 0,
-      isAlive: true,
-    };
+      isHost: false,
+      joinedAt: Date.now(),
+    }
 
-    room.players.push(player);
-    this.rooms.set(roomId, room);
-    this.notifyListeners();
-    return player;
+    room.players.push(player)
+    this.currentRoomId = roomId
+    return room
   }
 
   /**
-   * Leave room
+   * Leave current room
    */
-  leaveRoom(roomId: string, playerId: string): void {
-    const room = this.rooms.get(roomId);
-    if (!room) return;
+  leaveRoom(playerId: string): void {
+    if (!this.currentRoomId) return
 
-    room.players = room.players.filter((p) => p.id !== playerId);
+    const room = this.rooms.get(this.currentRoomId)
+    if (!room) return
 
-    // If host left, assign new host or delete room
-    if (playerId === room.hostId) {
-      if (room.players.length > 0) {
-        room.hostId = room.players[0]!.id;
-        room.players[0]!.isHost = true;
-      } else {
-        this.rooms.delete(roomId);
-        this.notifyListeners();
-        return;
-      }
+    const playerIndex = room.players.findIndex(p => p.id === playerId)
+    if (playerIndex === -1) return
+
+    room.players.splice(playerIndex, 1)
+
+    // If host left, assign new host
+    if (room.hostId === playerId && room.players.length > 0) {
+      room.hostId = room.players[0].id
+      room.players[0].isHost = true
     }
 
-    this.rooms.set(roomId, room);
-    this.notifyListeners();
+    // Delete room if empty
+    if (room.players.length === 0) {
+      this.rooms.delete(room.id)
+    }
+
+    this.currentRoomId = null
   }
 
   /**
    * Update player ready status
    */
-  setPlayerReady(roomId: string, playerId: string, isReady: boolean): void {
-    const room = this.rooms.get(roomId);
-    if (!room) return;
+  setPlayerReady(playerId: string, isReady: boolean): void {
+    if (!this.currentRoomId) return
 
-    const player = room.players.find((p) => p.id === playerId);
+    const room = this.rooms.get(this.currentRoomId)
+    if (!room) return
+
+    const player = room.players.find(p => p.id === playerId)
     if (player) {
-      player.isReady = isReady;
-      this.rooms.set(roomId, room);
-      this.notifyListeners();
+      player.isReady = isReady
     }
+  }
+
+  /**
+   * Check if all players are ready
+   */
+  areAllPlayersReady(roomId: string): boolean {
+    const room = this.rooms.get(roomId)
+    if (!room || room.players.length < 2) return false
+
+    return room.players.every(p => p.isReady || p.isHost)
   }
 
   /**
    * Start game in room
    */
-  startGame(roomId: string): boolean {
-    const room = this.rooms.get(roomId);
-    if (!room || room.status !== "waiting") return false;
+  startGame(roomId: string, hostId: string): void {
+    const room = this.rooms.get(roomId)
+    if (!room) throw new Error('Room not found')
 
-    room.status = "playing";
-    room.gameStartedAt = Date.now();
-    this.rooms.set(roomId, room);
-    this.notifyListeners();
-    return true;
-  }
-
-  /**
-   * End game in room
-   */
-  endGame(roomId: string): void {
-    const room = this.rooms.get(roomId);
-    if (!room) return;
-
-    room.status = "ended";
-    this.rooms.set(roomId, room);
-    this.notifyListeners();
-  }
-
-  /**
-   * Update player score
-   */
-  updatePlayerScore(roomId: string, playerId: string, score: number): void {
-    const room = this.rooms.get(roomId);
-    if (!room) return;
-
-    const player = room.players.find((p) => p.id === playerId);
-    if (player) {
-      player.score = score;
-      this.rooms.set(roomId, room);
-      this.notifyListeners();
+    if (room.hostId !== hostId) {
+      throw new Error('Only host can start the game')
     }
+
+    if (!this.areAllPlayersReady(roomId)) {
+      throw new Error('Not all players are ready')
+    }
+
+    room.status = 'starting'
   }
 
   /**
    * Get room by ID
    */
   getRoom(roomId: string): Room | undefined {
-    return this.rooms.get(roomId);
+    return this.rooms.get(roomId)
   }
 
   /**
-   * Get all rooms
+   * Get current room
    */
-  getAllRooms(): Room[] {
-    return Array.from(this.rooms.values());
+  getCurrentRoom(): Room | null {
+    if (!this.currentRoomId) return null
+    return this.rooms.get(this.currentRoomId) ?? null
   }
 
   /**
-   * Get available rooms (waiting status, not full)
+   * Get all available rooms
    */
   getAvailableRooms(): Room[] {
-    return this.getAllRooms().filter(
-      (room) => room.status === "waiting" && room.players.length < room.maxPlayers
-    );
+    return Array.from(this.rooms.values()).filter(
+      room => room.status === 'waiting' && !room.isPrivate
+    )
   }
 
   /**
-   * Subscribe to room updates
+   * Update room settings
    */
-  subscribe(listener: (rooms: Room[]) => void): () => void {
-    this.listeners.add(listener);
-    return () => this.listeners.delete(listener);
+  updateRoomSettings(roomId: string, hostId: string, settings: Partial<RoomSettings>): void {
+    const room = this.rooms.get(roomId)
+    if (!room) throw new Error('Room not found')
+
+    if (room.hostId !== hostId) {
+      throw new Error('Only host can update settings')
+    }
+
+    room.settings = { ...room.settings, ...settings }
   }
 
+  /**
+   * Generate unique room ID
+   */
   private generateRoomId(): string {
-    return `room-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
-  }
-
-  private notifyListeners(): void {
-    const rooms = this.getAllRooms();
-    this.listeners.forEach((listener) => listener(rooms));
-  }
-
-  destroy(): void {
-    this.rooms.clear();
-    this.listeners.clear();
+    return `room-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
   }
 }
-
