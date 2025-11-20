@@ -1,24 +1,7 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Auto detect text files and normalize line endings to LF
+* text=auto eol=lf
 
-# Source code
-*.js text eol=lf
-*.jsx text eol=lf
-*.ts text eol=lf
-*.tsx text eol=lf
-*.json text eol=lf
-*.css text eol=lf
-*.scss text eol=lf
-*.md text eol=lf
-
-# Config files
-*.yml text eol=lf
-*.yaml text eol=lf
-.gitignore text eol=lf
-.gitattributes text eol=lf
-.editorconfig text eol=lf
-
-# Binary files
+# Force binary files to be left untouched
 *.png binary
 *.jpg binary
 *.jpeg binary
@@ -37,9 +20,16 @@
 *.eot binary
 *.woff binary
 *.woff2 binary
+*.otf binary
+*.pyc binary
+*.pdf binary
+*.ez binary
+*.bz2 binary
+*.swp binary
 
-# Exclude generated files from diffs
-package-lock.json linguist-generated=true
-yarn.lock linguist-generated=true
-*.min.js linguist-generated=true
-
+# Linguist overrides
+*.ts linguist-detectable=true
+*.tsx linguist-detectable=true
+*.js linguist-detectable=true
+*.jsx linguist-detectable=true
+*.css linguist-detectable=true
