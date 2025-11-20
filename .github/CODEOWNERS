@@ -1,0 +1,25 @@
+# Code Owners
+# These owners will be automatically requested for review when PRs modify matching paths
+
+# Default owners for everything in the repo
+*       @samodogelogo/core-team
+
+# Specific module owners
+/src/modules/game/    @samodogelogo/game-team
+/src/modules/wallet/  @samodogelogo/wallet-team
+/src/modules/multiplayer/ @samodogelogo/multiplayer-team
+
+# Infrastructure and DevOps
+/.github/             @samodogelogo/devops-team
+/Dockerfile           @samodogelogo/devops-team
+/docker-compose.yml   @samodogelogo/devops-team
+
+# Documentation
+/docs/                @samodogelogo/docs-team
+README.md             @samodogelogo/docs-team
+
+# Configuration files
+*.config.js           @samodogelogo/core-team
+*.config.ts           @samodogelogo/core-team
+tsconfig*.json        @samodogelogo/core-team
+
