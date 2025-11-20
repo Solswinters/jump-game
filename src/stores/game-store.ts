@@ -6,6 +6,24 @@ export type GameMode = 'menu' | 'single' | 'multi' | 'time-trial' | 'endless' | 
 export type GameState = 'idle' | 'playing' | 'paused' | 'ended'
 export type Difficulty = 'easy' | 'normal' | 'hard' | 'extreme'
 
+export const GAME_MODES: ReadonlyArray<GameMode> = [
+  'menu',
+  'single',
+  'multi',
+  'time-trial',
+  'endless',
+  'story',
+] as const
+
+export const GAME_STATES: ReadonlyArray<GameState> = ['idle', 'playing', 'paused', 'ended'] as const
+
+export const DIFFICULTIES: ReadonlyArray<Difficulty> = [
+  'easy',
+  'normal',
+  'hard',
+  'extreme',
+] as const
+
 interface GameSettings {
   difficulty: Difficulty
   soundEnabled: boolean
@@ -39,6 +57,9 @@ interface GameStoreState {
   isMultiplayer: boolean
   isWinner: boolean
   finalScore: number
+  isPaused: boolean
+  startTime: number | null
+  endTime: number | null
 
   // Actions
   setMode: (mode: GameMode) => void
@@ -52,6 +73,10 @@ interface GameStoreState {
   incrementScore: (points: number) => void
   incrementCombo: () => void
   resetCombo: () => void
+  pause: () => void
+  resume: () => void
+  startGame: () => void
+  endGame: (winner: boolean) => void
 }
 
 const defaultSettings: GameSettings = {
@@ -79,7 +104,7 @@ const defaultStats: GameStats = {
 export const useGameStore = create<GameStoreState>()(
   devtools(
     persist(
-      immer(set => ({
+      immer((set) => ({
         mode: 'menu',
         state: 'idle',
         settings: defaultSettings,
@@ -87,61 +112,119 @@ export const useGameStore = create<GameStoreState>()(
         isMultiplayer: false,
         isWinner: false,
         finalScore: 0,
+        isPaused: false,
+        startTime: null,
+        endTime: null,
 
-        setMode: mode => set({ mode, state: 'idle' }),
+        setMode: (mode) =>
+          set((state) => {
+            state.mode = mode
+            state.state = 'idle'
+            state.stats = { ...defaultStats, highScore: state.stats.highScore }
+          }),
 
-        setState: state => set({ state }),
+        setState: (newState) =>
+          set((state) => {
+            state.state = newState
+            state.isPaused = newState === 'paused'
+          }),
 
-        setMultiplayer: isMultiplayer => set({ isMultiplayer }),
+        setMultiplayer: (isMultiplayer) => set({ isMultiplayer }),
 
-        updateSettings: newSettings =>
-          set(state => {
+        updateSettings: (newSettings) =>
+          set((state) => {
             state.settings = { ...state.settings, ...newSettings }
           }),
 
-        updateStats: newStats =>
-          set(state => {
+        updateStats: (newStats) =>
+          set((state) => {
             state.stats = { ...state.stats, ...newStats }
-            if (newStats.score && newStats.score > state.stats.highScore) {
+            if (newStats.score !== undefined && newStats.score > state.stats.highScore) {
               state.stats.highScore = newStats.score
             }
           }),
 
         setFinalScore: (score, winner) =>
-          set({ finalScore: score, isWinner: winner, state: 'ended' }),
-
-        resetGame: () =>
-          set({
-            state: 'idle',
-            mode: 'menu',
-            stats: defaultStats,
-            finalScore: 0,
-            isWinner: false,
+          set((state) => {
+            state.finalScore = score
+            state.isWinner = winner
+            state.state = 'ended'
+            state.endTime = Date.now()
           }),
 
-        resetStats: () => set({ stats: { ...defaultStats, highScore: 0 } }),
+        resetGame: () =>
+          set((state) => {
+            state.state = 'idle'
+            state.mode = 'menu'
+            state.stats = { ...defaultStats, highScore: state.stats.highScore }
+            state.finalScore = 0
+            state.isWinner = false
+            state.isPaused = false
+            state.startTime = null
+            state.endTime = null
+          }),
 
-        incrementScore: points =>
-          set(state => {
-            state.stats.score += points * state.stats.comboMultiplier
+        resetStats: () =>
+          set((state) => {
+            state.stats = { ...defaultStats, highScore: 0 }
+          }),
+
+        incrementScore: (points) =>
+          set((state) => {
+            const earnedPoints = Math.floor(points * state.stats.comboMultiplier)
+            state.stats.score += earnedPoints
             if (state.stats.score > state.stats.highScore) {
               state.stats.highScore = state.stats.score
             }
           }),
 
         incrementCombo: () =>
-          set(state => {
+          set((state) => {
             state.stats.comboMultiplier = Math.min(state.stats.comboMultiplier + 0.1, 5)
           }),
 
         resetCombo: () =>
-          set(state => {
+          set((state) => {
             state.stats.comboMultiplier = 1
+          }),
+
+        pause: () =>
+          set((state) => {
+            if (state.state === 'playing') {
+              state.state = 'paused'
+              state.isPaused = true
+            }
+          }),
+
+        resume: () =>
+          set((state) => {
+            if (state.state === 'paused') {
+              state.state = 'playing'
+              state.isPaused = false
+            }
+          }),
+
+        startGame: () =>
+          set((state) => {
+            state.state = 'playing'
+            state.stats = { ...defaultStats, highScore: state.stats.highScore }
+            state.startTime = Date.now()
+            state.endTime = null
+            state.isPaused = false
+          }),
+
+        endGame: (winner) =>
+          set((state) => {
+            state.state = 'ended'
+            state.endTime = Date.now()
+            state.isWinner = winner
+            state.finalScore = state.stats.score
+            state.isPaused = false
           }),
       })),
       {
         name: 'game-store',
-        partialize: state => ({
+        partialize: (state) => ({
           settings: state.settings,
           stats: { highScore: state.stats.highScore },
         }),
