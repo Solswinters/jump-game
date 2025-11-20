@@ -1,12 +1,13 @@
 {
   "recommendations": [
-    "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss",
-    "ms-vscode.vscode-typescript-next",
-    "usernamehw.errorlens",
-    "streetsidesoftware.code-spell-checker",
-    "eamodio.gitlens",
-    "github.copilot"
+    "visualstudioexptteam.vscodeintellicode",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    "dsznajder.es7-react-js-snippets",
+    "steoates.autoimport",
+    "streetsidesoftware.code-spell-checker"
   ]
 }
