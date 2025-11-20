@@ -1,67 +1,63 @@
 /**
- * Time management with slow-motion support
+ * Time Manager for game loop timing and time scaling
  */
 
 export class TimeManager {
-  private timeScale: number = 1
-  private elapsedTime: number = 0
-  private pausedTime: number = 0
-  private isPaused: boolean = false
+  private lastTime = 0
+  deltaTime = 0
+  time = 0
+  timeScale = 1
+  fps = 60
+  private fpsUpdateInterval = 1000
+  private lastFpsUpdate = 0
+  private frameCount = 0
 
-  update(deltaTime: number): void {
-    if (!this.isPaused) {
-      const scaledDelta = deltaTime * this.timeScale
-      this.elapsedTime += scaledDelta
-    } else {
-      this.pausedTime += deltaTime
+  update(currentTime: number): void {
+    // Calculate delta time
+    if (this.lastTime === 0) {
+      this.lastTime = currentTime
+    }
+
+    const rawDeltaTime = currentTime - this.lastTime
+    this.deltaTime = rawDeltaTime * this.timeScale
+    this.time += this.deltaTime
+    this.lastTime = currentTime
+
+    // Update FPS counter
+    this.frameCount++
+    if (currentTime - this.lastFpsUpdate >= this.fpsUpdateInterval) {
+      this.fps = Math.round(this.frameCount / ((currentTime - this.lastFpsUpdate) / 1000))
+      this.frameCount = 0
+      this.lastFpsUpdate = currentTime
     }
   }
 
   setTimeScale(scale: number): void {
-    this.timeScale = Math.max(0, Math.min(scale, 2))
-  }
-
-  getTimeScale(): number {
-    return this.timeScale
+    this.timeScale = Math.max(0, scale)
   }
 
   pause(): void {
-    this.isPaused = true
+    this.timeScale = 0
   }
 
   resume(): void {
-    this.isPaused = false
-  }
-
-  isPausedState(): boolean {
-    return this.isPaused
-  }
-
-  getElapsedTime(): number {
-    return this.elapsedTime
-  }
-
-  getPausedTime(): number {
-    return this.pausedTime
-  }
-
-  getActiveTime(): number {
-    return this.elapsedTime
+    this.timeScale = 1
   }
 
   reset(): void {
-    this.elapsedTime = 0
-    this.pausedTime = 0
+    this.lastTime = 0
+    this.deltaTime = 0
+    this.time = 0
     this.timeScale = 1
-    this.isPaused = false
+    this.frameCount = 0
+    this.lastFpsUpdate = 0
   }
 
-  slowMotion(factor: number = 0.5, duration: number): void {
-    const originalScale = this.timeScale
-    this.setTimeScale(factor)
+  getElapsedSeconds(): number {
+    return this.time / 1000
+  }
 
-    setTimeout(() => {
-      this.setTimeScale(originalScale)
-    }, duration / factor)
+  getFPS(): number {
+    return this.fps
   }
 }
