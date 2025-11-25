@@ -7,6 +7,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
+/**
+ * MobileNav utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of MobileNav.
+ */
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false)
 

@@ -7,6 +7,11 @@
 import Link from 'next/link'
 import { WalletButton } from '@/modules/wallet'
 
+/**
+ * Header utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Header.
+ */
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-800 bg-black/80 backdrop-blur-lg">
