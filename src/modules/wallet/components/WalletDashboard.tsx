@@ -12,6 +12,11 @@ import { TransactionList } from './TransactionList'
 import { StatusIndicator } from './StatusIndicator'
 import { useAccount } from 'wagmi'
 
+/**
+ * WalletDashboard utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of WalletDashboard.
+ */
 export function WalletDashboard() {
   const { isConnected } = useAccount()
 

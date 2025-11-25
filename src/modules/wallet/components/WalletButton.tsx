@@ -7,6 +7,11 @@
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { formatAddress } from '../utils/blockchain'
 
+/**
+ * WalletButton utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of WalletButton.
+ */
 export function WalletButton() {
   const { address, isConnected } = useAccount()
   const { connect, connectors, isPending } = useConnect()
@@ -25,7 +30,7 @@ export function WalletButton() {
 
   return (
     <div className="flex gap-2">
-      {connectors.map(connector => (
+      {connectors.map((connector) => (
         <button
           key={connector.uid}
           onClick={() => connect({ connector })}
