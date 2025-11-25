@@ -30,7 +30,7 @@ export function SpectatorList({ spectators }: SpectatorListProps) {
       </div>
 
       <div className="space-y-2">
-        {spectators.map(spectator => (
+        {spectators.map((spectator) => (
           <div key={spectator.playerId} className="flex items-center gap-2 text-sm text-gray-400">
             <div className="h-2 w-2 rounded-full bg-gray-500" />
             <span>{spectator.username}</span>

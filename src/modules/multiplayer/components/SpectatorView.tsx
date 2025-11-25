@@ -24,6 +24,11 @@ interface SpectatorViewProps {
   onLeave: () => void
 }
 
+/**
+ * SpectatorView utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SpectatorView.
+ */
 export function SpectatorView({
   spectators,
   players,
@@ -50,7 +55,7 @@ export function SpectatorView({
       <Card>
         <h3 className="mb-3 text-lg font-semibold text-white">Players</h3>
         <div className="space-y-2">
-          {players.map(player => (
+          {players.map((player) => (
             <button
               key={player.id}
               onClick={() => onSelectPlayer(player.id)}
