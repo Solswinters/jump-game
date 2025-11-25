@@ -4,6 +4,11 @@
 
 import { useEffect, useRef } from 'react'
 
+/**
+ * useInterval utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useInterval.
+ */
 export function useInterval(callback: () => void, delay: number | null): void {
   const savedCallback = useRef(callback)
 

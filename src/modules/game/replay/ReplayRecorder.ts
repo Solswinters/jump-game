@@ -121,4 +121,9 @@ export class ReplayPlayer {
   }
 }
 
+/**
+ * replayRecorder utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of replayRecorder.
+ */
 export const replayRecorder = new ReplayRecorder()
