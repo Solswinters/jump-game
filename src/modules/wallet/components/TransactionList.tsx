@@ -28,7 +28,7 @@ export function TransactionList() {
 
   return (
     <div className="space-y-2">
-      {transactions.map(tx => (
+      {transactions.map((tx) => (
         <div
           key={tx.hash}
           className="flex items-center justify-between rounded-lg border border-gray-700 bg-gray-800 p-4 transition-colors hover:bg-gray-750"

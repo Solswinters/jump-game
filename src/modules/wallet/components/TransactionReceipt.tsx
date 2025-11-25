@@ -17,6 +17,11 @@ interface TransactionReceiptProps {
   timestamp?: number
 }
 
+/**
+ * TransactionReceipt utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of TransactionReceipt.
+ */
 export function TransactionReceipt({ hash, timestamp }: TransactionReceiptProps) {
   const { data: receipt, isLoading } = useWaitForTransaction({ hash })
 

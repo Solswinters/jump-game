@@ -12,6 +12,11 @@ interface TransactionStatusBadgeProps {
   status: TransactionStatus
 }
 
+/**
+ * TransactionStatusBadge utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of TransactionStatusBadge.
+ */
 export function TransactionStatusBadge({ status }: TransactionStatusBadgeProps) {
   const config = getStatusConfig(status)
 
