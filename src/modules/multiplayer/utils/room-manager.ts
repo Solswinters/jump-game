@@ -120,7 +120,7 @@ export interface RoomFilter {
 export function filterRooms(rooms: RoomInfo[], filter: RoomFilter = {}): RoomInfo[] {
   const { includeStarted = false, includeFull = false, maxAge = 300000 } = filter
 
-  return rooms.filter(room => {
+  return rooms.filter((room) => {
     if (!includeStarted && room.gameStarted) {
       return false
     }
