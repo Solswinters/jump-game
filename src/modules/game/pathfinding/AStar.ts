@@ -54,6 +54,11 @@ function getNeighbors(node: Node, grid: boolean[][], diagonal = false): Node[] {
   return neighbors
 }
 
+/**
+ * findPath utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of findPath.
+ */
 export function findPath(
   start: { x: number; y: number },
   end: { x: number; y: number },
@@ -101,7 +106,7 @@ export function findPath(
       neighbor.f = neighbor.g + neighbor.h
       neighbor.parent = current
 
-      const existingIndex = openList.findIndex(n => n.x === neighbor.x && n.y === neighbor.y)
+      const existingIndex = openList.findIndex((n) => n.x === neighbor.x && n.y === neighbor.y)
 
       if (existingIndex === -1) {
         openList.push(neighbor)
