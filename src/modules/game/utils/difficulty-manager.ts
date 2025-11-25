@@ -11,6 +11,11 @@ export interface DifficultyConfig {
   name: string
 }
 
+/**
+ * DIFFICULTY_LEVELS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of DIFFICULTY_LEVELS.
+ */
 export const DIFFICULTY_LEVELS: Record<number, DifficultyConfig> = {
   1: {
     level: 1,
@@ -44,30 +49,60 @@ export const DIFFICULTY_LEVELS: Record<number, DifficultyConfig> = {
   },
 }
 
+/**
+ * getDifficultyLevel utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getDifficultyLevel.
+ */
 export function getDifficultyLevel(gameTime: number): number {
   const secondsPlayed = Math.floor(gameTime / 1000)
   const level = Math.floor(secondsPlayed / 30) + 1
   return Math.min(level, GAME_CONSTANTS.MAX_DIFFICULTY)
 }
 
+/**
+ * getDifficultyConfig utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getDifficultyConfig.
+ */
 export function getDifficultyConfig(level: number): DifficultyConfig {
   return DIFFICULTY_LEVELS[level] ?? DIFFICULTY_LEVELS[GAME_CONSTANTS.MAX_DIFFICULTY]
 }
 
+/**
+ * getGameSpeed utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getGameSpeed.
+ */
 export function getGameSpeed(baseSpeed: number, difficulty: number): number {
   const config = getDifficultyConfig(difficulty)
   return baseSpeed * config.speedMultiplier
 }
 
+/**
+ * getObstacleSpawnRate utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getObstacleSpawnRate.
+ */
 export function getObstacleSpawnRate(baseRate: number, difficulty: number): number {
   const config = getDifficultyConfig(difficulty)
   return baseRate / config.obstacleFrequency
 }
 
+/**
+ * getDifficultyName utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getDifficultyName.
+ */
 export function getDifficultyName(level: number): string {
   return getDifficultyConfig(level).name
 }
 
+/**
+ * calculateDifficultyScore utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of calculateDifficultyScore.
+ */
 export function calculateDifficultyScore(difficulty: number): number {
   return difficulty * 100
 }
