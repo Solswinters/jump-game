@@ -4,6 +4,11 @@
 
 import { useAccount, useChainId, useChains } from 'wagmi'
 
+/**
+ * useNetwork utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useNetwork.
+ */
 export function useNetwork() {
   const { chain } = useAccount()
   const chainId = useChainId()
