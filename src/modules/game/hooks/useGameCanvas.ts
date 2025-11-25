@@ -12,6 +12,11 @@ export interface CanvasConfig {
   onDraw?: (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void
 }
 
+/**
+ * useGameCanvas utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useGameCanvas.
+ */
 export function useGameCanvas(config: CanvasConfig) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null)

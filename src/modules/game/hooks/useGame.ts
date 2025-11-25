@@ -7,6 +7,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { GameEngine } from '../core/GameEngine'
 
+/**
+ * useGame utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useGame.
+ */
 export function useGame() {
   const engineRef = useRef<GameEngine | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
