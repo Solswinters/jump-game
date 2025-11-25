@@ -76,13 +76,13 @@ export class WalletAnalytics {
 
   getEvents(type?: WalletEvent['type']): WalletEvent[] {
     if (type) {
-      return this.events.filter(e => e.type === type)
+      return this.events.filter((e) => e.type === type)
     }
     return [...this.events]
   }
 
   getEventsByAddress(address: Address): WalletEvent[] {
-    return this.events.filter(e => e.address === address)
+    return this.events.filter((e) => e.address === address)
   }
 
   getStats() {

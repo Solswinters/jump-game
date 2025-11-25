@@ -94,7 +94,7 @@ class LeaderboardService {
   async getPlayerRank(playerId: string, filter: LeaderboardFilter = {}): Promise<number | null> {
     try {
       const leaderboard = await this.fetchLeaderboard({ ...filter, limit: 1000 }) // Fetch large set
-      const entry = leaderboard.find(e => e.playerId === playerId)
+      const entry = leaderboard.find((e) => e.playerId === playerId)
       return entry ? entry.rank : null
     } catch (error) {
       logger.error('Failed to get player rank', error)
@@ -239,6 +239,11 @@ class LeaderboardService {
   }
 }
 
+/**
+ * leaderboardService utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of leaderboardService.
+ */
 export const leaderboardService = new LeaderboardService()
 
 // Load cache on initialization

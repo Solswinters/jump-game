@@ -102,4 +102,9 @@ class RewardCalculator {
   }
 }
 
+/**
+ * rewardCalculator utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of rewardCalculator.
+ */
 export const rewardCalculator = new RewardCalculator()
