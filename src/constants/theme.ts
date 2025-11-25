@@ -1,5 +1,10 @@
 // Theme and design token constants
 
+/**
+ * COLORS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of COLORS.
+ */
 export const COLORS = {
   // Primary colors
   PRIMARY: {
@@ -86,6 +91,11 @@ export const COLORS = {
   },
 } as const
 
+/**
+ * SPACING utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SPACING.
+ */
 export const SPACING = {
   0: '0',
   1: '0.25rem', // 4px
@@ -103,6 +113,11 @@ export const SPACING = {
   32: '8rem', // 128px
 } as const
 
+/**
+ * FONT_SIZES utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of FONT_SIZES.
+ */
 export const FONT_SIZES = {
   xs: '0.75rem', // 12px
   sm: '0.875rem', // 14px
@@ -117,6 +132,11 @@ export const FONT_SIZES = {
   '7xl': '4.5rem', // 72px
 } as const
 
+/**
+ * FONT_WEIGHTS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of FONT_WEIGHTS.
+ */
 export const FONT_WEIGHTS = {
   thin: '100',
   extralight: '200',
@@ -129,6 +149,11 @@ export const FONT_WEIGHTS = {
   black: '900',
 } as const
 
+/**
+ * LINE_HEIGHTS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of LINE_HEIGHTS.
+ */
 export const LINE_HEIGHTS = {
   none: '1',
   tight: '1.25',
@@ -138,6 +163,11 @@ export const LINE_HEIGHTS = {
   loose: '2',
 } as const
 
+/**
+ * BORDER_RADIUS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of BORDER_RADIUS.
+ */
 export const BORDER_RADIUS = {
   none: '0',
   sm: '0.125rem', // 2px
@@ -150,6 +180,11 @@ export const BORDER_RADIUS = {
   full: '9999px',
 } as const
 
+/**
+ * SHADOWS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SHADOWS.
+ */
 export const SHADOWS = {
   none: 'none',
   sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
@@ -161,6 +196,11 @@ export const SHADOWS = {
   inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
 } as const
 
+/**
+ * Z_INDEX utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Z_INDEX.
+ */
 export const Z_INDEX = {
   background: -1,
   base: 0,
@@ -174,6 +214,11 @@ export const Z_INDEX = {
   notification: 1700,
 } as const
 
+/**
+ * BREAKPOINTS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of BREAKPOINTS.
+ */
 export const BREAKPOINTS = {
   sm: '640px',
   md: '768px',
@@ -182,6 +227,11 @@ export const BREAKPOINTS = {
   '2xl': '1536px',
 } as const
 
+/**
+ * TRANSITIONS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of TRANSITIONS.
+ */
 export const TRANSITIONS = {
   fast: '150ms',
   base: '300ms',
@@ -189,6 +239,11 @@ export const TRANSITIONS = {
   slower: '700ms',
 } as const
 
+/**
+ * EASING utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of EASING.
+ */
 export const EASING = {
   linear: 'linear',
   ease: 'ease',

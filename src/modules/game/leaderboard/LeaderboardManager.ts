@@ -505,4 +505,9 @@ export class LeaderboardManager {
   }
 }
 
+/**
+ * leaderboardManager utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of leaderboardManager.
+ */
 export const leaderboardManager = new LeaderboardManager()
