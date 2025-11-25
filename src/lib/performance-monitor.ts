@@ -84,7 +84,7 @@ export class PerformanceMonitor {
    * Get metrics by name
    */
   getMetricsByName(name: string): PerformanceMetric[] {
-    return this.metrics.filter(m => m.name === name)
+    return this.metrics.filter((m) => m.name === name)
   }
 
   /**
@@ -92,7 +92,9 @@ export class PerformanceMonitor {
    */
   getAverageDuration(name: string): number {
     const metrics = this.getMetricsByName(name)
-    if (metrics.length === 0) {return 0}
+    if (metrics.length === 0) {
+      return 0
+    }
 
     const total = metrics.reduce((sum, m) => sum + m.duration, 0)
     return total / metrics.length
@@ -161,6 +163,11 @@ export class PerformanceMonitor {
 }
 
 // Singleton instance
+/**
+ * performanceMonitor utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of performanceMonitor.
+ */
 export const performanceMonitor = new PerformanceMonitor()
 
 /**

@@ -14,6 +14,11 @@ interface OnlinePlayersListProps {
   username: string
 }
 
+/**
+ * OnlinePlayersList utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of OnlinePlayersList.
+ */
 export function OnlinePlayersList({ playerId, username }: OnlinePlayersListProps) {
   const { onlinePlayers, onlineCount } = usePresence(playerId, username)
 

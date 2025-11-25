@@ -2,10 +2,20 @@
  * Promise utilities
  */
 
+/**
+ * sleep utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sleep.
+ */
 export async function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+/**
+ * timeout utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of timeout.
+ */
 export async function timeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   const timeoutPromise = new Promise<never>((_, reject) => {
     setTimeout(() => reject(new Error(`Promise timed out after ${ms}ms`)), ms)
@@ -14,6 +24,11 @@ export async function timeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([promise, timeoutPromise])
 }
 
+/**
+ * retry utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of retry.
+ */
 export async function retry<T>(
   fn: () => Promise<T>,
   maxAttempts: number = 3,
@@ -35,6 +50,11 @@ export async function retry<T>(
   throw lastError
 }
 
+/**
+ * allSettled utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of allSettled.
+ */
 export async function allSettled<T>(
   promises: Promise<T>[]
 ): Promise<Array<{ status: 'fulfilled'; value: T } | { status: 'rejected'; reason: Error }>> {
@@ -47,12 +67,22 @@ export async function allSettled<T>(
   )
 }
 
+/**
+ * isPromise utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isPromise.
+ */
 export function isPromise<T>(value: unknown): value is Promise<T> {
   return (
     value instanceof Promise || (typeof value === 'object' && value !== null && 'then' in value)
   )
 }
 
+/**
+ * parallel utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of parallel.
+ */
 export async function parallel<T>(promises: Promise<T>[], limit: number): Promise<T[]> {
   const results: T[] = []
   const executing: Promise<void>[] = []
@@ -77,6 +107,11 @@ export async function parallel<T>(promises: Promise<T>[], limit: number): Promis
   return results
 }
 
+/**
+ * debouncePromise utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of debouncePromise.
+ */
 export function debouncePromise<T extends (...args: unknown[]) => Promise<unknown>>(
   fn: T,
   delay: number
@@ -111,6 +146,11 @@ export function debouncePromise<T extends (...args: unknown[]) => Promise<unknow
   }
 }
 
+/**
+ * sequential utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sequential.
+ */
 export async function sequential<T>(fns: Array<() => Promise<T>>): Promise<T[]> {
   const results: T[] = []
 
@@ -121,6 +161,11 @@ export async function sequential<T>(fns: Array<() => Promise<T>>): Promise<T[]> 
   return results
 }
 
+/**
+ * waterfall utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of waterfall.
+ */
 export async function waterfall<T>(
   initialValue: T,
   fns: Array<(value: T) => Promise<T>>
@@ -134,6 +179,11 @@ export async function waterfall<T>(
   return value
 }
 
+/**
+ * defer utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of defer.
+ */
 export function defer<T>(): {
   promise: Promise<T>
   resolve: (value: T) => void
@@ -150,6 +200,11 @@ export function defer<T>(): {
   return { promise, resolve, reject }
 }
 
+/**
+ * raceSuccess utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of raceSuccess.
+ */
 export async function raceSuccess<T>(promises: Promise<T>[]): Promise<T> {
   return new Promise((resolve, reject) => {
     let rejections = 0
@@ -167,6 +222,11 @@ export async function raceSuccess<T>(promises: Promise<T>[]): Promise<T> {
   })
 }
 
+/**
+ * withTimeout utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of withTimeout.
+ */
 export async function withTimeout<T>(
   promise: Promise<T>,
   ms: number,
@@ -177,6 +237,11 @@ export async function withTimeout<T>(
   })
 }
 
+/**
+ * memoizePromise utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of memoizePromise.
+ */
 export function memoizePromise<T extends (...args: unknown[]) => Promise<unknown>>(fn: T): T {
   const cache = new Map<string, Promise<ReturnType<T>>>()
 
