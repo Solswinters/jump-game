@@ -418,6 +418,11 @@ export class ScreenManager {
 // Singleton instance
 let screenManagerInstance: ScreenManager | null = null
 
+/**
+ * getScreenManager utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getScreenManager.
+ */
 export const getScreenManager = (): ScreenManager => {
   if (!screenManagerInstance) {
     screenManagerInstance = new ScreenManager()
