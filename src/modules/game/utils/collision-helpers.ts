@@ -12,6 +12,11 @@ export interface CollisionBox {
   height: number
 }
 
+/**
+ * getPlayerBoundingBox utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getPlayerBoundingBox.
+ */
 export function getPlayerBoundingBox(player: Player): CollisionBox {
   return {
     x: player.x,
@@ -21,6 +26,11 @@ export function getPlayerBoundingBox(player: Player): CollisionBox {
   }
 }
 
+/**
+ * getObstacleBoundingBox utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getObstacleBoundingBox.
+ */
 export function getObstacleBoundingBox(obstacle: Obstacle): CollisionBox {
   return {
     x: obstacle.x,
@@ -30,6 +40,11 @@ export function getObstacleBoundingBox(obstacle: Obstacle): CollisionBox {
   }
 }
 
+/**
+ * checkBoxCollision utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of checkBoxCollision.
+ */
 export function checkBoxCollision(box1: CollisionBox, box2: CollisionBox): boolean {
   return (
     box1.x < box2.x + box2.width &&
@@ -39,12 +54,22 @@ export function checkBoxCollision(box1: CollisionBox, box2: CollisionBox): boole
   )
 }
 
+/**
+ * checkPlayerObstacleCollision utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of checkPlayerObstacleCollision.
+ */
 export function checkPlayerObstacleCollision(player: Player, obstacle: Obstacle): boolean {
   const playerBox = getPlayerBoundingBox(player)
   const obstacleBox = getObstacleBoundingBox(obstacle)
   return checkBoxCollision(playerBox, obstacleBox)
 }
 
+/**
+ * getCollisionSide utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getCollisionSide.
+ */
 export function getCollisionSide(
   box1: CollisionBox,
   box2: CollisionBox
@@ -72,6 +97,11 @@ export function getCollisionSide(
   return 'bottom'
 }
 
+/**
+ * getCollisionDistance utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getCollisionDistance.
+ */
 export function getCollisionDistance(box1: CollisionBox, box2: CollisionBox): number {
   const centerX1 = box1.x + box1.width / 2
   const centerY1 = box1.y + box1.height / 2
@@ -84,6 +114,11 @@ export function getCollisionDistance(box1: CollisionBox, box2: CollisionBox): nu
   return Math.sqrt(dx * dx + dy * dy)
 }
 
+/**
+ * willCollide utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of willCollide.
+ */
 export function willCollide(
   player: Player,
   obstacle: Obstacle,

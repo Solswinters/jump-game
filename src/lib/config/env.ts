@@ -40,8 +40,18 @@ function validateEnv() {
   }
 }
 
+/**
+ * env utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of env.
+ */
 export const env = validateEnv()
 
+/**
+ * config utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of config.
+ */
 export const config = {
   app: {
     env: env.NODE_ENV,

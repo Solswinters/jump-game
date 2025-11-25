@@ -104,5 +104,5 @@ export function getAddressUrl(chainId: number, address: string): string {
  * @returns The result of isChainSupported.
  */
 export function isChainSupported(chainId: number): boolean {
-  return supportedChains.some(chain => chain.id === chainId)
+  return supportedChains.some((chain) => chain.id === chainId)
 }
