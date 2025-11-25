@@ -44,6 +44,11 @@ export class InsufficientFundsError extends WalletError {
   }
 }
 
+/**
+ * isUserRejection utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isUserRejection.
+ */
 export function isUserRejection(error: unknown): boolean {
   if (error instanceof Error) {
     return (
@@ -55,6 +60,11 @@ export function isUserRejection(error: unknown): boolean {
   return false
 }
 
+/**
+ * getErrorMessage utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getErrorMessage.
+ */
 export function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
     return error.message
@@ -65,6 +75,11 @@ export function getErrorMessage(error: unknown): string {
   return 'An unknown error occurred'
 }
 
+/**
+ * handleWalletError utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of handleWalletError.
+ */
 export function handleWalletError(error: unknown): string {
   if (isUserRejection(error)) {
     return 'Transaction was rejected by user'
