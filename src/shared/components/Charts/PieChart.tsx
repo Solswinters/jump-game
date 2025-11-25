@@ -17,6 +17,11 @@ export interface PieChartProps {
   showLegend?: boolean
 }
 
+/**
+ * PieChart utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of PieChart.
+ */
 export function PieChart({
   data,
   size = 200,
@@ -32,7 +37,7 @@ export function PieChart({
 
   let currentAngle = -90
 
-  const slices = data.map(item => {
+  const slices = data.map((item) => {
     const percentage = item.value / total
     const angle = percentage * 360
     const startAngle = currentAngle
