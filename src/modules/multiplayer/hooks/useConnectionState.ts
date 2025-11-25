@@ -9,6 +9,11 @@ import { ConnectionState, ConnectionStatus } from '../state/ConnectionState'
 
 const connectionState = new ConnectionState()
 
+/**
+ * useConnectionState utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useConnectionState.
+ */
 export function useConnectionState() {
   const [status, setStatus] = useState<ConnectionStatus>(connectionState.getStatus())
   const [metrics, setMetrics] = useState(connectionState.getMetrics())

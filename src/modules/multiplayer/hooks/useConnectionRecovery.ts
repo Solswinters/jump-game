@@ -9,6 +9,11 @@ import { useWebSocket } from './useWebSocket'
 // Singleton service
 const recoveryService = new ConnectionRecoveryService()
 
+/**
+ * useConnectionRecovery utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useConnectionRecovery.
+ */
 export function useConnectionRecovery() {
   const { isConnected } = useWebSocket()
   const [isRecovering, setIsRecovering] = useState(false)
