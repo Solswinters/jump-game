@@ -18,6 +18,11 @@ interface SwapWidgetProps {
   onSwap?: (fromAmount: bigint, toAmount: bigint) => void
 }
 
+/**
+ * SwapWidget utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SwapWidget.
+ */
 export function SwapWidget({ fromToken, toToken, onSwap }: SwapWidgetProps) {
   const [fromAmount, setFromAmount] = useState('')
   const [toAmount, setToAmount] = useState('')
@@ -58,7 +63,7 @@ export function SwapWidget({ fromToken, toToken, onSwap }: SwapWidgetProps) {
             type="text"
             placeholder="0.0"
             value={fromAmount}
-            onChange={e => setFromAmount(e.target.value)}
+            onChange={(e) => setFromAmount(e.target.value)}
             className="flex-1"
           />
           <TokenDisplay address={fromToken} />
@@ -91,7 +96,7 @@ export function SwapWidget({ fromToken, toToken, onSwap }: SwapWidgetProps) {
             type="text"
             placeholder="0.0"
             value={toAmount}
-            onChange={e => setToAmount(e.target.value)}
+            onChange={(e) => setToAmount(e.target.value)}
             className="flex-1"
           />
           <TokenDisplay address={toToken} />

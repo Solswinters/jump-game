@@ -15,6 +15,11 @@ export interface TokenDisplayProps {
   showFull?: boolean
 }
 
+/**
+ * TokenDisplay utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of TokenDisplay.
+ */
 export function TokenDisplay({
   tokenAddress,
   symbol,
