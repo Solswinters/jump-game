@@ -4,6 +4,11 @@
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
 
+/**
+ * API_ENDPOINTS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of API_ENDPOINTS.
+ */
 export const API_ENDPOINTS = {
   HEALTH: '/api/health',
   DOCS: '/api/docs',
@@ -17,10 +22,20 @@ export const API_ENDPOINTS = {
   },
 } as const
 
+/**
+ * getApiUrl utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getApiUrl.
+ */
 export function getApiUrl(endpoint: string): string {
   return `${API_BASE_URL}${endpoint}`
 }
 
+/**
+ * API_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of API_CONFIG.
+ */
 export const API_CONFIG = {
   timeout: 30000,
   retries: 3,
@@ -30,6 +45,11 @@ export const API_CONFIG = {
   },
 } as const
 
+/**
+ * WS_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of WS_CONFIG.
+ */
 export const WS_CONFIG = {
   url: process.env.NEXT_PUBLIC_SOCKET_URL ?? 'http://localhost:3000',
   transports: ['websocket', 'polling'],
@@ -40,6 +60,11 @@ export const WS_CONFIG = {
   timeout: 20000,
 } as const
 
+/**
+ * HTTP_STATUS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of HTTP_STATUS.
+ */
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
@@ -64,6 +89,11 @@ export const HTTP_STATUS = {
   GATEWAY_TIMEOUT: 504,
 } as const
 
+/**
+ * HTTP_METHODS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of HTTP_METHODS.
+ */
 export const HTTP_METHODS = {
   GET: 'GET',
   POST: 'POST',
@@ -74,6 +104,11 @@ export const HTTP_METHODS = {
   HEAD: 'HEAD',
 } as const
 
+/**
+ * CONTENT_TYPES utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of CONTENT_TYPES.
+ */
 export const CONTENT_TYPES = {
   JSON: 'application/json',
   FORM: 'application/x-www-form-urlencoded',
@@ -82,6 +117,11 @@ export const CONTENT_TYPES = {
   HTML: 'text/html',
 } as const
 
+/**
+ * HEADERS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of HEADERS.
+ */
 export const HEADERS = {
   CONTENT_TYPE: 'Content-Type',
   AUTHORIZATION: 'Authorization',
@@ -100,6 +140,11 @@ export const HEADERS = {
   X_CACHE: 'X-Cache',
 } as const
 
+/**
+ * CACHE_DURATIONS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of CACHE_DURATIONS.
+ */
 export const CACHE_DURATIONS = {
   SHORT: 60,
   MEDIUM: 300,
@@ -108,6 +153,11 @@ export const CACHE_DURATIONS = {
   WEEK: 604800,
 } as const
 
+/**
+ * RATE_LIMITS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of RATE_LIMITS.
+ */
 export const RATE_LIMITS = {
   STRICT: {
     requests: 10,
@@ -123,12 +173,22 @@ export const RATE_LIMITS = {
   },
 } as const
 
+/**
+ * TIMEOUTS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of TIMEOUTS.
+ */
 export const TIMEOUTS = {
   DEFAULT: 30000,
   LONG: 60000,
   SHORT: 10000,
 } as const
 
+/**
+ * RETRY_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of RETRY_CONFIG.
+ */
 export const RETRY_CONFIG = {
   MAX_RETRIES: 3,
   BASE_DELAY: 1000,
