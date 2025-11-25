@@ -11,6 +11,11 @@ interface VoiceChatButtonProps {
   onToggle?: (enabled: boolean) => void
 }
 
+/**
+ * VoiceChatButton utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of VoiceChatButton.
+ */
 export function VoiceChatButton({ onToggle }: VoiceChatButtonProps) {
   const [isEnabled, setIsEnabled] = useState(false)
   const [isMuted, setIsMuted] = useState(false)

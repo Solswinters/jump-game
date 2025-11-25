@@ -56,6 +56,11 @@ export class RateLimitError extends ApiError {
 }
 
 // Global error handler middleware
+/**
+ * errorHandler utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of errorHandler.
+ */
 export function errorHandler() {
   return async (request: NextRequest, handler: () => Promise<Response>): Promise<Response> => {
     try {
@@ -97,6 +102,11 @@ export function errorHandler() {
 }
 
 // Error boundary for async operations
+/**
+ * withErrorHandler utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of withErrorHandler.
+ */
 export async function withErrorHandler<T>(
   operation: () => Promise<T>,
   context?: string

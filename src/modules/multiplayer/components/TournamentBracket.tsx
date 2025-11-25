@@ -20,15 +20,20 @@ interface TournamentBracketProps {
   currentRound: number
 }
 
+/**
+ * TournamentBracket utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of TournamentBracket.
+ */
 export function TournamentBracket({ matches, currentRound }: TournamentBracketProps) {
-  const rounds = Math.max(...matches.map(m => m.round)) + 1
+  const rounds = Math.max(...matches.map((m) => m.round)) + 1
 
   const getMatchesForRound = (round: number) => {
-    return matches.filter(m => m.round === round)
+    return matches.filter((m) => m.round === round)
   }
 
   const getRoundName = (round: number) => {
-    const matchesInRound = matches.filter(m => m.round === round).length
+    const matchesInRound = matches.filter((m) => m.round === round).length
     if (matchesInRound === 1) return 'Finals'
     if (matchesInRound === 2) return 'Semi-Finals'
     if (matchesInRound === 4) return 'Quarter-Finals'
@@ -46,7 +51,7 @@ export function TournamentBracket({ matches, currentRound }: TournamentBracketPr
             </div>
 
             <div className="space-y-4">
-              {getMatchesForRound(round).map(match => (
+              {getMatchesForRound(round).map((match) => (
                 <Card key={match.id} className="p-3">
                   <div className="space-y-2">
                     <div
