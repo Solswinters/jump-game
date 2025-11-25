@@ -13,6 +13,11 @@ import { useWebSocket } from './useWebSocket'
 // Singleton service
 const presenceService = new PresenceService()
 
+/**
+ * usePresence utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of usePresence.
+ */
 export function usePresence(playerId: string, username: string) {
   const { send, on, isConnected } = useWebSocket()
   const [onlinePlayers, setOnlinePlayers] = useState<PlayerPresence[]>([])
@@ -40,7 +45,7 @@ export function usePresence(playerId: string, username: string) {
 
   // Listen for presence updates
   useEffect(() => {
-    const unsubscribePresence = on('presence_update', event => {
+    const unsubscribePresence = on('presence_update', (event) => {
       const data = event.data as PlayerPresence
       if (data.playerId === playerId) {
         setMyPresence(data)
@@ -48,9 +53,9 @@ export function usePresence(playerId: string, username: string) {
       setOnlinePlayers(presenceService.getOnlinePlayers())
     })
 
-    const unsubscribeList = on('presence_list', event => {
+    const unsubscribeList = on('presence_list', (event) => {
       const players = event.data as PlayerPresence[]
-      players.forEach(p => {
+      players.forEach((p) => {
         presenceService.setOnline(p.playerId, p.username)
       })
       setOnlinePlayers(presenceService.getOnlinePlayers())

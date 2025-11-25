@@ -9,6 +9,11 @@ import type { ReplayData, GameStateSnapshot } from '../types'
 // Singleton service
 const replayService = new ReplayService()
 
+/**
+ * useReplay utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useReplay.
+ */
 export function useReplay() {
   const [currentReplay, setCurrentReplay] = useState<ReplayData | null>(null)
   const [playbackTime, setPlaybackTime] = useState(0)
