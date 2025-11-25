@@ -77,4 +77,9 @@ export class LevelGenerator {
   }
 }
 
+/**
+ * levelGenerator utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of levelGenerator.
+ */
 export const levelGenerator = new LevelGenerator()

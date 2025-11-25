@@ -261,4 +261,3 @@ export type BorderRadius = keyof typeof BORDER_RADIUS
 export type Shadow = keyof typeof SHADOWS
 export type ZIndex = keyof typeof Z_INDEX
 export type Breakpoint = keyof typeof BREAKPOINTS
-

@@ -1,5 +1,10 @@
 // Validation rule constants
 
+/**
+ * VALIDATION_RULES utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of VALIDATION_RULES.
+ */
 export const VALIDATION_RULES = {
   // Score validation
   SCORE: {
@@ -71,6 +76,11 @@ export const VALIDATION_RULES = {
 } as const
 
 // Error messages for validation
+/**
+ * VALIDATION_MESSAGES utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of VALIDATION_MESSAGES.
+ */
 export const VALIDATION_MESSAGES = {
   SCORE: {
     REQUIRED: 'Score is required',
@@ -123,18 +133,38 @@ export const VALIDATION_MESSAGES = {
 } as const
 
 // Validation helper functions
+/**
+ * isValidEthereumAddress utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isValidEthereumAddress.
+ */
 export function isValidEthereumAddress(address: string): boolean {
   return VALIDATION_RULES.ADDRESS.PATTERN.test(address)
 }
 
+/**
+ * isValidTransactionHash utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isValidTransactionHash.
+ */
 export function isValidTransactionHash(hash: string): boolean {
   return VALIDATION_RULES.TX_HASH.PATTERN.test(hash)
 }
 
+/**
+ * isValidSignature utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isValidSignature.
+ */
 export function isValidSignature(signature: string): boolean {
   return VALIDATION_RULES.SIGNATURE.PATTERN.test(signature)
 }
 
+/**
+ * isValidScore utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isValidScore.
+ */
 export function isValidScore(score: number): boolean {
   return (
     typeof score === 'number' &&
@@ -143,13 +173,20 @@ export function isValidScore(score: number): boolean {
   )
 }
 
+/**
+ * isReasonableScore utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isReasonableScore.
+ */
 export function isReasonableScore(score: number): boolean {
-  return (
-    isValidScore(score) &&
-    score <= VALIDATION_RULES.SCORE.MAX_REASONABLE
-  )
+  return isValidScore(score) && score <= VALIDATION_RULES.SCORE.MAX_REASONABLE
 }
 
+/**
+ * isValidUsername utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isValidUsername.
+ */
 export function isValidUsername(username: string): boolean {
   return (
     username.length >= VALIDATION_RULES.USERNAME.MIN_LENGTH &&
@@ -157,4 +194,3 @@ export function isValidUsername(username: string): boolean {
     VALIDATION_RULES.USERNAME.PATTERN.test(username)
   )
 }
-
