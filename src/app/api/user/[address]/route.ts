@@ -7,6 +7,11 @@ interface RouteContext {
   }>
 }
 
+/**
+ * GET utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GET.
+ */
 export async function GET(request: NextRequest, context: RouteContext) {
   const params = await context.params
   const { address } = params

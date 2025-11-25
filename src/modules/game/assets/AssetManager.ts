@@ -451,6 +451,11 @@ export class AssetManager {
 // Singleton instance
 let assetManagerInstance: AssetManager | null = null
 
+/**
+ * getAssetManager utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getAssetManager.
+ */
 export const getAssetManager = (): AssetManager => {
   if (!assetManagerInstance) {
     assetManagerInstance = new AssetManager()
