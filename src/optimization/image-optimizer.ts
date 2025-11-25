@@ -9,6 +9,11 @@ export interface ImageOptimizationOptions {
   format?: 'webp' | 'jpeg' | 'png'
 }
 
+/**
+ * optimizeImage utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of optimizeImage.
+ */
 export function optimizeImage(src: string, options: ImageOptimizationOptions = {}): string {
   const { quality = 80, width, height, format = 'webp' } = options
 
@@ -21,16 +26,31 @@ export function optimizeImage(src: string, options: ImageOptimizationOptions = {
   return `${src}?${params.toString()}`
 }
 
+/**
+ * generateSrcSet utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of generateSrcSet.
+ */
 export function generateSrcSet(src: string, widths: number[]): string {
   return widths.map(width => `${optimizeImage(src, { width })} ${width}w`).join(', ')
 }
 
+/**
+ * generateSizes utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of generateSizes.
+ */
 export function generateSizes(breakpoints: Record<string, number>): string {
   return Object.entries(breakpoints)
     .map(([query, width]) => `${query} ${width}px`)
     .join(', ')
 }
 
+/**
+ * preloadCriticalImages utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of preloadCriticalImages.
+ */
 export function preloadCriticalImages(images: string[]) {
   images.forEach(src => {
     const link = document.createElement('link')
