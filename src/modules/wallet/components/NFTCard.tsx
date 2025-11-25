@@ -16,6 +16,11 @@ interface NFTCardProps {
   onClick?: () => void
 }
 
+/**
+ * NFTCard utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of NFTCard.
+ */
 export function NFTCard({ contractAddress, tokenId, onClick }: NFTCardProps) {
   const { nft, balance, isLoading } = useNFT(contractAddress, tokenId)
 
@@ -51,7 +56,7 @@ export function NFTCard({ contractAddress, tokenId, onClick }: NFTCardProps) {
           src={nft.image}
           alt={nft.name}
           className="h-full w-full object-cover"
-          onError={e => {
+          onError={(e) => {
             e.currentTarget.src = '/placeholder-nft.png'
           }}
         />

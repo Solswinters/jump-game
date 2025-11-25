@@ -19,6 +19,11 @@ interface NFTGalleryProps {
   columns?: 2 | 3 | 4
 }
 
+/**
+ * NFTGallery utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of NFTGallery.
+ */
 export function NFTGallery({ nfts, onNFTClick, columns = 3 }: NFTGalleryProps) {
   const [selectedNFT, setSelectedNFT] = useState<NFTItem | null>(null)
 
