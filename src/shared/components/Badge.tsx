@@ -24,6 +24,11 @@ const sizeStyles = {
   lg: 'px-4 py-1.5 text-base',
 }
 
+/**
+ * Badge utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Badge.
+ */
 export const Badge: React.FC<BadgeProps> = ({
   children,
   variant = 'default',
