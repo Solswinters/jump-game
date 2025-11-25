@@ -1,3 +1,8 @@
+/**
+ * GAME_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GAME_CONFIG.
+ */
 export const GAME_CONFIG = {
   CANVAS_WIDTH: 800,
   CANVAS_HEIGHT: 400,
@@ -17,6 +22,11 @@ export const GAME_CONFIG = {
   DIFFICULTY_MULTIPLIER: 0.3,
 } as const
 
+/**
+ * PLAYER_COLORS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of PLAYER_COLORS.
+ */
 export const PLAYER_COLORS = [
   '#3B82F6', // blue
   '#EF4444', // red
@@ -27,4 +37,3 @@ export const PLAYER_COLORS = [
   '#14B8A6', // teal
   '#F97316', // orange
 ] as const
-

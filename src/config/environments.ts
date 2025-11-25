@@ -113,4 +113,3 @@ export const isProduction = () => currentEnvConfig.name === 'production'
  * @returns The result of isTest.
  */
 export const isTest = () => currentEnvConfig.name === 'test'
-

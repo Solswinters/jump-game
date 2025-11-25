@@ -54,5 +54,10 @@ class FeatureFlagService {
   }
 }
 
+/**
+ * featureFlags utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of featureFlags.
+ */
 export const featureFlags = new FeatureFlagService();
 
