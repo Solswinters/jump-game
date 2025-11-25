@@ -10,6 +10,11 @@ interface CardProps {
   onClick?: () => void
 }
 
+/**
+ * Card utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Card.
+ */
 export const Card: React.FC<CardProps> = ({ children, className, hover = false, onClick }) => {
   return (
     <div
@@ -31,6 +36,11 @@ interface CardHeaderProps {
   className?: string
 }
 
+/**
+ * CardHeader utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of CardHeader.
+ */
 export const CardHeader: React.FC<CardHeaderProps> = ({ children, className }) => {
   return <div className={cn('mb-4', className)}>{children}</div>
 }
@@ -40,6 +50,11 @@ interface CardTitleProps {
   className?: string
 }
 
+/**
+ * CardTitle utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of CardTitle.
+ */
 export const CardTitle: React.FC<CardTitleProps> = ({ children, className }) => {
   return <h3 className={cn('text-xl font-bold text-white', className)}>{children}</h3>
 }
@@ -49,6 +64,11 @@ interface CardDescriptionProps {
   className?: string
 }
 
+/**
+ * CardDescription utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of CardDescription.
+ */
 export const CardDescription: React.FC<CardDescriptionProps> = ({ children, className }) => {
   return <p className={cn('text-sm text-gray-400', className)}>{children}</p>
 }
@@ -58,6 +78,11 @@ interface CardBodyProps {
   className?: string
 }
 
+/**
+ * CardBody utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of CardBody.
+ */
 export const CardBody: React.FC<CardBodyProps> = ({ children, className }) => {
   return <div className={cn(className)}>{children}</div>
 }
@@ -67,6 +92,11 @@ interface CardFooterProps {
   className?: string
 }
 
+/**
+ * CardFooter utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of CardFooter.
+ */
 export const CardFooter: React.FC<CardFooterProps> = ({ children, className }) => {
   return <div className={cn('mt-4 flex gap-3', className)}>{children}</div>
 }
