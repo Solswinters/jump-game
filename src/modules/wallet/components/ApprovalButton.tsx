@@ -17,6 +17,11 @@ interface ApprovalButtonProps {
   children?: React.ReactNode
 }
 
+/**
+ * ApprovalButton utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of ApprovalButton.
+ */
 export function ApprovalButton({
   tokenAddress,
   spenderAddress,

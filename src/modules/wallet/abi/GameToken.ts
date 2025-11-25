@@ -2,6 +2,11 @@
  * Game Token ABI
  */
 
+/**
+ * GameTokenABI utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GameTokenABI.
+ */
 export const GameTokenABI = [
   {
     inputs: [],

@@ -15,6 +15,11 @@ export interface AddressDisplayProps {
   showFull?: boolean
 }
 
+/**
+ * AddressDisplay utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of AddressDisplay.
+ */
 export function AddressDisplay({
   address,
   chars = 4,
