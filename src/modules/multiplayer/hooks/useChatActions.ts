@@ -7,6 +7,11 @@
 import { useCallback } from 'react'
 import { useMultiplayerStore } from './useMultiplayerStore'
 
+/**
+ * useChatActions utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useChatActions.
+ */
 export function useChatActions() {
   const { addChatMessage, clearChatMessages } = useMultiplayerStore()
 

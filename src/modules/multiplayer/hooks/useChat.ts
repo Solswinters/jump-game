@@ -9,6 +9,11 @@ import { useWebSocket } from './useWebSocket'
 // Singleton service
 const chatService = new ChatService()
 
+/**
+ * useChat utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useChat.
+ */
 export function useChat(channelId: string) {
   const { send, on } = useWebSocket()
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -22,11 +27,11 @@ export function useChat(channelId: string) {
 
   // Listen for new messages
   useEffect(() => {
-    const unsubscribe = on('chat_message', event => {
+    const unsubscribe = on('chat_message', (event) => {
       const message = event.data as ChatMessage & { channelId: string }
       if (message.channelId === channelId) {
         const newMessage = chatService.addMessage(channelId, message)
-        setMessages(prev => [...prev, newMessage])
+        setMessages((prev) => [...prev, newMessage])
       }
     })
 
