@@ -9,6 +9,11 @@ import { GameState, GamePhase } from '../state/GameState'
 
 const gameState = new GameState()
 
+/**
+ * useGameState utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useGameState.
+ */
 export function useGameState() {
   const [phase, setPhase] = useState<GamePhase>(gameState.getPhase())
   const [state, setState] = useState(gameState.getState())

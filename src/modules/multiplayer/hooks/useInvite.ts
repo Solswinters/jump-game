@@ -10,6 +10,11 @@ import type { Invite, PlayerInfo } from '../types'
 // Singleton service
 const inviteService = new InviteService()
 
+/**
+ * useInvite utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useInvite.
+ */
 export function useInvite(playerId: string) {
   const { send, on } = useWebSocket()
   const [pendingInvites, setPendingInvites] = useState<Invite[]>([])
