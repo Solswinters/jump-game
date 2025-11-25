@@ -31,56 +31,61 @@ const initialState: TransactionsState = {
   error: null,
 }
 
+/**
+ * useTransactionsStore utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useTransactionsStore.
+ */
 export const useTransactionsStore = create<TransactionsStore>()(
   immer((set, get) => ({
     ...initialState,
 
-    addTransaction: tx => {
-      set(state => {
+    addTransaction: (tx) => {
+      set((state) => {
         // Add to beginning for reverse chronological order
         state.transactions.unshift(tx)
       })
     },
 
     updateTransaction: (hash, updates) => {
-      set(state => {
-        const tx = state.transactions.find(t => t.hash === hash)
+      set((state) => {
+        const tx = state.transactions.find((t) => t.hash === hash)
         if (tx) {
           Object.assign(tx, updates)
         }
       })
     },
 
-    setTransactions: transactions => {
-      set(state => {
+    setTransactions: (transactions) => {
+      set((state) => {
         state.transactions = transactions
       })
     },
 
-    setLoading: isLoading => {
-      set(state => {
+    setLoading: (isLoading) => {
+      set((state) => {
         state.isLoading = isLoading
       })
     },
 
-    setError: error => {
-      set(state => {
+    setError: (error) => {
+      set((state) => {
         state.error = error
       })
     },
 
     clearTransactions: () => {
-      set(state => {
+      set((state) => {
         state.transactions = []
       })
     },
 
-    getTransaction: hash => {
-      return get().transactions.find(tx => tx.hash === hash)
+    getTransaction: (hash) => {
+      return get().transactions.find((tx) => tx.hash === hash)
     },
 
     getPendingTransactions: () => {
-      return get().transactions.filter(tx => tx.status === 'pending')
+      return get().transactions.filter((tx) => tx.status === 'pending')
     },
   }))
 )

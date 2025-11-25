@@ -74,4 +74,9 @@ class TransactionService {
   }
 }
 
+/**
+ * transactionService utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of transactionService.
+ */
 export const transactionService = new TransactionService()
