@@ -25,6 +25,11 @@ export interface SettingsMenuProps {
   onReset: () => void
 }
 
+/**
+ * SettingsMenu utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SettingsMenu.
+ */
 export function SettingsMenu({ settings, onSettingChange, onClose, onReset }: SettingsMenuProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
@@ -46,14 +51,14 @@ export function SettingsMenu({ settings, onSettingChange, onClose, onReset }: Se
               <span className="text-gray-300">Sound Effects</span>
               <Switch
                 checked={settings.soundEnabled}
-                onChange={checked => onSettingChange('soundEnabled', checked)}
+                onChange={(checked) => onSettingChange('soundEnabled', checked)}
               />
             </div>
             {settings.soundEnabled && (
               <Slider
                 label="Sound Volume"
                 value={settings.soundVolume}
-                onChange={value => onSettingChange('soundVolume', value)}
+                onChange={(value) => onSettingChange('soundVolume', value)}
                 min={0}
                 max={100}
               />
@@ -62,14 +67,14 @@ export function SettingsMenu({ settings, onSettingChange, onClose, onReset }: Se
               <span className="text-gray-300">Music</span>
               <Switch
                 checked={settings.musicEnabled}
-                onChange={checked => onSettingChange('musicEnabled', checked)}
+                onChange={(checked) => onSettingChange('musicEnabled', checked)}
               />
             </div>
             {settings.musicEnabled && (
               <Slider
                 label="Music Volume"
                 value={settings.musicVolume}
-                onChange={value => onSettingChange('musicVolume', value)}
+                onChange={(value) => onSettingChange('musicVolume', value)}
                 min={0}
                 max={100}
               />
@@ -82,14 +87,14 @@ export function SettingsMenu({ settings, onSettingChange, onClose, onReset }: Se
               <span className="text-gray-300">Particle Effects</span>
               <Switch
                 checked={settings.particlesEnabled}
-                onChange={checked => onSettingChange('particlesEnabled', checked)}
+                onChange={(checked) => onSettingChange('particlesEnabled', checked)}
               />
             </div>
             <div className="flex items-center justify-between">
               <span className="text-gray-300">Show FPS</span>
               <Switch
                 checked={settings.showFPS}
-                onChange={checked => onSettingChange('showFPS', checked)}
+                onChange={(checked) => onSettingChange('showFPS', checked)}
               />
             </div>
           </div>
@@ -100,7 +105,7 @@ export function SettingsMenu({ settings, onSettingChange, onClose, onReset }: Se
               <span className="text-gray-300">Reduced Motion</span>
               <Switch
                 checked={settings.reducedMotion}
-                onChange={checked => onSettingChange('reducedMotion', checked)}
+                onChange={(checked) => onSettingChange('reducedMotion', checked)}
               />
             </div>
           </div>

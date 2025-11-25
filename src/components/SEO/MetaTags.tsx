@@ -11,6 +11,11 @@ interface MetaTagsProps {
   url?: string
 }
 
+/**
+ * MetaTags utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of MetaTags.
+ */
 export function MetaTags(props: MetaTagsProps) {
   const _metadata = generateMetadata({
     ...defaultSEO,
