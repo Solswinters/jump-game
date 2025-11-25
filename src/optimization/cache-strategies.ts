@@ -40,7 +40,7 @@ export class ResourceCache {
       const cached = this.getCached<T>(key, ttl)
 
       // Revalidate in background
-      fetcher().then(data => this.set(key, data))
+      fetcher().then((data) => this.set(key, data))
 
       if (cached !== null) return cached
 
@@ -76,4 +76,9 @@ export class ResourceCache {
   }
 }
 
+/**
+ * globalCache utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of globalCache.
+ */
 export const globalCache = new ResourceCache()
