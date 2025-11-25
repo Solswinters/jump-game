@@ -1,5 +1,10 @@
 import { useEffect, useRef } from 'react'
 
+/**
+ * useTimeout utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useTimeout.
+ */
 export function useTimeout(callback: () => void, delay: number | null): void {
   const savedCallback = useRef(callback)
 

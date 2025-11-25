@@ -4,6 +4,11 @@
 
 import { useEffect } from 'react'
 
+/**
+ * usePreventScroll utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of usePreventScroll.
+ */
 export function usePreventScroll(shouldPrevent: boolean) {
   useEffect(() => {
     if (!shouldPrevent) return
