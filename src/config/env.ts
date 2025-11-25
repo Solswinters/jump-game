@@ -2,6 +2,11 @@
  * Environment configuration
  */
 
+/**
+ * env utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of env.
+ */
 export const env = {
   // App
   NODE_ENV: process.env.NODE_ENV || 'development',
@@ -46,7 +51,7 @@ export const env = {
 export function validateEnv(): void {
   const required = ['WALLETCONNECT_PROJECT_ID', 'RPC_URL']
 
-  const missing = required.filter(key => {
+  const missing = required.filter((key) => {
     const value = env[key as keyof typeof env]
     return !value || value === ''
   })
