@@ -2,6 +2,11 @@
  * Serialization utilities
  */
 
+/**
+ * serializeGameState utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of serializeGameState.
+ */
 export function serializeGameState(state: Record<string, unknown>): string {
   try {
     return JSON.stringify(state)
@@ -11,6 +16,11 @@ export function serializeGameState(state: Record<string, unknown>): string {
   }
 }
 
+/**
+ * deserializeGameState utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of deserializeGameState.
+ */
 export function deserializeGameState<T>(data: string): T | null {
   try {
     return JSON.parse(data) as T
@@ -20,6 +30,11 @@ export function deserializeGameState<T>(data: string): T | null {
   }
 }
 
+/**
+ * compressStateForNetwork utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of compressStateForNetwork.
+ */
 export function compressStateForNetwork(state: Record<string, unknown>): string {
   // Remove null/undefined values
   const cleaned = removeEmptyValues(state)
@@ -30,6 +45,11 @@ export function compressStateForNetwork(state: Record<string, unknown>): string 
   return JSON.stringify(abbreviated)
 }
 
+/**
+ * decompressStateFromNetwork utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of decompressStateFromNetwork.
+ */
 export function decompressStateFromNetwork<T>(data: string): T | null {
   try {
     const abbreviated = JSON.parse(data) as Record<string, unknown>
@@ -93,6 +113,11 @@ function expandKeys(obj: Record<string, unknown>): Record<string, unknown> {
   return result
 }
 
+/**
+ * serializeBinary utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of serializeBinary.
+ */
 export function serializeBinary(data: number[]): ArrayBuffer {
   const buffer = new ArrayBuffer(data.length * 4)
   const view = new DataView(buffer)
@@ -104,6 +129,11 @@ export function serializeBinary(data: number[]): ArrayBuffer {
   return buffer
 }
 
+/**
+ * deserializeBinary utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of deserializeBinary.
+ */
 export function deserializeBinary(buffer: ArrayBuffer): number[] {
   const view = new DataView(buffer)
   const length = buffer.byteLength / 4

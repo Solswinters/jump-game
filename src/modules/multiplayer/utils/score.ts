@@ -28,7 +28,7 @@ export function calculateRank(score: number, scores: number[]): number {
  * @returns The result of calculatePercentile.
  */
 export function calculatePercentile(score: number, scores: number[]): number {
-  const lowerScores = scores.filter(s => s < score).length
+  const lowerScores = scores.filter((s) => s < score).length
   return (lowerScores / scores.length) * 100
 }
 
