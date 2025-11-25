@@ -24,7 +24,7 @@ class GameSessionManager {
     }
 
     this.activeSessions.set(sessionId, newSession)
-    playerIds.forEach(playerId => {
+    playerIds.forEach((playerId) => {
       this.playerSessions.set(playerId, sessionId)
     })
 
@@ -38,7 +38,9 @@ class GameSessionManager {
 
   getPlayerSession(playerId: string): GameSession | undefined {
     const sessionId = this.playerSessions.get(playerId)
-    if (!sessionId) {return undefined}
+    if (!sessionId) {
+      return undefined
+    }
     return this.activeSessions.get(sessionId)
   }
 
@@ -91,7 +93,7 @@ class GameSessionManager {
 
     // Remove player mappings
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-    session.players.forEach(playerId => {
+    session.players.forEach((playerId) => {
       this.playerSessions.delete(playerId)
     })
 
@@ -126,7 +128,9 @@ class GameSessionManager {
 
   getSessionScores(sessionId: string): PlayerScore[] {
     const session = this.activeSessions.get(sessionId)
-    if (!session) {return []}
+    if (!session) {
+      return []
+    }
 
     // Sort scores descending
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
@@ -135,13 +139,17 @@ class GameSessionManager {
 
   getPlayerScore(sessionId: string, playerId: string): PlayerScore | undefined {
     const session = this.activeSessions.get(sessionId)
-    if (!session) {return undefined}
+    if (!session) {
+      return undefined
+    }
 
     // Get the highest score for this player in this session
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-    const playerScores = session.scores.filter(s => s.playerId === playerId)
+    const playerScores = session.scores.filter((s) => s.playerId === playerId)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (playerScores.length === 0) {return undefined}
+    if (playerScores.length === 0) {
+      return undefined
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     return playerScores.reduce((prev, current) => (prev.score > current.score ? prev : current))
@@ -156,7 +164,7 @@ class GameSessionManager {
     const session = this.activeSessions.get(sessionId)
     if (session) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-      session.players.forEach(playerId => {
+      session.players.forEach((playerId) => {
         this.playerSessions.delete(playerId)
       })
     }
@@ -181,7 +189,7 @@ class GameSessionManager {
   }
 
   getAllActiveSessions(): GameSession[] {
-    return Array.from(this.activeSessions.values()).filter(s => s.status !== 'ended')
+    return Array.from(this.activeSessions.values()).filter((s) => s.status !== 'ended')
   }
 
   getSessionCount(): number {
@@ -189,4 +197,9 @@ class GameSessionManager {
   }
 }
 
+/**
+ * gameSessionManager utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of gameSessionManager.
+ */
 export const gameSessionManager = new GameSessionManager()

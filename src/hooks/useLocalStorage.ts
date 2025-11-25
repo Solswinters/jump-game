@@ -5,6 +5,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { storage } from '@/utils/storage'
 
+/**
+ * useLocalStorage utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useLocalStorage.
+ */
 export function useLocalStorage<T>(
   key: string,
   initialValue: T

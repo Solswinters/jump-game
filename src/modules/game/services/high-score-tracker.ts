@@ -77,7 +77,7 @@ class HighScoreTracker {
   }
 
   getPersonalBest(playerAddress: string): ScoreEntry | null {
-    const playerScores = this.scores.filter(s => s.playerAddress === playerAddress)
+    const playerScores = this.scores.filter((s) => s.playerAddress === playerAddress)
     if (playerScores.length === 0) {
       return null
     }
@@ -87,7 +87,7 @@ class HighScoreTracker {
   getLast10Games(playerAddress?: string): ScoreEntry[] {
     let filteredScores = this.scores
     if (playerAddress) {
-      filteredScores = this.scores.filter(s => s.playerAddress === playerAddress)
+      filteredScores = this.scores.filter((s) => s.playerAddress === playerAddress)
     }
     return filteredScores.slice(0, 10)
   }
@@ -95,7 +95,7 @@ class HighScoreTracker {
   getAverageScore(playerAddress?: string): number {
     let scoresToAverage = this.scores
     if (playerAddress) {
-      scoresToAverage = this.scores.filter(s => s.playerAddress === playerAddress)
+      scoresToAverage = this.scores.filter((s) => s.playerAddress === playerAddress)
     }
 
     if (scoresToAverage.length === 0) {
@@ -108,14 +108,14 @@ class HighScoreTracker {
 
   getTotalGames(playerAddress?: string): number {
     if (playerAddress) {
-      return this.scores.filter(s => s.playerAddress === playerAddress).length
+      return this.scores.filter((s) => s.playerAddress === playerAddress).length
     }
     return this.scores.length
   }
 
   getStats(playerAddress?: string): HighScoreStats {
     const filteredScores = playerAddress
-      ? this.scores.filter(s => s.playerAddress === playerAddress)
+      ? this.scores.filter((s) => s.playerAddress === playerAddress)
       : this.scores
 
     return {
@@ -133,10 +133,15 @@ class HighScoreTracker {
   }
 
   clearPlayerScores(playerAddress: string): void {
-    this.scores = this.scores.filter(s => s.playerAddress !== playerAddress)
+    this.scores = this.scores.filter((s) => s.playerAddress !== playerAddress)
     this.saveScores()
     logger.info(`Cleared scores for player ${playerAddress}`)
   }
 }
 
+/**
+ * highScoreTracker utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of highScoreTracker.
+ */
 export const highScoreTracker = new HighScoreTracker()
