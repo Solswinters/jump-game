@@ -6,8 +6,13 @@
 
 import { useGameStore } from '@/stores/game-store'
 
+/**
+ * GameHUD utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GameHUD.
+ */
 export function GameHUD() {
-  const { score, lives, level, combo } = useGameStore(state => ({
+  const { score, lives, level, combo } = useGameStore((state) => ({
     score: state.score,
     lives: state.lives,
     level: state.level,
