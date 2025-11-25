@@ -10,6 +10,11 @@ import type { SpectatorInfo } from '../types'
 // Singleton service
 const spectatorService = new SpectatorService()
 
+/**
+ * useSpectator utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useSpectator.
+ */
 export function useSpectator(roomId: string) {
   const { send, on } = useWebSocket()
   const [spectators, setSpectators] = useState<SpectatorInfo[]>([])
@@ -17,7 +22,7 @@ export function useSpectator(roomId: string) {
 
   // Listen for spectator updates
   useEffect(() => {
-    const unsubscribe = on('spectator_update', event => {
+    const unsubscribe = on('spectator_update', (event) => {
       const data = event.data as { roomId: string; spectators: SpectatorInfo[] }
       if (data.roomId === roomId) {
         setSpectators(data.spectators)
