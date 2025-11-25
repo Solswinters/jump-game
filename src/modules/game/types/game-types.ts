@@ -624,14 +624,29 @@ export type ReadOnly<T> = {
 
 // Type Guards
 
+/**
+ * isPlayer utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isPlayer.
+ */
 export function isPlayer(obj: any): obj is Player {
   return obj && typeof obj.id === 'string' && 'health' in obj && 'score' in obj
 }
 
+/**
+ * isObstacle utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isObstacle.
+ */
 export function isObstacle(obj: GameObject): obj is Obstacle {
   return obj.type in ['spike', 'block', 'movingPlatform', 'fallingRock', 'sawblade', 'laser', 'gap']
 }
 
+/**
+ * isPowerUp utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isPowerUp.
+ */
 export function isPowerUp(obj: GameObject): obj is PowerUp {
   return (
     obj.type in
@@ -648,6 +663,11 @@ export function isPowerUp(obj: GameObject): obj is PowerUp {
   )
 }
 
+/**
+ * isCollectible utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isCollectible.
+ */
 export function isCollectible(obj: GameObject): obj is Collectible {
   return obj.type in ['coin', 'gem', 'star', 'bonus']
 }

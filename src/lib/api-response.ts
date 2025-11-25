@@ -17,6 +17,11 @@ export interface ApiResponse<T = unknown> {
   }
 }
 
+/**
+ * successResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of successResponse.
+ */
 export function successResponse<T>(data: T, status: number = 200): NextResponse<ApiResponse<T>> {
   return NextResponse.json(
     {
@@ -30,6 +35,11 @@ export function successResponse<T>(data: T, status: number = 200): NextResponse<
   )
 }
 
+/**
+ * errorResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of errorResponse.
+ */
 export function errorResponse(
   message: string,
   code: string = 'ERROR',
