@@ -13,6 +13,11 @@ export interface CalendarProps {
   maxDate?: Date
 }
 
+/**
+ * Calendar utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Calendar.
+ */
 export function Calendar({ value, onChange, minDate, maxDate }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(value || new Date())
 
@@ -71,7 +76,7 @@ export function Calendar({ value, onChange, minDate, maxDate }: CalendarProps) {
       </div>
 
       <div className="grid grid-cols-7 gap-1">
-        {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
+        {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((day) => (
           <div key={day} className="py-2 text-center text-xs text-gray-500">
             {day}
           </div>
