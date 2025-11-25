@@ -20,6 +20,11 @@ function getWebSocketService(): WebSocketService {
   return wsService
 }
 
+/**
+ * useWebSocket utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useWebSocket.
+ */
 export function useWebSocket() {
   const [isConnected, setIsConnected] = useState(false)
   const [error, setError] = useState<Error | null>(null)

@@ -10,6 +10,11 @@ import type { TeamInfo, PlayerInfo } from '../types'
 // Singleton service
 const teamService = new TeamService()
 
+/**
+ * useTeam utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useTeam.
+ */
 export function useTeam() {
   const { send, on } = useWebSocket()
   const [teams, setTeams] = useState<TeamInfo[]>([])
@@ -17,7 +22,7 @@ export function useTeam() {
 
   // Listen for team updates
   useEffect(() => {
-    const unsubscribe = on('team_update', event => {
+    const unsubscribe = on('team_update', (event) => {
       const updatedTeams = event.data as TeamInfo[]
       setTeams(updatedTeams)
     })

@@ -9,6 +9,11 @@ import { useWebSocket } from './useWebSocket'
 // Singleton service
 const syncService = new SyncService()
 
+/**
+ * useSync utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useSync.
+ */
 export function useSync() {
   const { send, on } = useWebSocket()
   const [latestSnapshot, setLatestSnapshot] = useState<GameStateSnapshot | null>(null)
@@ -17,7 +22,7 @@ export function useSync() {
 
   // Listen for state updates
   useEffect(() => {
-    const unsubscribe = on('game_state_update', event => {
+    const unsubscribe = on('game_state_update', (event) => {
       const snapshot = event.data as GameStateSnapshot
       setLatestSnapshot(snapshot)
     })
