@@ -4,6 +4,11 @@
 
 export type EasingFunction = (t: number) => number
 
+/**
+ * Easing utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Easing.
+ */
 export const Easing = {
   linear: (t: number) => t,
   easeInQuad: (t: number) => t * t,

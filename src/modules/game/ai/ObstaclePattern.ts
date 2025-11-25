@@ -83,7 +83,7 @@ export class ObstaclePatternGenerator {
   }
 
   generateFromPattern(pattern: Pattern, startX: number): Obstacle[] {
-    return pattern.obstacles.map(obstacleConfig => {
+    return pattern.obstacles.map((obstacleConfig) => {
       const x = startX + obstacleConfig.x
 
       switch (obstacleConfig.type) {
@@ -108,4 +108,9 @@ export class ObstaclePatternGenerator {
   }
 }
 
+/**
+ * patternGenerator utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of patternGenerator.
+ */
 export const patternGenerator = new ObstaclePatternGenerator()
