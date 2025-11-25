@@ -2,6 +2,11 @@
  * Input sanitization utilities
  */
 
+/**
+ * sanitizeString utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sanitizeString.
+ */
 export function sanitizeString(input: string): string {
   return input
     .replace(/[<>]/g, '') // Remove HTML tags
@@ -10,12 +15,22 @@ export function sanitizeString(input: string): string {
     .trim()
 }
 
+/**
+ * sanitizeHTML utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sanitizeHTML.
+ */
 export function sanitizeHTML(html: string): string {
   const div = document.createElement('div')
   div.textContent = html
   return div.innerHTML
 }
 
+/**
+ * sanitizeURL utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sanitizeURL.
+ */
 export function sanitizeURL(url: string): string {
   try {
     const parsed = new URL(url)
@@ -31,6 +46,11 @@ export function sanitizeURL(url: string): string {
   }
 }
 
+/**
+ * sanitizeAddress utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sanitizeAddress.
+ */
 export function sanitizeAddress(address: string): string {
   // Ethereum address validation
   if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
@@ -39,6 +59,11 @@ export function sanitizeAddress(address: string): string {
   return address.toLowerCase()
 }
 
+/**
+ * sanitizeNumber utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sanitizeNumber.
+ */
 export function sanitizeNumber(
   input: string | number,
   options?: {
