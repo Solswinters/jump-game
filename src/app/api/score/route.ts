@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ValidationError } from '@/lib/errors'
 import { logger } from '@/lib/logger'
 
+/**
+ * POST utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of POST.
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

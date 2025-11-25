@@ -296,4 +296,9 @@ export class AchievementManager {
   }
 }
 
+/**
+ * achievementManager utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of achievementManager.
+ */
 export const achievementManager = new AchievementManager()
