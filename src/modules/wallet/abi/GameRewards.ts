@@ -2,6 +2,11 @@
  * Game Rewards Contract ABI
  */
 
+/**
+ * GameRewardsABI utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GameRewardsABI.
+ */
 export const GameRewardsABI = [
   {
     inputs: [{ name: 'score', type: 'uint256' }],

@@ -30,6 +30,11 @@ export interface WalletProviderProps {
   defaultChainId?: number
 }
 
+/**
+ * WalletProvider utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of WalletProvider.
+ */
 export const WalletProvider: React.FC<WalletProviderProps> = ({
   children,
   autoConnect = false,
@@ -207,6 +212,11 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({
   return <WalletContext.Provider value={value}>{children}</WalletContext.Provider>
 }
 
+/**
+ * useWallet utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useWallet.
+ */
 export const useWallet = (): WalletContextValue => {
   const context = useContext(WalletContext)
 
