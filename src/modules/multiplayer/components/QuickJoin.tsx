@@ -15,6 +15,11 @@ interface QuickJoinProps {
   loading?: boolean
 }
 
+/**
+ * QuickJoin utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of QuickJoin.
+ */
 export function QuickJoin({ onJoin, onQuickMatch, loading = false }: QuickJoinProps) {
   const [roomCode, setRoomCode] = useState('')
 
@@ -32,7 +37,7 @@ export function QuickJoin({ onJoin, onQuickMatch, loading = false }: QuickJoinPr
           <div className="flex gap-2">
             <Input
               value={roomCode}
-              onChange={e => setRoomCode(e.target.value)}
+              onChange={(e) => setRoomCode(e.target.value)}
               placeholder="Enter room code"
               maxLength={6}
               className="flex-1 uppercase"
