@@ -25,7 +25,7 @@ export function PlayerAvatar({ name, color, size = 'md', online = false }: Playe
 
   const initials = name
     .split(' ')
-    .map(word => word[0])
+    .map((word) => word[0])
     .join('')
     .substring(0, 2)
     .toUpperCase()

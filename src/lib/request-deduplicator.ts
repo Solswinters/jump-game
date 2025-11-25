@@ -31,7 +31,7 @@ export class RequestDeduplicator {
 
     // Create new request
     const promise = fn()
-      .then(result => {
+      .then((result) => {
         this.pending.delete(key)
         return result
       })
@@ -74,4 +74,9 @@ export class RequestDeduplicator {
 }
 
 // Singleton instance
+/**
+ * requestDeduplicator utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of requestDeduplicator.
+ */
 export const requestDeduplicator = new RequestDeduplicator()

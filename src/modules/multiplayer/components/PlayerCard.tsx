@@ -20,6 +20,11 @@ interface PlayerCardProps {
   onPromote?: (playerId: string) => void
 }
 
+/**
+ * PlayerCard utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of PlayerCard.
+ */
 export function PlayerCard({ player, showActions = false, onKick, onPromote }: PlayerCardProps) {
   return (
     <Card className="flex items-center justify-between p-3">
