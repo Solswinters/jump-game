@@ -11,6 +11,11 @@ export interface MinimapProps {
   size?: number
 }
 
+/**
+ * Minimap utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Minimap.
+ */
 export function Minimap({ playerPosition, obstacles, worldSize, size = 150 }: MinimapProps) {
   const scale = size / worldSize.width
 

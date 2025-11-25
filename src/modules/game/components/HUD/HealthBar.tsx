@@ -12,6 +12,11 @@ export interface HealthBarProps {
   animated?: boolean
 }
 
+/**
+ * HealthBar utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of HealthBar.
+ */
 export function HealthBar({
   current,
   max,
