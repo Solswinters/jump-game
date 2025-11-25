@@ -15,6 +15,11 @@ export interface UseGasEstimateParams {
   enabled?: boolean
 }
 
+/**
+ * useGasEstimate utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useGasEstimate.
+ */
 export function useGasEstimate(params: UseGasEstimateParams) {
   const [estimation, setEstimation] = useState<GasEstimation | null>(null)
   const [isLoading, setIsLoading] = useState(false)

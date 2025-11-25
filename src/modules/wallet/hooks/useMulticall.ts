@@ -6,6 +6,11 @@ import { useState, useCallback } from 'react'
 import { usePublicClient } from 'wagmi'
 import { MulticallService, type Call, type CallResult } from '../services/MulticallService'
 
+/**
+ * useMulticall utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useMulticall.
+ */
 export function useMulticall() {
   const publicClient = usePublicClient()
   const [isLoading, setIsLoading] = useState(false)

@@ -7,6 +7,11 @@ import { type Address } from 'viem'
 import { usePublicClient, useAccount } from 'wagmi'
 import { NFTService, type NFT } from '../services/NFTService'
 
+/**
+ * useNFT utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useNFT.
+ */
 export function useNFT(contractAddress: Address, tokenId?: string) {
   const publicClient = usePublicClient()
   const { address: accountAddress } = useAccount()
