@@ -7,6 +7,11 @@ import { useBalance } from './useBalance'
 import { useNetwork } from './useNetwork'
 import { useENSName } from './useENS'
 
+/**
+ * useWalletState utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useWalletState.
+ */
 export function useWalletState() {
   const { address, isConnected, isConnecting, isDisconnected } = useAccount()
   const { balance, formatted: formattedBalance, symbol } = useBalance()

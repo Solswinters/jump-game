@@ -12,6 +12,11 @@ export interface WatchAssetParams {
   image?: string
 }
 
+/**
+ * useWatchAsset utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useWatchAsset.
+ */
 export function useWatchAsset() {
   const { watchAsset, isPending, isSuccess, error } = useWagmiWatchAsset()
 
