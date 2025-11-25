@@ -56,6 +56,11 @@ export interface TransactionRecord {
 }
 
 // TODO: Implement actual database operations with Prisma or similar
+/**
+ * db utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of db.
+ */
 export const db = {
   users: {
     findById: async (id: string): Promise<UserRecord | null> => {

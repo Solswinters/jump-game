@@ -1,6 +1,7 @@
-import { Server as SocketIOServer } from 'socket.io'
 import type { Server as HTTPServer } from 'http'
-import type { Obstacle, Player } from '@/modules/game/domain/engine';
+import { Server as SocketIOServer } from 'socket.io'
+
+import type { Obstacle, Player } from '@/modules/game/domain/engine'
 import { createPlayer } from '@/modules/game/domain/engine'
 
 interface Room {
@@ -16,6 +17,11 @@ interface Room {
 const rooms = new Map<string, Room>()
 const playerRooms = new Map<string, string>()
 
+/**
+ * initMultiplayerServer utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of initMultiplayerServer.
+ */
 export function initMultiplayerServer(httpServer: HTTPServer) {
   const io = new SocketIOServer(httpServer, {
     cors: {
@@ -24,7 +30,7 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
     },
   })
 
-  io.on('connection', socket => {
+  io.on('connection', (socket) => {
     console.log('Player connected:', socket.id)
 
     // Join or create room
@@ -94,10 +100,14 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
     // Start game
     socket.on('start-game', () => {
       const roomId = playerRooms.get(socket.id)
-      if (!roomId) {return}
+      if (!roomId) {
+        return
+      }
 
       const room = rooms.get(roomId)
-      if (!room || room.gameStarted) {return}
+      if (!room || room.gameStarted) {
+        return
+      }
 
       room.gameStarted = true
       room.gameTime = 0
@@ -109,10 +119,14 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
     // Player jump
     socket.on('player-jump', () => {
       const roomId = playerRooms.get(socket.id)
-      if (!roomId) {return}
+      if (!roomId) {
+        return
+      }
 
       const room = rooms.get(roomId)
-      if (!room) {return}
+      if (!room) {
+        return
+      }
 
       socket.to(roomId).emit('player-jumped', socket.id)
     })
@@ -122,10 +136,14 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
       'update-position',
       (position: { y: number; velocityY: number; isGrounded: boolean }) => {
         const roomId = playerRooms.get(socket.id)
-        if (!roomId) {return}
+        if (!roomId) {
+          return
+        }
 
         const room = rooms.get(roomId)
-        if (!room) {return}
+        if (!room) {
+          return
+        }
 
         const player = room.players.get(socket.id)
         if (player) {
@@ -144,10 +162,14 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
     // Update score
     socket.on('update-score', (score: number) => {
       const roomId = playerRooms.get(socket.id)
-      if (!roomId) {return}
+      if (!roomId) {
+        return
+      }
 
       const room = rooms.get(roomId)
-      if (!room) {return}
+      if (!room) {
+        return
+      }
 
       const player = room.players.get(socket.id)
       if (player) {
@@ -163,10 +185,14 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
     // Sync obstacles (host only)
     socket.on('sync-obstacles', (obstacles: Obstacle[]) => {
       const roomId = playerRooms.get(socket.id)
-      if (!roomId) {return}
+      if (!roomId) {
+        return
+      }
 
       const room = rooms.get(roomId)
-      if (!room) {return}
+      if (!room) {
+        return
+      }
 
       room.obstacles = obstacles
       socket.to(roomId).emit('obstacles-synced', obstacles)
@@ -175,10 +201,14 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
     // Player died
     socket.on('player-died', () => {
       const roomId = playerRooms.get(socket.id)
-      if (!roomId) {return}
+      if (!roomId) {
+        return
+      }
 
       const room = rooms.get(roomId)
-      if (!room) {return}
+      if (!room) {
+        return
+      }
 
       const player = room.players.get(socket.id)
       if (player) {
@@ -187,7 +217,7 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
         io.to(roomId).emit('player-died', socket.id)
 
         // Check if all players are dead
-        const alivePlayers = Array.from(room.players.values()).filter(p => p.isAlive)
+        const alivePlayers = Array.from(room.players.values()).filter((p) => p.isAlive)
         if (alivePlayers.length === 0) {
           // Game over - find winner
           const allPlayers = Array.from(room.players.values())
@@ -196,7 +226,7 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
 
           io.to(roomId).emit('game-over', {
             winnerId: winner.id,
-            scores: allPlayers.map(p => ({
+            scores: allPlayers.map((p) => ({
               playerId: p.id,
               score: p.score,
             })),
@@ -221,10 +251,14 @@ export function initMultiplayerServer(httpServer: HTTPServer) {
 
   function handlePlayerLeave(socketId: string) {
     const roomId = playerRooms.get(socketId)
-    if (!roomId) {return}
+    if (!roomId) {
+      return
+    }
 
     const room = rooms.get(roomId)
-    if (!room) {return}
+    if (!room) {
+      return
+    }
 
     room.players.delete(socketId)
     playerRooms.delete(socketId)

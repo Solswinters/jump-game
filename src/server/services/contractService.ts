@@ -11,6 +11,11 @@ export interface SignatureData {
 }
 
 // Verify contract signature
+/**
+ * verifyContractSignature utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of verifyContractSignature.
+ */
 export function verifyContractSignature(
   message: string,
   signature: string,
@@ -36,6 +41,11 @@ export function verifyContractSignature(
 }
 
 // Generate signature for claim
+/**
+ * generateClaimSignature utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of generateClaimSignature.
+ */
 export async function generateClaimSignature(data: {
   address: string
   score: number
@@ -76,6 +86,11 @@ export async function generateClaimSignature(data: {
 }
 
 // Verify transaction
+/**
+ * verifyTransaction utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of verifyTransaction.
+ */
 export async function verifyTransaction(
   txHash: string,
   expectedFrom: string
@@ -116,6 +131,11 @@ export async function verifyTransaction(
 }
 
 // Get contract balance
+/**
+ * getContractBalance utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getContractBalance.
+ */
 export async function getContractBalance(contractAddress: string): Promise<string> {
   try {
     const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL)
@@ -131,6 +151,11 @@ export async function getContractBalance(contractAddress: string): Promise<strin
 }
 
 // Monitor contract events
+/**
+ * watchContractEvents utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of watchContractEvents.
+ */
 export function watchContractEvents(
   contractAddress: string,
   eventName: string,
