@@ -4,6 +4,11 @@ import { useAccount, useReadContract, useWriteContract, useWaitForTransactionRec
 import { GAME_TOKEN_ADDRESS, GAME_REWARDS_ADDRESS, GAME_TOKEN_ABI, GAME_REWARDS_ABI } from "@/config/contracts";
 import { formatEther } from "viem";
 
+/**
+ * useGameContract utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useGameContract.
+ */
 export function useGameContract() {
   const { address } = useAccount();
   const { writeContract, data: hash, isPending: isWritePending } = useWriteContract();

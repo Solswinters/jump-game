@@ -27,8 +27,8 @@ export function useContractWrite<TAbi extends Abi, TFunctionName extends string>
   onSuccess,
   onError,
 }: UseContractWriteConfig<TAbi, TFunctionName>) {
-  const addTransaction = useWalletStore(state => state.addTransaction)
-  const updateTransaction = useWalletStore(state => state.updateTransaction)
+  const addTransaction = useWalletStore((state) => state.addTransaction)
+  const updateTransaction = useWalletStore((state) => state.updateTransaction)
 
   const {
     data,

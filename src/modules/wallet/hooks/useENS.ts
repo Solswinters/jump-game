@@ -6,6 +6,11 @@ import { useEnsAddress, useEnsName, useEnsAvatar } from 'wagmi'
 import { normalize } from 'viem/ens'
 import { type Address } from 'viem'
 
+/**
+ * useENSAddress utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useENSAddress.
+ */
 export function useENSAddress(name: string | undefined) {
   const normalized = name ? normalize(name) : undefined
 
@@ -27,6 +32,11 @@ export function useENSAddress(name: string | undefined) {
   }
 }
 
+/**
+ * useENSName utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useENSName.
+ */
 export function useENSName(address: Address | undefined) {
   const {
     data: name,
@@ -46,6 +56,11 @@ export function useENSName(address: Address | undefined) {
   }
 }
 
+/**
+ * useENSAvatar utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useENSAvatar.
+ */
 export function useENSAvatar(name: string | undefined) {
   const normalized = name ? normalize(name) : undefined
 
