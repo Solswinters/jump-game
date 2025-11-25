@@ -15,6 +15,11 @@ export interface GasDisplayProps {
   value?: bigint
 }
 
+/**
+ * GasDisplay utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GasDisplay.
+ */
 export function GasDisplay({ address, abi, functionName, args, value }: GasDisplayProps) {
   const { estimation, isLoading, error } = useGasEstimate({
     address,

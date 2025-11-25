@@ -15,6 +15,11 @@ interface ExplorerLinkProps {
   showIcon?: boolean
 }
 
+/**
+ * ExplorerLink utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of ExplorerLink.
+ */
 export function ExplorerLink({
   type,
   value,

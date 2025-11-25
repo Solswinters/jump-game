@@ -6,6 +6,11 @@
 
 import { ConnectButton as RainbowConnectButton } from '@rainbow-me/rainbowkit'
 
+/**
+ * ConnectButton utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of ConnectButton.
+ */
 export function ConnectButton() {
   return (
     <RainbowConnectButton.Custom>
