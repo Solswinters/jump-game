@@ -87,4 +87,9 @@ class FeatureManager {
   }
 }
 
+/**
+ * featureManager utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of featureManager.
+ */
 export const featureManager = new FeatureManager()
