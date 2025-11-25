@@ -67,21 +67,26 @@ class ErrorTracker {
   }
 
   getErrorsByFingerprint(fingerprint: string): TrackedError[] {
-    return this.errors.filter(e => e.fingerprint === fingerprint)
+    return this.errors.filter((e) => e.fingerprint === fingerprint)
   }
 }
 
+/**
+ * errorTracker utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of errorTracker.
+ */
 export const errorTracker = new ErrorTracker()
 
 // Global error handler
 if (typeof window !== 'undefined') {
-  window.addEventListener('error', event => {
+  window.addEventListener('error', (event) => {
     errorTracker.track(event.error, {
       type: 'uncaught-error',
     })
   })
 
-  window.addEventListener('unhandledrejection', event => {
+  window.addEventListener('unhandledrejection', (event) => {
     errorTracker.track(new Error(event.reason), {
       type: 'unhandled-rejection',
     })
