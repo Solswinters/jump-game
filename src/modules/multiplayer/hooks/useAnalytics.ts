@@ -8,6 +8,11 @@ import { AnalyticsService } from '../services/AnalyticsService'
 // Singleton service
 const analyticsService = new AnalyticsService()
 
+/**
+ * useAnalytics utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useAnalytics.
+ */
 export function useAnalytics() {
   const serviceRef = useRef(analyticsService)
 
