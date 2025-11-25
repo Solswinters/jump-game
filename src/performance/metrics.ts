@@ -10,11 +10,16 @@ export interface PerformanceMetrics {
   ttfb: number // Time to First Byte
 }
 
+/**
+ * measureWebVitals utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of measureWebVitals.
+ */
 export function measureWebVitals(onReport: (metrics: Partial<PerformanceMetrics>) => void) {
   if (typeof window === 'undefined') return
 
   // FCP
-  const fcpObserver = new PerformanceObserver(list => {
+  const fcpObserver = new PerformanceObserver((list) => {
     for (const entry of list.getEntries()) {
       if (entry.name === 'first-contentful-paint') {
         onReport({ fcp: entry.startTime })
@@ -24,7 +29,7 @@ export function measureWebVitals(onReport: (metrics: Partial<PerformanceMetrics>
   fcpObserver.observe({ entryTypes: ['paint'] })
 
   // LCP
-  const lcpObserver = new PerformanceObserver(list => {
+  const lcpObserver = new PerformanceObserver((list) => {
     const entries = list.getEntries()
     const lastEntry = entries[entries.length - 1]
     onReport({ lcp: lastEntry?.startTime || 0 })
@@ -32,7 +37,7 @@ export function measureWebVitals(onReport: (metrics: Partial<PerformanceMetrics>
   lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] })
 
   // FID
-  const fidObserver = new PerformanceObserver(list => {
+  const fidObserver = new PerformanceObserver((list) => {
     for (const entry of list.getEntries()) {
       if (entry.entryType === 'first-input') {
         const fidEntry = entry as PerformanceEventTiming
@@ -44,7 +49,7 @@ export function measureWebVitals(onReport: (metrics: Partial<PerformanceMetrics>
 
   // CLS
   let clsValue = 0
-  const clsObserver = new PerformanceObserver(list => {
+  const clsObserver = new PerformanceObserver((list) => {
     for (const entry of list.getEntries()) {
       if (entry.entryType === 'layout-shift' && !(entry as any).hadRecentInput) {
         clsValue += (entry as any).value
@@ -63,6 +68,11 @@ export function measureWebVitals(onReport: (metrics: Partial<PerformanceMetrics>
   }
 }
 
+/**
+ * reportMetrics utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of reportMetrics.
+ */
 export function reportMetrics(metrics: Partial<PerformanceMetrics>) {
   // Send to analytics service
   if (process.env.NODE_ENV === 'production') {

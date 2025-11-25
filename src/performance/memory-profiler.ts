@@ -9,6 +9,11 @@ export interface MemoryStats {
   percentage: number
 }
 
+/**
+ * getMemoryUsage utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getMemoryUsage.
+ */
 export function getMemoryUsage(): MemoryStats | null {
   if (typeof window === 'undefined' || !(performance as any).memory) {
     return null
@@ -25,6 +30,11 @@ export function getMemoryUsage(): MemoryStats | null {
   }
 }
 
+/**
+ * monitorMemoryLeaks utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of monitorMemoryLeaks.
+ */
 export function monitorMemoryLeaks(interval: number = 5000) {
   const measurements: MemoryStats[] = []
 
@@ -56,6 +66,11 @@ export function monitorMemoryLeaks(interval: number = 5000) {
   return () => clearInterval(intervalId)
 }
 
+/**
+ * findMemoryLeaks utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of findMemoryLeaks.
+ */
 export function findMemoryLeaks(): string[] {
   const leaks: string[] = []
 
