@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import type { Socket } from 'socket.io-client';
+import type { Socket } from 'socket.io-client'
 import { io } from 'socket.io-client'
 import type { Player, Obstacle } from '@/modules/game/domain/engine'
 
@@ -28,6 +28,11 @@ interface UseMultiplayerProps {
   onGameOver?: (data: GameOverData) => void
 }
 
+/**
+ * useMultiplayer utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useMultiplayer.
+ */
 export function useMultiplayer(props: UseMultiplayerProps) {
   const [socket, setSocket] = useState<Socket | null>(null)
   const [isConnected, setIsConnected] = useState(false)
@@ -87,7 +92,7 @@ export function useMultiplayer(props: UseMultiplayerProps) {
     )
 
     socketInstance.on('player-joined', (data: { playerId: string; player: Player }) => {
-      setPlayers(prev => new Map(prev).set(data.playerId, data.player))
+      setPlayers((prev) => new Map(prev).set(data.playerId, data.player))
       if (props.onPlayerJoined) {
         props.onPlayerJoined(data.playerId, data.player)
       }
@@ -95,7 +100,7 @@ export function useMultiplayer(props: UseMultiplayerProps) {
     })
 
     socketInstance.on('player-left', (playerId: string) => {
-      setPlayers(prev => {
+      setPlayers((prev) => {
         const newMap = new Map(prev)
         newMap.delete(playerId)
         return newMap
@@ -122,7 +127,7 @@ export function useMultiplayer(props: UseMultiplayerProps) {
     )
 
     socketInstance.on('score-updated', (data: { playerId: string; score: number }) => {
-      setPlayers(prev => {
+      setPlayers((prev) => {
         const newMap = new Map(prev)
         const player = newMap.get(data.playerId)
         if (player) {
@@ -142,7 +147,7 @@ export function useMultiplayer(props: UseMultiplayerProps) {
     })
 
     socketInstance.on('player-died', (playerId: string) => {
-      setPlayers(prev => {
+      setPlayers((prev) => {
         const newMap = new Map(prev)
         const player = newMap.get(playerId)
         if (player) {

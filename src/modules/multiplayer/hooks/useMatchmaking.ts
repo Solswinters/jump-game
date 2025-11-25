@@ -13,6 +13,11 @@ import { useWebSocket } from './useWebSocket'
 // Singleton service
 const matchmakingService = new MatchmakingService()
 
+/**
+ * useMatchmaking utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useMatchmaking.
+ */
 export function useMatchmaking(playerId: string, username: string, skillRating: number) {
   const { send, on } = useWebSocket()
   const [isInQueue, setIsInQueue] = useState(false)
@@ -22,7 +27,7 @@ export function useMatchmaking(playerId: string, username: string, skillRating: 
 
   // Listen for match found
   useEffect(() => {
-    const unsubscribe = on('match_found', event => {
+    const unsubscribe = on('match_found', (event) => {
       const match = event.data as Match
       setMatchFound(match)
       setIsInQueue(false)
