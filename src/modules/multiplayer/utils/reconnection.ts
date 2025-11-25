@@ -9,6 +9,11 @@ export interface ReconnectionState {
   isReconnecting: boolean
 }
 
+/**
+ * createReconnectionState utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of createReconnectionState.
+ */
 export function createReconnectionState(): ReconnectionState {
   return {
     attempts: 0,
@@ -18,6 +23,11 @@ export function createReconnectionState(): ReconnectionState {
   }
 }
 
+/**
+ * calculateBackoff utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of calculateBackoff.
+ */
 export function calculateBackoff(
   attempt: number,
   baseDelay = 1000,
@@ -34,6 +44,11 @@ export function calculateBackoff(
   return Math.floor(delay)
 }
 
+/**
+ * shouldAttemptReconnect utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of shouldAttemptReconnect.
+ */
 export function shouldAttemptReconnect(
   state: ReconnectionState,
   maxAttempts = 5,
@@ -52,10 +67,20 @@ export function shouldAttemptReconnect(
   return true
 }
 
+/**
+ * canReconnectNow utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of canReconnectNow.
+ */
 export function canReconnectNow(state: ReconnectionState): boolean {
   return Date.now() >= state.nextAttempt
 }
 
+/**
+ * updateReconnectionState utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of updateReconnectionState.
+ */
 export function updateReconnectionState(
   state: ReconnectionState,
   delay: number
@@ -68,6 +93,11 @@ export function updateReconnectionState(
   }
 }
 
+/**
+ * resetReconnectionState utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of resetReconnectionState.
+ */
 export function resetReconnectionState(state: ReconnectionState): ReconnectionState {
   return {
     attempts: 0,
@@ -77,12 +107,22 @@ export function resetReconnectionState(state: ReconnectionState): ReconnectionSt
   }
 }
 
+/**
+ * getReconnectMessage utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getReconnectMessage.
+ */
 export function getReconnectMessage(attempt: number, maxAttempts: number): string {
   if (attempt === 1) return 'Connection lost. Reconnecting...'
   if (attempt >= maxAttempts) return 'Unable to reconnect. Please refresh.'
   return `Reconnecting... (${attempt}/${maxAttempts})`
 }
 
+/**
+ * estimateReconnectTime utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of estimateReconnectTime.
+ */
 export function estimateReconnectTime(state: ReconnectionState): number {
   if (!state.isReconnecting) return 0
   return Math.max(0, state.nextAttempt - Date.now())
