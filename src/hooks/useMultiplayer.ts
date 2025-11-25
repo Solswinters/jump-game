@@ -16,6 +16,11 @@ interface MultiplayerState {
   error: string | null
 }
 
+/**
+ * useMultiplayer utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useMultiplayer.
+ */
 export function useMultiplayer() {
   const [state, setState] = useState<MultiplayerState>({
     isConnected: false,
@@ -32,10 +37,10 @@ export function useMultiplayer() {
       try {
         const connectedSocket = await connectionManager.connect()
         setSocket(connectedSocket)
-        setState(prev => ({ ...prev, isConnected: true, error: null }))
+        setState((prev) => ({ ...prev, isConnected: true, error: null }))
         logger.info('Multiplayer connected')
       } catch (error) {
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           isConnected: false,
           error: error instanceof Error ? error.message : 'Connection failed',
@@ -64,7 +69,7 @@ export function useMultiplayer() {
       socket.once(
         SOCKET_EVENTS.ROOM_JOINED,
         (data: { roomId: string; players: string[]; isHost: boolean }) => {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             roomId: data.roomId,
             players: data.players,
@@ -75,7 +80,7 @@ export function useMultiplayer() {
       )
 
       socket.once(SOCKET_EVENTS.ROOM_FULL, () => {
-        setState(prev => ({ ...prev, error: 'Room is full' }))
+        setState((prev) => ({ ...prev, error: 'Room is full' }))
         logger.warn('Room is full')
       })
     },
@@ -83,10 +88,12 @@ export function useMultiplayer() {
   )
 
   const leaveRoom = useCallback(() => {
-    if (!socket || !state.roomId) {return}
+    if (!socket || !state.roomId) {
+      return
+    }
 
     socket.emit(SOCKET_EVENTS.LEAVE_ROOM, { roomId: state.roomId })
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       roomId: null,
       players: [],
@@ -97,7 +104,9 @@ export function useMultiplayer() {
 
   const sendPlayerAction = useCallback(
     (action: string, data: unknown) => {
-      if (!socket || !state.roomId) {return}
+      if (!socket || !state.roomId) {
+        return
+      }
 
       socket.emit(action, { roomId: state.roomId, ...data })
     },
@@ -106,11 +115,13 @@ export function useMultiplayer() {
 
   const onPlayerJoined = useCallback(
     (callback: (playerId: string) => void) => {
-      if (!socket) {return}
+      if (!socket) {
+        return
+      }
 
       socket.on(SOCKET_EVENTS.PLAYER_JOINED, (data: { playerId: string }) => {
         callback(data.playerId)
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           players: [...prev.players, data.playerId],
         }))
@@ -121,13 +132,15 @@ export function useMultiplayer() {
 
   const onPlayerLeft = useCallback(
     (callback: (playerId: string) => void) => {
-      if (!socket) {return}
+      if (!socket) {
+        return
+      }
 
       socket.on(SOCKET_EVENTS.PLAYER_LEFT, (data: { playerId: string }) => {
         callback(data.playerId)
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          players: prev.players.filter(id => id !== data.playerId),
+          players: prev.players.filter((id) => id !== data.playerId),
         }))
       })
     },
