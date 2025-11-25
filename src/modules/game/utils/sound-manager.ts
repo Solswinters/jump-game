@@ -161,6 +161,11 @@ class SoundManager {
   }
 }
 
+/**
+ * soundManager utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of soundManager.
+ */
 export const soundManager = new SoundManager()
 
 // Preload common game sounds

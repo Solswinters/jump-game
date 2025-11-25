@@ -2,6 +2,11 @@
  * Debounce function utility
  */
 
+/**
+ * debounce utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of debounce.
+ */
 export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
