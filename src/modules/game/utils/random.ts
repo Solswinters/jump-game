@@ -2,22 +2,47 @@
  * Random number generation utilities for game mechanics
  */
 
+/**
+ * randomInt utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of randomInt.
+ */
 export function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+/**
+ * randomFloat utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of randomFloat.
+ */
 export function randomFloat(min: number, max: number): number {
   return Math.random() * (max - min) + min
 }
 
+/**
+ * randomBoolean utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of randomBoolean.
+ */
 export function randomBoolean(probability: number = 0.5): boolean {
   return Math.random() < probability
 }
 
+/**
+ * randomChoice utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of randomChoice.
+ */
 export function randomChoice<T>(array: T[]): T {
   return array[Math.floor(Math.random() * array.length)] as T
 }
 
+/**
+ * randomChoices utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of randomChoices.
+ */
 export function randomChoices<T>(array: T[], count: number): T[] {
   const result: T[] = []
   const copy = [...array]
@@ -33,6 +58,11 @@ export function randomChoices<T>(array: T[], count: number): T[] {
   return result
 }
 
+/**
+ * weightedRandom utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of weightedRandom.
+ */
 export function weightedRandom<T>(items: T[], weights: number[]): T {
   if (items.length !== weights.length) {
     throw new Error('Items and weights must have the same length')
@@ -52,6 +82,11 @@ export function weightedRandom<T>(items: T[], weights: number[]): T {
   return items[items.length - 1] as T
 }
 
+/**
+ * shuffle utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of shuffle.
+ */
 export function shuffle<T>(array: T[]): T[] {
   const result = [...array]
   for (let i = result.length - 1; i > 0; i--) {
@@ -63,6 +98,11 @@ export function shuffle<T>(array: T[]): T[] {
   return result
 }
 
+/**
+ * randomColor utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of randomColor.
+ */
 export function randomColor(): string {
   const r = randomInt(0, 255)
   const g = randomInt(0, 255)
@@ -70,6 +110,11 @@ export function randomColor(): string {
   return `rgb(${r}, ${g}, ${b})`
 }
 
+/**
+ * randomHexColor utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of randomHexColor.
+ */
 export function randomHexColor(): string {
   return `#${Math.floor(Math.random() * 16777215)
     .toString(16)

@@ -5,6 +5,11 @@
 import type { Player, Obstacle } from '@/types/game'
 import { gameConfig } from '@/modules/game/domain/engine/config'
 
+/**
+ * drawRoundedRect utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of drawRoundedRect.
+ */
 export function drawRoundedRect(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -27,6 +32,11 @@ export function drawRoundedRect(
   ctx.fill()
 }
 
+/**
+ * drawGradientRect utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of drawGradientRect.
+ */
 export function drawGradientRect(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -43,6 +53,11 @@ export function drawGradientRect(
   ctx.fillRect(x, y, width, height)
 }
 
+/**
+ * drawShadowedRect utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of drawShadowedRect.
+ */
 export function drawShadowedRect(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -63,6 +78,11 @@ export function drawShadowedRect(
   ctx.restore()
 }
 
+/**
+ * drawCircle utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of drawCircle.
+ */
 export function drawCircle(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -76,6 +96,11 @@ export function drawCircle(
   ctx.fill()
 }
 
+/**
+ * drawText utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of drawText.
+ */
 export function drawText(
   ctx: CanvasRenderingContext2D,
   text: string,
@@ -93,6 +118,11 @@ export function drawText(
   ctx.fillText(text, x, y)
 }
 
+/**
+ * drawTextWithShadow utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of drawTextWithShadow.
+ */
 export function drawTextWithShadow(
   ctx: CanvasRenderingContext2D,
   text: string,
@@ -111,6 +141,11 @@ export function drawTextWithShadow(
   ctx.restore()
 }
 
+/**
+ * drawPlayerWithEffects utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of drawPlayerWithEffects.
+ */
 export function drawPlayerWithEffects(ctx: CanvasRenderingContext2D, player: Player): void {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
   const playerConfig = gameConfig.getPlayer()
@@ -120,6 +155,11 @@ export function drawPlayerWithEffects(ctx: CanvasRenderingContext2D, player: Pla
   drawShadowedRect(ctx, player.x, player.y, playerConfig.width, playerConfig.height, player.color)
 }
 
+/**
+ * drawObstacleWithEffects utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of drawObstacleWithEffects.
+ */
 export function drawObstacleWithEffects(ctx: CanvasRenderingContext2D, obstacle: Obstacle): void {
   // Draw with gradient effect
   drawGradientRect(
@@ -138,6 +178,11 @@ export function drawObstacleWithEffects(ctx: CanvasRenderingContext2D, obstacle:
   ctx.strokeRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height)
 }
 
+/**
+ * drawGrid utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of drawGrid.
+ */
 export function drawGrid(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -165,10 +210,20 @@ export function drawGrid(
   }
 }
 
+/**
+ * clearCanvas utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of clearCanvas.
+ */
 export function clearCanvas(ctx: CanvasRenderingContext2D, width: number, height: number): void {
   ctx.clearRect(0, 0, width, height)
 }
 
+/**
+ * fillCanvas utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of fillCanvas.
+ */
 export function fillCanvas(
   ctx: CanvasRenderingContext2D,
   width: number,

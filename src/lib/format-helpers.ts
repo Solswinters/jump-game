@@ -2,10 +2,20 @@
  * Formatting helper utilities
  */
 
+/**
+ * formatNumber utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of formatNumber.
+ */
 export const formatNumber = (num: number, decimals: number = 2): string => {
   return num.toFixed(decimals).replace(/\.?0+$/, '')
 }
 
+/**
+ * formatCurrency utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of formatCurrency.
+ */
 export const formatCurrency = (amount: number, currency: string = 'USD'): string => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -13,10 +23,20 @@ export const formatCurrency = (amount: number, currency: string = 'USD'): string
   }).format(amount)
 }
 
+/**
+ * formatPercent utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of formatPercent.
+ */
 export const formatPercent = (value: number, decimals: number = 2): string => {
   return `${formatNumber(value * 100, decimals)}%`
 }
 
+/**
+ * formatDate utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of formatDate.
+ */
 export const formatDate = (date: Date | number): string => {
   const d = typeof date === 'number' ? new Date(date) : date
   return d.toLocaleDateString('en-US', {
@@ -26,6 +46,11 @@ export const formatDate = (date: Date | number): string => {
   })
 }
 
+/**
+ * formatTime utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of formatTime.
+ */
 export const formatTime = (date: Date | number): string => {
   const d = typeof date === 'number' ? new Date(date) : date
   return d.toLocaleTimeString('en-US', {
@@ -34,10 +59,20 @@ export const formatTime = (date: Date | number): string => {
   })
 }
 
+/**
+ * formatDateTime utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of formatDateTime.
+ */
 export const formatDateTime = (date: Date | number): string => {
   return `${formatDate(date)} ${formatTime(date)}`
 }
 
+/**
+ * formatDuration utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of formatDuration.
+ */
 export const formatDuration = (ms: number): string => {
   const seconds = Math.floor(ms / 1000)
   const minutes = Math.floor(seconds / 60)
@@ -52,6 +87,11 @@ export const formatDuration = (ms: number): string => {
   return `${seconds}s`
 }
 
+/**
+ * formatFileSize utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of formatFileSize.
+ */
 export const formatFileSize = (bytes: number): string => {
   const sizes = ['B', 'KB', 'MB', 'GB']
   if (bytes === 0) {return '0 B'}
