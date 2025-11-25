@@ -22,6 +22,11 @@ interface ClaimRewardParams {
   signature: Hex
 }
 
+/**
+ * useClaimReward utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useClaimReward.
+ */
 export function useClaimReward() {
   const [state, setState] = useState<ClaimRewardState>({
     transactionHash: null,
@@ -38,12 +43,12 @@ export function useClaimReward() {
   const claimReward = async (params: ClaimRewardParams) => {
     if (!address || !publicClient || !walletClient) {
       const error = new Error('Wallet not connected')
-      setState(prev => ({ ...prev, error, loading: false }))
+      setState((prev) => ({ ...prev, error, loading: false }))
       logger.error('Cannot claim reward: Wallet not connected')
       return
     }
 
-    setState(prev => ({ ...prev, loading: true, error: null, success: false }))
+    setState((prev) => ({ ...prev, loading: true, error: null, success: false }))
 
     try {
       const { score, isWinner, signature } = params
@@ -99,7 +104,7 @@ export function useClaimReward() {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         logger.error(`Reward claim failed: ${hash}`)
         const revertError = new Error('Transaction reverted')
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           error: revertError,
           success: false,
@@ -108,7 +113,7 @@ export function useClaimReward() {
     } catch (err) {
       const error = err instanceof Error ? err : new Error('Unknown error occurred')
       logger.error('Failed to claim reward', error)
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         loading: false,
         error,

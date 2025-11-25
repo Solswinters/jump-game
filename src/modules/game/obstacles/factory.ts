@@ -147,4 +147,9 @@ export class ObstacleFactory {
   }
 }
 
+/**
+ * obstacleFactory utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of obstacleFactory.
+ */
 export const obstacleFactory = ObstacleFactory.getInstance()
