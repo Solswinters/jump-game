@@ -68,4 +68,9 @@ export class PerformanceMonitor {
   }
 }
 
+/**
+ * performanceMonitorGame utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of performanceMonitorGame.
+ */
 export const performanceMonitorGame = new PerformanceMonitor()

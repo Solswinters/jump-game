@@ -105,7 +105,7 @@ export class DebugOverlay {
     ctx.strokeStyle = '#ff0000'
     ctx.lineWidth = 2
 
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       ctx.strokeRect(entity.x, entity.y, entity.width, entity.height)
 
       // Label
