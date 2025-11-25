@@ -18,11 +18,16 @@ export interface AccordionProps {
   defaultOpenItems?: string[]
 }
 
+/**
+ * Accordion utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Accordion.
+ */
 export function Accordion({ items, allowMultiple = false, defaultOpenItems = [] }: AccordionProps) {
   const [openItems, setOpenItems] = useState<Set<string>>(new Set(defaultOpenItems))
 
   const toggleItem = (id: string) => {
-    setOpenItems(prev => {
+    setOpenItems((prev) => {
       const next = new Set(prev)
       if (next.has(id)) {
         next.delete(id)
@@ -38,7 +43,7 @@ export function Accordion({ items, allowMultiple = false, defaultOpenItems = [] 
 
   return (
     <div className="space-y-2">
-      {items.map(item => {
+      {items.map((item) => {
         const isOpen = openItems.has(item.id)
         return (
           <div key={item.id} className="rounded-lg border border-gray-700">

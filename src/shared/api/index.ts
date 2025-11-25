@@ -104,6 +104,11 @@ export class ApiClient {
   }
 }
 
+/**
+ * apiClient utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of apiClient.
+ */
 export const apiClient = new ApiClient(
   process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/api'
 )

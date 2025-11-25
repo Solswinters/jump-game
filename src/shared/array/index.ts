@@ -2,6 +2,11 @@
  * Array utilities
  */
 
+/**
+ * shuffle utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of shuffle.
+ */
 export function shuffle<T>(array: T[]): T[] {
   const result = [...array]
   for (let i = result.length - 1; i > 0; i--) {
@@ -11,13 +16,23 @@ export function shuffle<T>(array: T[]): T[] {
   return result
 }
 
+/**
+ * unique utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of unique.
+ */
 export function unique<T>(array: T[]): T[] {
   return [...new Set(array)]
 }
 
+/**
+ * uniqueBy utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of uniqueBy.
+ */
 export function uniqueBy<T, K>(array: T[], key: (item: T) => K): T[] {
   const seen = new Set<K>()
-  return array.filter(item => {
+  return array.filter((item) => {
     const k = key(item)
     if (seen.has(k)) {
       return false
@@ -27,6 +42,11 @@ export function uniqueBy<T, K>(array: T[], key: (item: T) => K): T[] {
   })
 }
 
+/**
+ * groupBy utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of groupBy.
+ */
 export function groupBy<T, K extends string | number>(
   array: T[],
   key: (item: T) => K
@@ -44,6 +64,11 @@ export function groupBy<T, K extends string | number>(
   )
 }
 
+/**
+ * chunk utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of chunk.
+ */
 export function chunk<T>(array: T[], size: number): T[][] {
   const chunks: T[][] = []
   for (let i = 0; i < array.length; i += size) {
@@ -52,11 +77,16 @@ export function chunk<T>(array: T[], size: number): T[][] {
   return chunks
 }
 
+/**
+ * partition utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of partition.
+ */
 export function partition<T>(array: T[], predicate: (item: T) => boolean): [T[], T[]] {
   const pass: T[] = []
   const fail: T[] = []
 
-  array.forEach(item => {
+  array.forEach((item) => {
     if (predicate(item)) {
       pass.push(item)
     } else {
@@ -67,6 +97,11 @@ export function partition<T>(array: T[], predicate: (item: T) => boolean): [T[],
   return [pass, fail]
 }
 
+/**
+ * sortBy utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sortBy.
+ */
 export function sortBy<T>(array: T[], key: (item: T) => number | string): T[] {
   return [...array].sort((a, b) => {
     const aVal = key(a)
@@ -81,23 +116,48 @@ export function sortBy<T>(array: T[], key: (item: T) => number | string): T[] {
   })
 }
 
+/**
+ * sample utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sample.
+ */
 export function sample<T>(array: T[]): T | undefined {
   return array[Math.floor(Math.random() * array.length)]
 }
 
+/**
+ * sampleSize utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sampleSize.
+ */
 export function sampleSize<T>(array: T[], size: number): T[] {
   const shuffled = shuffle(array)
   return shuffled.slice(0, Math.min(size, array.length))
 }
 
+/**
+ * first utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of first.
+ */
 export function first<T>(array: T[]): T | undefined {
   return array[0]
 }
 
+/**
+ * last utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of last.
+ */
 export function last<T>(array: T[]): T | undefined {
   return array[array.length - 1]
 }
 
+/**
+ * compact utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of compact.
+ */
 export function compact<T>(array: (T | null | undefined | false | 0 | '')[]): T[] {
   return array.filter(Boolean) as T[]
 }
