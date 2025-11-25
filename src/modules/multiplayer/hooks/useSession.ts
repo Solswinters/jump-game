@@ -10,6 +10,11 @@ import type { GameSession } from '../types'
 // Singleton service
 const sessionService = new SessionService()
 
+/**
+ * useSession utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useSession.
+ */
 export function useSession() {
   const { send } = useWebSocket()
   const [currentSession, setCurrentSession] = useState<GameSession | null>(null)

@@ -9,6 +9,11 @@ import { RoomState } from '../state/RoomState'
 
 const roomState = new RoomState()
 
+/**
+ * useRoomState utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useRoomState.
+ */
 export function useRoomState() {
   const [snapshot, setSnapshot] = useState(roomState.getSnapshot())
 
