@@ -1,6 +1,11 @@
 // Server-side constants
 
 // Socket.io configuration
+/**
+ * SOCKET_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SOCKET_CONFIG.
+ */
 export const SOCKET_CONFIG = {
   PING_TIMEOUT: 60000, // 60 seconds
   PING_INTERVAL: 25000, // 25 seconds
@@ -10,6 +15,11 @@ export const SOCKET_CONFIG = {
 } as const
 
 // Room configuration
+/**
+ * ROOM_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of ROOM_CONFIG.
+ */
 export const ROOM_CONFIG = {
   MAX_PLAYERS_DEFAULT: 4,
   MAX_PLAYERS_LIMIT: 8,
@@ -19,6 +29,11 @@ export const ROOM_CONFIG = {
 } as const
 
 // Game configuration
+/**
+ * GAME_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GAME_CONFIG.
+ */
 export const GAME_CONFIG = {
   MIN_GAME_DURATION: 5000, // 5 seconds
   MAX_GAME_DURATION: 60 * 60 * 1000, // 1 hour
@@ -28,6 +43,11 @@ export const GAME_CONFIG = {
 } as const
 
 // Anti-cheat configuration
+/**
+ * ANTI_CHEAT_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of ANTI_CHEAT_CONFIG.
+ */
 export const ANTI_CHEAT_CONFIG = {
   MAX_SCORE_PER_SECOND: 50,
   MAX_OBSTACLES_PER_SECOND: 5,
@@ -37,6 +57,11 @@ export const ANTI_CHEAT_CONFIG = {
 } as const
 
 // Database configuration
+/**
+ * DB_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of DB_CONFIG.
+ */
 export const DB_CONFIG = {
   CONNECTION_TIMEOUT: 10000, // 10 seconds
   QUERY_TIMEOUT: 30000, // 30 seconds
@@ -45,6 +70,11 @@ export const DB_CONFIG = {
 } as const
 
 // Cache configuration
+/**
+ * CACHE_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of CACHE_CONFIG.
+ */
 export const CACHE_CONFIG = {
   DEFAULT_TTL: 300, // 5 minutes
   SHORT_TTL: 60, // 1 minute
@@ -53,6 +83,11 @@ export const CACHE_CONFIG = {
 } as const
 
 // Signature configuration
+/**
+ * SIGNATURE_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SIGNATURE_CONFIG.
+ */
 export const SIGNATURE_CONFIG = {
   NONCE_EXPIRY: 60 * 60 * 1000, // 1 hour
   MAX_NONCE_CACHE: 10000,
@@ -60,6 +95,11 @@ export const SIGNATURE_CONFIG = {
 } as const
 
 // Blockchain configuration
+/**
+ * BLOCKCHAIN_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of BLOCKCHAIN_CONFIG.
+ */
 export const BLOCKCHAIN_CONFIG = {
   BLOCK_CONFIRMATIONS: 2,
   TRANSACTION_TIMEOUT: 5 * 60 * 1000, // 5 minutes
@@ -68,6 +108,11 @@ export const BLOCKCHAIN_CONFIG = {
 } as const
 
 // API configuration
+/**
+ * API_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of API_CONFIG.
+ */
 export const API_CONFIG = {
   MAX_REQUEST_SIZE: '10mb',
   REQUEST_TIMEOUT: 30000, // 30 seconds
@@ -75,6 +120,11 @@ export const API_CONFIG = {
 } as const
 
 // Logging configuration
+/**
+ * LOG_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of LOG_CONFIG.
+ */
 export const LOG_CONFIG = {
   LEVEL: process.env.LOG_LEVEL ?? 'info',
   PRETTY_PRINT: process.env.NODE_ENV === 'development',
@@ -83,6 +133,11 @@ export const LOG_CONFIG = {
 } as const
 
 // Environment variables
+/**
+ * ENV utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of ENV.
+ */
 export const ENV = {
   NODE_ENV: process.env.NODE_ENV ?? 'development',
   PORT: parseInt(process.env.PORT ?? '3000', 10),
@@ -95,6 +150,11 @@ export const ENV = {
 } as const
 
 // Server status
+/**
+ * SERVER_STATUS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SERVER_STATUS.
+ */
 export const SERVER_STATUS = {
   STARTING: 'starting',
   READY: 'ready',
@@ -103,6 +163,11 @@ export const SERVER_STATUS = {
 } as const
 
 // Error codes
+/**
+ * SERVER_ERROR_CODES utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SERVER_ERROR_CODES.
+ */
 export const SERVER_ERROR_CODES = {
   ROOM_FULL: 'ROOM_FULL',
   ROOM_NOT_FOUND: 'ROOM_NOT_FOUND',

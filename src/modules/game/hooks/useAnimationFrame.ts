@@ -6,6 +6,11 @@
 
 import { useEffect, useRef } from 'react'
 
+/**
+ * useAnimationFrame utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useAnimationFrame.
+ */
 export function useAnimationFrame(callback: (deltaTime: number) => void, enabled: boolean = true) {
   const requestRef = useRef<number>()
   const previousTimeRef = useRef<number>()
