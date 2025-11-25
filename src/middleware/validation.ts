@@ -2,13 +2,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
-import type { NextRequest} from 'next/server';
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import type { z } from 'zod'
 import { ERROR_CODES, createError } from '@/constants/errors'
 import { HTTP_STATUS } from '@/constants/api'
 
 // Generic validation middleware factory
+/**
+ * validateRequest utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateRequest.
+ */
 export function validateRequest<T>(schema: z.ZodSchema<T>) {
   return async (
     request: NextRequest,
@@ -42,6 +47,11 @@ export function validateRequest<T>(schema: z.ZodSchema<T>) {
 }
 
 // Validate query parameters
+/**
+ * validateQuery utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateQuery.
+ */
 export function validateQuery<T>(
   schema: z.ZodSchema<T>,
   searchParams: URLSearchParams
@@ -75,6 +85,11 @@ export function validateQuery<T>(
 }
 
 // Validate headers
+/**
+ * validateHeaders utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateHeaders.
+ */
 export function validateHeaders<T>(
   schema: z.ZodSchema<T>,
   headers: Headers

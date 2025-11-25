@@ -26,6 +26,11 @@ export interface ApiErrorResponse {
 export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse
 
 // Success response helper
+/**
+ * successResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of successResponse.
+ */
 export function successResponse<T>(
   data: T,
   message?: string,
@@ -45,6 +50,11 @@ export function successResponse<T>(
 }
 
 // Error response helper
+/**
+ * errorResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of errorResponse.
+ */
 export function errorResponse(
   code: string,
   message: string,
@@ -62,30 +72,35 @@ export function errorResponse(
 }
 
 // Common error responses
+/**
+ * badRequestResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of badRequestResponse.
+ */
 export function badRequestResponse(
   message = 'Bad request',
   details?: unknown
 ): NextResponse<ApiErrorResponse> {
-  return errorResponse(
-    ERROR_CODES.INVALID_INPUT,
-    message,
-    HTTP_STATUS.BAD_REQUEST,
-    details
-  )
+  return errorResponse(ERROR_CODES.INVALID_INPUT, message, HTTP_STATUS.BAD_REQUEST, details)
 }
 
+/**
+ * unauthorizedResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of unauthorizedResponse.
+ */
 export function unauthorizedResponse(
   message = 'Unauthorized',
   details?: unknown
 ): NextResponse<ApiErrorResponse> {
-  return errorResponse(
-    ERROR_CODES.UNAUTHORIZED,
-    message,
-    HTTP_STATUS.UNAUTHORIZED,
-    details
-  )
+  return errorResponse(ERROR_CODES.UNAUTHORIZED, message, HTTP_STATUS.UNAUTHORIZED, details)
 }
 
+/**
+ * forbiddenResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of forbiddenResponse.
+ */
 export function forbiddenResponse(
   message = 'Forbidden',
   details?: unknown
@@ -93,6 +108,11 @@ export function forbiddenResponse(
   return errorResponse(ERROR_CODES.FORBIDDEN, message, HTTP_STATUS.FORBIDDEN, details)
 }
 
+/**
+ * notFoundResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of notFoundResponse.
+ */
 export function notFoundResponse(
   message = 'Resource not found',
   details?: unknown
@@ -100,6 +120,11 @@ export function notFoundResponse(
   return errorResponse(ERROR_CODES.NOT_FOUND, message, HTTP_STATUS.NOT_FOUND, details)
 }
 
+/**
+ * conflictResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of conflictResponse.
+ */
 export function conflictResponse(
   message = 'Conflict',
   details?: unknown
@@ -107,6 +132,11 @@ export function conflictResponse(
   return errorResponse(ERROR_CODES.CONFLICT, message, HTTP_STATUS.CONFLICT, details)
 }
 
+/**
+ * tooManyRequestsResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of tooManyRequestsResponse.
+ */
 export function tooManyRequestsResponse(
   message = 'Too many requests',
   details?: unknown
@@ -119,6 +149,11 @@ export function tooManyRequestsResponse(
   )
 }
 
+/**
+ * internalServerErrorResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of internalServerErrorResponse.
+ */
 export function internalServerErrorResponse(
   message = 'Internal server error',
   details?: unknown
@@ -131,6 +166,11 @@ export function internalServerErrorResponse(
   )
 }
 
+/**
+ * serviceUnavailableResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of serviceUnavailableResponse.
+ */
 export function serviceUnavailableResponse(
   message = 'Service unavailable',
   details?: unknown
@@ -156,6 +196,11 @@ export interface PaginatedData<T> {
   }
 }
 
+/**
+ * paginatedResponse utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of paginatedResponse.
+ */
 export function paginatedResponse<T>(
   items: T[],
   page: number,
