@@ -15,6 +15,11 @@ interface RoomFiltersProps {
   onShowPrivateChange: (show: boolean) => void
 }
 
+/**
+ * RoomFilters utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of RoomFilters.
+ */
 export function RoomFilters({
   onSearchChange,
   onShowFullChange,
@@ -44,7 +49,7 @@ export function RoomFilters({
       <div className="space-y-4">
         <Input
           value={search}
-          onChange={e => handleSearchChange(e.target.value)}
+          onChange={(e) => handleSearchChange(e.target.value)}
           placeholder="Search rooms..."
           className="w-full"
         />

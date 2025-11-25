@@ -92,4 +92,9 @@ export class Scheduler {
 }
 
 // Singleton instance
+/**
+ * scheduler utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of scheduler.
+ */
 export const scheduler = new Scheduler()
