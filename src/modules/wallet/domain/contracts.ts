@@ -5,6 +5,11 @@ import { GAME_TOKEN_ABI, GAME_REWARDS_ABI, SIMPLE_GAME_REWARDS_ABI } from "@/con
  * These should be set in your .env.local file
  */
 export const GAME_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_GAME_TOKEN_ADDRESS as `0x${string}`;
+/**
+ * GAME_REWARDS_ADDRESS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GAME_REWARDS_ADDRESS.
+ */
 export const GAME_REWARDS_ADDRESS = process.env.NEXT_PUBLIC_GAME_REWARDS_ADDRESS as `0x${string}`;
 
 /**
