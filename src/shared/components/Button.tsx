@@ -24,6 +24,11 @@ const sizeStyles = {
   lg: 'px-6 py-3 text-lg',
 }
 
+/**
+ * Button utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Button.
+ */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
