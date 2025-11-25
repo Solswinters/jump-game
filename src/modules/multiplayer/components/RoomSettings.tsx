@@ -53,7 +53,7 @@ export function RoomSettings({ initialSettings, onSave, onCancel }: RoomSettings
           <label className="mb-1 block text-sm font-medium text-gray-300">Room Name</label>
           <Input
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Enter room name"
             maxLength={50}
           />
@@ -64,7 +64,7 @@ export function RoomSettings({ initialSettings, onSave, onCancel }: RoomSettings
           <Input
             type="number"
             value={maxPlayers}
-            onChange={e => setMaxPlayers(parseInt(e.target.value))}
+            onChange={(e) => setMaxPlayers(parseInt(e.target.value))}
             min={2}
             max={10}
           />
@@ -81,7 +81,7 @@ export function RoomSettings({ initialSettings, onSave, onCancel }: RoomSettings
             <Input
               type="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
               maxLength={50}
             />

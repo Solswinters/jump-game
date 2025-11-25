@@ -2,6 +2,11 @@
  * URL manipulation utilities
  */
 
+/**
+ * getQueryParams utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getQueryParams.
+ */
 export function getQueryParams(url: string): Record<string, string> {
   const params: Record<string, string> = {}
   const searchParams = new URL(url).searchParams
@@ -13,6 +18,11 @@ export function getQueryParams(url: string): Record<string, string> {
   return params
 }
 
+/**
+ * addQueryParams utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of addQueryParams.
+ */
 export function addQueryParams(url: string, params: Record<string, string | number>): string {
   const urlObj = new URL(url)
 
@@ -23,6 +33,11 @@ export function addQueryParams(url: string, params: Record<string, string | numb
   return urlObj.toString()
 }
 
+/**
+ * removeQueryParams utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of removeQueryParams.
+ */
 export function removeQueryParams(url: string, keys: string[]): string {
   const urlObj = new URL(url)
 
@@ -33,6 +48,11 @@ export function removeQueryParams(url: string, keys: string[]): string {
   return urlObj.toString()
 }
 
+/**
+ * getDomain utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getDomain.
+ */
 export function getDomain(url: string): string {
   try {
     return new URL(url).hostname
@@ -41,6 +61,11 @@ export function getDomain(url: string): string {
   }
 }
 
+/**
+ * getPath utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getPath.
+ */
 export function getPath(url: string): string {
   try {
     return new URL(url).pathname
@@ -49,10 +74,20 @@ export function getPath(url: string): string {
   }
 }
 
+/**
+ * isAbsoluteUrl utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isAbsoluteUrl.
+ */
 export function isAbsoluteUrl(url: string): boolean {
   return /^https?:\/\//i.test(url)
 }
 
+/**
+ * joinPaths utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of joinPaths.
+ */
 export function joinPaths(...paths: string[]): string {
   return paths
     .map((path, index) => {
@@ -65,6 +100,11 @@ export function joinPaths(...paths: string[]): string {
     .join('/')
 }
 
+/**
+ * parseUrl utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of parseUrl.
+ */
 export function parseUrl(url: string): {
   protocol: string
   hostname: string
@@ -88,6 +128,11 @@ export function parseUrl(url: string): {
   }
 }
 
+/**
+ * buildUrl utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of buildUrl.
+ */
 export function buildUrl(
   baseUrl: string,
   path?: string,
@@ -106,6 +151,11 @@ export function buildUrl(
   return url
 }
 
+/**
+ * getQueryParam utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getQueryParam.
+ */
 export function getQueryParam(url: string, key: string): string | null {
   try {
     return new URL(url).searchParams.get(key)
@@ -114,6 +164,11 @@ export function getQueryParam(url: string, key: string): string | null {
   }
 }
 
+/**
+ * hasQueryParam utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of hasQueryParam.
+ */
 export function hasQueryParam(url: string, key: string): boolean {
   try {
     return new URL(url).searchParams.has(key)
@@ -122,6 +177,11 @@ export function hasQueryParam(url: string, key: string): boolean {
   }
 }
 
+/**
+ * updateQueryParam utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of updateQueryParam.
+ */
 export function updateQueryParam(url: string, key: string, value: string | number): string {
   try {
     const urlObj = new URL(url)
@@ -132,6 +192,11 @@ export function updateQueryParam(url: string, key: string, value: string | numbe
   }
 }
 
+/**
+ * removeAllQueryParams utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of removeAllQueryParams.
+ */
 export function removeAllQueryParams(url: string): string {
   try {
     const urlObj = new URL(url)
@@ -141,6 +206,11 @@ export function removeAllQueryParams(url: string): string {
   }
 }
 
+/**
+ * getUrlHash utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getUrlHash.
+ */
 export function getUrlHash(url: string): string {
   try {
     return new URL(url).hash.substring(1)
@@ -149,6 +219,11 @@ export function getUrlHash(url: string): string {
   }
 }
 
+/**
+ * setUrlHash utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of setUrlHash.
+ */
 export function setUrlHash(url: string, hash: string): string {
   try {
     const urlObj = new URL(url)
@@ -159,6 +234,11 @@ export function setUrlHash(url: string, hash: string): string {
   }
 }
 
+/**
+ * isValidUrl utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isValidUrl.
+ */
 export function isValidUrl(url: string): boolean {
   try {
     new URL(url)
@@ -168,6 +248,11 @@ export function isValidUrl(url: string): boolean {
   }
 }
 
+/**
+ * isSameOrigin utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isSameOrigin.
+ */
 export function isSameOrigin(url1: string, url2: string): boolean {
   try {
     const origin1 = new URL(url1).origin
@@ -178,6 +263,11 @@ export function isSameOrigin(url1: string, url2: string): boolean {
   }
 }
 
+/**
+ * getOrigin utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getOrigin.
+ */
 export function getOrigin(url: string): string {
   try {
     return new URL(url).origin
@@ -186,6 +276,11 @@ export function getOrigin(url: string): string {
   }
 }
 
+/**
+ * ensureProtocol utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of ensureProtocol.
+ */
 export function ensureProtocol(url: string, protocol = 'https:'): string {
   if (/^https?:\/\//i.test(url)) {
     return url
@@ -193,10 +288,20 @@ export function ensureProtocol(url: string, protocol = 'https:'): string {
   return `${protocol}//${url}`
 }
 
+/**
+ * stripProtocol utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of stripProtocol.
+ */
 export function stripProtocol(url: string): string {
   return url.replace(/^https?:\/\//i, '')
 }
 
+/**
+ * normalizeUrl utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of normalizeUrl.
+ */
 export function normalizeUrl(url: string): string {
   try {
     const urlObj = new URL(url)

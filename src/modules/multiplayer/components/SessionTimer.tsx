@@ -8,6 +8,11 @@ import { useEffect, useState } from 'react'
 import { useSession } from '../hooks/useSession'
 import { formatDuration } from '../utils'
 
+/**
+ * SessionTimer utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of SessionTimer.
+ */
 export function SessionTimer() {
   const { isActive, getSessionDuration } = useSession()
   const [duration, setDuration] = useState(0)
