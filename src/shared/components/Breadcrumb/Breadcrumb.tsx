@@ -16,6 +16,11 @@ export interface BreadcrumbProps {
   separator?: string
 }
 
+/**
+ * Breadcrumb utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Breadcrumb.
+ */
 export function Breadcrumb({ items, separator = '/' }: BreadcrumbProps) {
   return (
     <nav aria-label="Breadcrumb">
