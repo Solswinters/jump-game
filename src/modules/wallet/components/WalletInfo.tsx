@@ -10,6 +10,11 @@ import { useNetwork } from '../hooks/useNetwork'
 import { useENSName } from '../hooks/useENS'
 import { AddressDisplay } from './AddressDisplay'
 
+/**
+ * WalletInfo utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of WalletInfo.
+ */
 export function WalletInfo() {
   const { address, isConnected } = useAccount()
   const { formatted, symbol } = useBalance()

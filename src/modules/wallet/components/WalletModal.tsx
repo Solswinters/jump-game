@@ -9,6 +9,11 @@ import { useState } from 'react'
 import { formatAddress } from '../utils/blockchain'
 import { Modal } from '@/shared/components/Modal'
 
+/**
+ * WalletModal utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of WalletModal.
+ */
 export function WalletModal() {
   const [isOpen, setIsOpen] = useState(false)
   const { address, isConnected, chain } = useAccount()
@@ -55,7 +60,7 @@ export function WalletModal() {
           ) : (
             <div className="space-y-3">
               <p className="text-gray-400">Choose a wallet to connect:</p>
-              {connectors.map(connector => (
+              {connectors.map((connector) => (
                 <button
                   key={connector.uid}
                   onClick={() => {
