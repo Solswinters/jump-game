@@ -44,9 +44,19 @@ function getConfig(): EnvironmentConfig {
   }
 }
 
+/**
+ * env utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of env.
+ */
 export const env = getConfig()
 
 // Validate required environment variables
+/**
+ * validateEnvironment utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateEnvironment.
+ */
 export function validateEnvironment() {
   const required = ['NEXT_PUBLIC_API_URL', 'NEXT_PUBLIC_WS_URL', 'NEXT_PUBLIC_CHAIN_ID']
 
