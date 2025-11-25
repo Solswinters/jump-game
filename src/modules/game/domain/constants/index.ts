@@ -2,6 +2,11 @@
  * Game constants consolidated from various sources
  */
 
+/**
+ * GAME_CONSTANTS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GAME_CONSTANTS.
+ */
 export const GAME_CONSTANTS = {
   // Canvas dimensions
   CANVAS_WIDTH: 800,
@@ -39,9 +44,18 @@ export const GAME_CONSTANTS = {
   DIFFICULTY_MULTIPLIER: 1.5,
 
   // Colors
-  PLAYER_COLORS: ["#4CAF50", "#2196F3", "#FF9800", "#E91E63", "#9C27B0"],
-} as const;
+  PLAYER_COLORS: ['#4CAF50', '#2196F3', '#FF9800', '#E91E63', '#9C27B0'],
+} as const
 
-export const PLAYER_COLORS = GAME_CONSTANTS.PLAYER_COLORS;
-export const GAME_CONFIG = GAME_CONSTANTS;
-
+/**
+ * PLAYER_COLORS utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of PLAYER_COLORS.
+ */
+export const PLAYER_COLORS = GAME_CONSTANTS.PLAYER_COLORS
+/**
+ * GAME_CONFIG utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GAME_CONFIG.
+ */
+export const GAME_CONFIG = GAME_CONSTANTS

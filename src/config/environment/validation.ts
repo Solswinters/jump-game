@@ -35,6 +35,11 @@ const optionalVars = [
   'NEXT_PUBLIC_ENABLE_ANALYTICS',
 ] as const
 
+/**
+ * validateEnvironment utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateEnvironment.
+ */
 export function validateEnvironment(): {
   isValid: boolean
   errors: string[]
@@ -86,6 +91,11 @@ export function validateEnvironment(): {
   }
 }
 
+/**
+ * getEnvironment utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of getEnvironment.
+ */
 export function getEnvironment(): Partial<EnvironmentVariables> {
   return {
     NODE_ENV: process.env.NODE_ENV ?? 'development',
