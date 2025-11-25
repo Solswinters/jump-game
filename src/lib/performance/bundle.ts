@@ -39,6 +39,11 @@ export interface ModuleStats {
   used: boolean
 }
 
+/**
+ * analyzeModules utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of analyzeModules.
+ */
 export function analyzeModules(modules: ModuleStats[]): {
   total: number
   used: number
@@ -46,14 +51,14 @@ export function analyzeModules(modules: ModuleStats[]): {
   unusedModules: string[]
 } {
   const total = modules.length
-  const usedModules = modules.filter(m => m.used)
-  const unusedModules = modules.filter(m => !m.used)
+  const usedModules = modules.filter((m) => m.used)
+  const unusedModules = modules.filter((m) => !m.used)
 
   return {
     total,
     used: usedModules.length,
     unused: unusedModules.length,
-    unusedModules: unusedModules.map(m => m.name),
+    unusedModules: unusedModules.map((m) => m.name),
   }
 }
 

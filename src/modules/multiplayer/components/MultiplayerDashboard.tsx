@@ -20,6 +20,11 @@ interface MultiplayerDashboardProps {
   username: string
 }
 
+/**
+ * MultiplayerDashboard utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of MultiplayerDashboard.
+ */
 export function MultiplayerDashboard({ playerId, username }: MultiplayerDashboardProps) {
   const [showCreateModal, setShowCreateModal] = useState(false)
 

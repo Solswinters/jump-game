@@ -19,6 +19,11 @@ interface MatchmakingQueueProps {
   onMatchFound?: () => void
 }
 
+/**
+ * MatchmakingQueue utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of MatchmakingQueue.
+ */
 export function MatchmakingQueue({
   playerId,
   username,
