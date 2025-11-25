@@ -17,7 +17,7 @@ export interface MatchmakingPlayer {
 export function calculateMatchQuality(players: MatchmakingPlayer[]): number {
   if (players.length < 2) return 0
 
-  const ratings = players.map(p => p.rating)
+  const ratings = players.map((p) => p.rating)
   const avg = ratings.reduce((sum, r) => sum + r, 0) / ratings.length
   const variance = ratings.reduce((sum, r) => sum + Math.pow(r - avg, 2), 0) / ratings.length
 
@@ -37,7 +37,7 @@ export function findBestMatch(
   maxRatingDiff = 200
 ): MatchmakingPlayer | null {
   const eligible = candidates.filter(
-    c =>
+    (c) =>
       c.id !== player.id &&
       c.region === player.region &&
       Math.abs(c.rating - player.rating) <= maxRatingDiff

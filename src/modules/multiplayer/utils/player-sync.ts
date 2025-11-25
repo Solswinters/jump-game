@@ -18,6 +18,11 @@ export interface SyncPacket {
   timestamp: number
 }
 
+/**
+ * createSyncPacket utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of createSyncPacket.
+ */
 export function createSyncPacket(player: Player): SyncPacket {
   return {
     playerId: player.id,
@@ -32,6 +37,11 @@ export function createSyncPacket(player: Player): SyncPacket {
   }
 }
 
+/**
+ * applyPositionUpdate utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of applyPositionUpdate.
+ */
 export function applyPositionUpdate(player: Player, position: PlayerPosition): Player {
   return {
     ...player,
@@ -42,6 +52,11 @@ export function applyPositionUpdate(player: Player, position: PlayerPosition): P
   }
 }
 
+/**
+ * interpolatePosition utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of interpolatePosition.
+ */
 export function interpolatePosition(
   current: PlayerPosition,
   target: PlayerPosition,
@@ -55,14 +70,29 @@ export function interpolatePosition(
   }
 }
 
+/**
+ * shouldSyncPosition utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of shouldSyncPosition.
+ */
 export function shouldSyncPosition(lastSync: number, syncInterval: number = 50): boolean {
   return Date.now() - lastSync >= syncInterval
 }
 
+/**
+ * calculateNetworkDelay utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of calculateNetworkDelay.
+ */
 export function calculateNetworkDelay(sentTimestamp: number): number {
   return Date.now() - sentTimestamp
 }
 
+/**
+ * predictPosition utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of predictPosition.
+ */
 export function predictPosition(
   position: PlayerPosition,
   velocityY: number,
