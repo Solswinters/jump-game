@@ -22,6 +22,11 @@ export interface AccordionProps {
   defaultActiveItem?: string
 }
 
+/**
+ * Accordion utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Accordion.
+ */
 export const Accordion: React.FC<AccordionProps> = ({
   children,
   className,
@@ -43,6 +48,11 @@ export interface AccordionItemProps {
   className?: string
 }
 
+/**
+ * AccordionItem utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of AccordionItem.
+ */
 export const AccordionItem: React.FC<AccordionItemProps> = ({ id, title, children, className }) => {
   const { activeItem, setActiveItem } = useAccordionContext()
   const isOpen = activeItem === id

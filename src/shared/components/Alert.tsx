@@ -23,6 +23,11 @@ const variantStyles = {
   info: 'bg-blue-50 text-blue-900 border-blue-200 dark:bg-blue-900/20 dark:text-blue-50 dark:border-blue-800',
 }
 
+/**
+ * Alert utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Alert.
+ */
 export const Alert: React.FC<AlertProps> = ({
   variant = 'default',
   title,
