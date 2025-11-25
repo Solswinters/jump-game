@@ -17,6 +17,11 @@ export interface GameOverScreenProps {
   isNewHighScore?: boolean
 }
 
+/**
+ * GameOverScreen utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GameOverScreen.
+ */
 export function GameOverScreen({
   score,
   highScore,

@@ -9,6 +9,11 @@ import { usePathname, useSearchParams } from 'next/navigation'
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 
+/**
+ * GoogleAnalytics utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of GoogleAnalytics.
+ */
 export function GoogleAnalytics() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
