@@ -10,6 +10,11 @@ export interface SignatureData {
   timestamp: number
 }
 
+/**
+ * generateClaimMessage utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of generateClaimMessage.
+ */
 export function generateClaimMessage(
   playerAddress: string,
   score: number,
@@ -25,15 +30,30 @@ export function generateClaimMessage(
   })
 }
 
+/**
+ * hashMessage utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of hashMessage.
+ */
 export function hashMessage(message: string): `0x${string}` {
   const messageBytes = toBytes(message)
   return keccak256(messageBytes)
 }
 
+/**
+ * isValidSignature utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of isValidSignature.
+ */
 export function isValidSignature(signature: string): boolean {
   return /^0x[a-fA-F0-9]{130}$/.test(signature)
 }
 
+/**
+ * splitSignature utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of splitSignature.
+ */
 export function splitSignature(signature: `0x${string}`): {
   r: `0x${string}`
   s: `0x${string}`
@@ -47,10 +67,20 @@ export function splitSignature(signature: `0x${string}`): {
   return { r, s, v }
 }
 
+/**
+ * generateNonce utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of generateNonce.
+ */
 export function generateNonce(): number {
   return Math.floor(Math.random() * 1000000)
 }
 
+/**
+ * packSignatureData utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of packSignatureData.
+ */
 export function packSignatureData(
   playerAddress: string,
   score: number,
@@ -62,6 +92,11 @@ export function packSignatureData(
   return encoder.encode(data)
 }
 
+/**
+ * verifyClaimData utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of verifyClaimData.
+ */
 export function verifyClaimData(
   playerAddress: string,
   score: number,
@@ -92,6 +127,11 @@ export interface ClaimPayload {
   timestamp: number
 }
 
+/**
+ * createClaimPayload utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of createClaimPayload.
+ */
 export function createClaimPayload(
   playerAddress: string,
   score: number,

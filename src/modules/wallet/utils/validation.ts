@@ -5,10 +5,20 @@
 import { type Address } from 'viem'
 import { isAddress } from 'viem'
 
+/**
+ * validateAddress utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateAddress.
+ */
 export function validateAddress(address: string): boolean {
   return isAddress(address)
 }
 
+/**
+ * validateAmount utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateAmount.
+ */
 export function validateAmount(amount: string, decimals = 18): boolean {
   if (!amount || amount === '') return false
 
@@ -26,6 +36,11 @@ export function validateAmount(amount: string, decimals = 18): boolean {
   }
 }
 
+/**
+ * validateBalance utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateBalance.
+ */
 export function validateBalance(amount: string, balance: bigint, decimals = 18): boolean {
   if (!validateAmount(amount, decimals)) return false
 
@@ -37,6 +52,11 @@ export function validateBalance(amount: string, balance: bigint, decimals = 18):
   }
 }
 
+/**
+ * validateTokenAddress utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateTokenAddress.
+ */
 export function validateTokenAddress(address: string): { valid: boolean; error?: string } {
   if (!address) {
     return { valid: false, error: 'Token address is required' }
@@ -49,6 +69,11 @@ export function validateTokenAddress(address: string): { valid: boolean; error?:
   return { valid: true }
 }
 
+/**
+ * validateTransferAmount utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of validateTransferAmount.
+ */
 export function validateTransferAmount(
   amount: string,
   balance: bigint,
@@ -69,6 +94,11 @@ export function validateTransferAmount(
   return { valid: true }
 }
 
+/**
+ * sanitizeAddress utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of sanitizeAddress.
+ */
 export function sanitizeAddress(address: string): Address | null {
   try {
     if (isAddress(address)) {
