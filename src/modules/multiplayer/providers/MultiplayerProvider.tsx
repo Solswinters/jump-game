@@ -14,7 +14,7 @@ interface MultiplayerProviderProps {
  * @returns The result of MultiplayerProvider.
  */
 export const MultiplayerProvider: React.FC<MultiplayerProviderProps> = ({ children }) => {
-  const reset = useMultiplayerStore(state => state.reset)
+  const reset = useMultiplayerStore((state) => state.reset)
 
   useEffect(() => {
     logger.info('Multiplayer provider initialized')

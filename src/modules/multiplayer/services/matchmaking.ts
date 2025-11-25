@@ -13,11 +13,11 @@ class MatchmakingService {
   }
 
   removeRoom(roomId: string): void {
-    this.availableRooms = this.availableRooms.filter(r => r.id !== roomId)
+    this.availableRooms = this.availableRooms.filter((r) => r.id !== roomId)
   }
 
   updateRoom(roomId: string, updates: Partial<RoomInfo>): void {
-    const room = this.availableRooms.find(r => r.id === roomId)
+    const room = this.availableRooms.find((r) => r.id === roomId)
     if (room) {
       Object.assign(room, updates)
     }
@@ -26,7 +26,7 @@ class MatchmakingService {
   findAvailableRoom(): RoomInfo | null {
     // Find rooms that aren't full and haven't started
     const available = this.availableRooms.filter(
-      r => !r.gameStarted && r.playerCount < r.maxPlayers
+      (r) => !r.gameStarted && r.playerCount < r.maxPlayers
     )
 
     if (available.length === 0) {
@@ -40,11 +40,11 @@ class MatchmakingService {
   }
 
   getAvailableRooms(): RoomInfo[] {
-    return this.availableRooms.filter(r => !r.gameStarted && r.playerCount < r.maxPlayers)
+    return this.availableRooms.filter((r) => !r.gameStarted && r.playerCount < r.maxPlayers)
   }
 
   getRoom(roomId: string): RoomInfo | null {
-    return this.availableRooms.find(r => r.id === roomId) ?? null
+    return this.availableRooms.find((r) => r.id === roomId) ?? null
   }
 
   startSearch(playerId: string): void {
@@ -71,7 +71,7 @@ class MatchmakingService {
       const match = searching.slice(i, i + minPlayers)
       if (match.length >= minPlayers) {
         matches.push(match)
-        match.forEach(id => this.stopSearch(id))
+        match.forEach((id) => this.stopSearch(id))
       }
     }
 
@@ -84,7 +84,7 @@ class MatchmakingService {
     activeGames: number
     totalPlayers: number
   } {
-    const activeGames = this.availableRooms.filter(r => r.gameStarted).length
+    const activeGames = this.availableRooms.filter((r) => r.gameStarted).length
     const totalPlayers = this.availableRooms.reduce((sum, r) => sum + r.playerCount, 0)
 
     return {
@@ -100,11 +100,16 @@ class MatchmakingService {
     const initialCount = this.availableRooms.length
 
     this.availableRooms = this.availableRooms.filter(
-      r => now - r.createdAt < maxAge || r.gameStarted
+      (r) => now - r.createdAt < maxAge || r.gameStarted
     )
 
     return initialCount - this.availableRooms.length
   }
 }
 
+/**
+ * matchmakingService utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of matchmakingService.
+ */
 export const matchmakingService = new MatchmakingService()
