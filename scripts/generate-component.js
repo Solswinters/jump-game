@@ -89,6 +89,11 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/**
+ * Default utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of Default.
+ */
 export const Default: Story = {
   args: {},
 }
