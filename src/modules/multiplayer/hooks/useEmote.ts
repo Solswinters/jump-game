@@ -9,14 +9,19 @@ import { useWebSocket } from './useWebSocket'
 // Singleton service
 const emoteService = new EmoteService()
 
+/**
+ * useEmote utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of useEmote.
+ */
 export function useEmote() {
   const { send, on } = useWebSocket()
   const [recentEmotes, setRecentEmotes] = useState<Emote[]>([])
 
   useEffect(() => {
-    const unsubscribe = on('emote', event => {
+    const unsubscribe = on('emote', (event) => {
       const emote = event.data as Emote
-      setRecentEmotes(prev => [...prev.slice(-9), emote])
+      setRecentEmotes((prev) => [...prev.slice(-9), emote])
     })
 
     return unsubscribe
