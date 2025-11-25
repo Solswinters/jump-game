@@ -32,7 +32,9 @@ class SoundManager {
   }
 
   playSound(id: string): void {
-    if (this.muted) {return}
+    if (this.muted) {
+      return
+    }
 
     const sound = this.sounds.get(id)
     if (!sound) {
@@ -50,7 +52,9 @@ class SoundManager {
 
   stopSound(id: string): void {
     const sound = this.sounds.get(id)
-    if (!sound) {return}
+    if (!sound) {
+      return
+    }
 
     try {
       sound.audio.pause()
@@ -77,7 +81,9 @@ class SoundManager {
 
   setVolume(id: string, volume: number): void {
     const sound = this.sounds.get(id)
-    if (!sound) {return}
+    if (!sound) {
+      return
+    }
 
     sound.volume = Math.max(0, Math.min(1, volume))
     sound.audio.volume = sound.volume * this.masterVolume
@@ -85,7 +91,7 @@ class SoundManager {
 
   setMasterVolume(volume: number): void {
     this.masterVolume = Math.max(0, Math.min(1, volume))
-    this.sounds.forEach(sound => {
+    this.sounds.forEach((sound) => {
       sound.audio.volume = sound.volume * this.masterVolume
     })
   }
@@ -96,14 +102,14 @@ class SoundManager {
 
   mute(): void {
     this.muted = true
-    this.sounds.forEach(sound => {
+    this.sounds.forEach((sound) => {
       sound.audio.muted = true
     })
   }
 
   unmute(): void {
     this.muted = false
-    this.sounds.forEach(sound => {
+    this.sounds.forEach((sound) => {
       sound.audio.muted = false
     })
   }
@@ -113,7 +119,7 @@ class SoundManager {
   }
 
   stopAll(): void {
-    this.sounds.forEach(sound => {
+    this.sounds.forEach((sound) => {
       try {
         sound.audio.pause()
         sound.audio.currentTime = 0
@@ -126,7 +132,7 @@ class SoundManager {
   preloadAll(): Promise<void[]> {
     const promises: Promise<void>[] = []
 
-    this.sounds.forEach(sound => {
+    this.sounds.forEach((sound) => {
       const promise = new Promise<void>((resolve, reject) => {
         sound.audio.addEventListener('canplaythrough', () => resolve(), { once: true })
         sound.audio.addEventListener(

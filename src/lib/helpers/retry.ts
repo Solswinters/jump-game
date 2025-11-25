@@ -8,6 +8,11 @@ export interface RetryOptions {
   backoff?: boolean
 }
 
+/**
+ * retry utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of retry.
+ */
 export async function retry<T>(fn: () => Promise<T>, options: RetryOptions = {}): Promise<T> {
   const { maxAttempts = 3, delay = 1000, backoff = true } = options
 
@@ -21,7 +26,7 @@ export async function retry<T>(fn: () => Promise<T>, options: RetryOptions = {})
 
       if (attempt < maxAttempts) {
         const waitTime = backoff ? delay * attempt : delay
-        await new Promise(resolve => setTimeout(resolve, waitTime))
+        await new Promise((resolve) => setTimeout(resolve, waitTime))
       }
     }
   }

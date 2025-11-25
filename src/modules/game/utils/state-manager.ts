@@ -94,7 +94,7 @@ class GameStateManager {
   }
 
   private notifyListeners(oldState: GameState, newState: GameState): void {
-    this.listeners.forEach(listener => {
+    this.listeners.forEach((listener) => {
       try {
         listener(oldState, newState)
       } catch (error) {
@@ -119,17 +119,37 @@ class GameStateManager {
   }
 }
 
+/**
+ * gameStateManager utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of gameStateManager.
+ */
 export const gameStateManager = new GameStateManager()
 
 // Helper function to handle common state transitions
+/**
+ * startGame utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of startGame.
+ */
 export function startGame(): boolean {
   return gameStateManager.transitionTo('playing')
 }
 
+/**
+ * pauseGame utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of pauseGame.
+ */
 export function pauseGame(): boolean {
   return gameStateManager.transitionTo('paused')
 }
 
+/**
+ * resumeGame utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of resumeGame.
+ */
 export function resumeGame(): boolean {
   if (gameStateManager.isPaused()) {
     return gameStateManager.transitionTo('playing')
@@ -137,10 +157,20 @@ export function resumeGame(): boolean {
   return false
 }
 
+/**
+ * endGame utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of endGame.
+ */
 export function endGame(): boolean {
   return gameStateManager.transitionTo('ended')
 }
 
+/**
+ * resetGame utility function.
+ * @param props - Component properties or function arguments.
+ * @returns The result of resetGame.
+ */
 export function resetGame(): void {
   gameStateManager.reset()
 }
