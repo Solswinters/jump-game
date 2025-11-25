@@ -87,5 +87,5 @@ export function waitForNextTick(tickRate: number): Promise<void> {
   const nextTick = Math.ceil(now / tickDuration) * tickDuration
   const delay = nextTick - now
 
-  return new Promise(resolve => setTimeout(resolve, delay))
+  return new Promise((resolve) => setTimeout(resolve, delay))
 }
